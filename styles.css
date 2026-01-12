@@ -980,7 +980,6 @@ body {
 .footer-legal a:hover {
     color: white;
 }
-
 /* ==========================================
    RESPONSIVE DESIGN - MOBILE FIRST
    ========================================== */
@@ -1029,61 +1028,61 @@ body {
         --spacing-xs: 0.5rem;
         --spacing-sm: 0.75rem;
         --spacing-md: 1.5rem;
-        --spacing-lg: 2.5rem;
-        --spacing-xl: 3.5rem;
+        --spacing-lg: 2rem;
+        /* Reduced padding */
+        --spacing-xl: 3rem;
     }
 
     html {
         font-size: 15px;
-        /* Slightly smaller base for mobile */
     }
 
     .container {
-        padding: 0 1rem;
+        padding: 0 1.25rem;
     }
 
-    /* ========== TOP BAR ========== */
+    /* ========== TOP BAR - Compact ========== */
     .top-bar {
-        padding: 0.5rem 0;
+        padding: 0.25rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .top-bar-content {
-        gap: var(--spacing-sm);
+        gap: 0.5rem;
         font-size: 0.75rem;
+        justify-content: center;
     }
 
-    .top-bar-item {
-        font-size: 0.75rem;
-    }
-
-    /* ========== NAVIGATION ========== */
+    /* ========== NAVIGATION - Compact ========== */
     .navbar {
-        padding: 0.75rem 0;
+        padding: 0.5rem 0;
+        /* Reduced padding */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
     }
 
     .logo-image {
-        height: 32px;
-        max-width: 140px;
+        height: 28px;
+        /* Slightly smaller logo */
+        max-width: 130px;
     }
 
     .nav-links {
         display: none;
-        /* Hide desktop menu */
     }
 
-    /* Mobile menu button would go here */
     .mobile-menu-btn {
         display: block;
-        background: none;
-        border: none;
         font-size: 1.5rem;
         color: var(--primary);
-        cursor: pointer;
+        padding: 0.25rem;
+        line-height: 1;
     }
 
-    /* ========== HERO SECTION ========== */
+    /* ========== HERO SECTION - Visual Balance ========== */
     .hero {
         padding: var(--spacing-lg) 0;
+        /* Tighter vertical padding */
     }
 
     .hero-content {
@@ -1094,347 +1093,176 @@ body {
 
     .hero-title {
         font-size: 2.25rem;
-        /* Much smaller for mobile */
-        line-height: 1.1;
-        letter-spacing: -0.02em;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.75rem;
     }
 
     .hero-subtitle {
         font-size: 1rem;
+        line-height: 1.6;
         max-width: 100%;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
     }
 
     .hero-buttons {
         flex-direction: column;
         width: 100%;
-        justify-content: center;
+        gap: 0.75rem;
+        align-items: center;
     }
 
     .hero-buttons .btn {
         width: 100%;
+        max-width: 320px;
         justify-content: center;
     }
 
     .trust-badges {
         justify-content: center;
-        gap: var(--spacing-sm);
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
     .trust-item {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 
     .hero-image {
-        min-height: 300px;
+        min-height: 280px;
         order: -1;
-        /* Image first on mobile */
+        margin-bottom: 1rem;
     }
 
     .hero-image-main,
     .hero-image-placeholder {
-        min-height: 300px;
+        min-height: 280px;
+        border-radius: var(--radius-md);
     }
 
     .floating-badge {
         display: none;
-        /* Hide floating badges on mobile */
     }
 
-    /* ========== BRANDS SECTION ========== */
+    /* ========== BRANDS & SECTIONS ========== */
     .brands-section {
-        padding: var(--spacing-md) 0;
+        padding: 1.5rem 0;
     }
 
     .brands-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing-sm);
+        gap: 1rem;
     }
 
-    .brand-item {
-        font-size: 0.75rem;
-    }
-
-    /* ========== PRODUCTS SECTION ========== */
-    .products-section {
-        padding: var(--spacing-lg) 0;
-    }
-
-    .section-header h2 {
-        font-size: 1.875rem;
-    }
-
-    .section-header p {
-        font-size: 1rem;
-    }
-
-    .product-tabs {
-        gap: 0.5rem;
-        margin-bottom: var(--spacing-md);
-    }
-
-    .tab-btn {
-        padding: 0.625rem 1rem;
-        font-size: 0.875rem;
-    }
-
-    .category-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-sm);
-    }
-
-    .category-title {
-        font-size: 1.5rem;
-    }
-
-    .category-description {
-        font-size: 0.95rem;
+    .products-section,
+    .how-it-works,
+    .features-section,
+    .professionals-section,
+    .contact-section {
+        padding: 3rem 0;
+        /* Consistent section padding */
     }
 
     .products-grid {
         grid-template-columns: 1fr;
-        /* Single column on mobile */
-        gap: var(--spacing-sm);
-    }
-
-    .product-card {
-        padding: var(--spacing-sm);
-    }
-
-    .product-carousel {
-        height: 250px;
-    }
-
-    .product-image {
-        height: 200px;
-    }
-
-    .product-card h4 {
-        font-size: 1.125rem;
-    }
-
-    .product-price {
-        font-size: 1.25rem;
-    }
-
-    /* ========== HOW IT WORKS ========== */
-    .how-it-works {
-        padding: var(--spacing-lg) 0;
+        gap: 1.5rem;
     }
 
     .steps-grid {
         grid-template-columns: 1fr;
-        /* Single column on mobile */
-        gap: var(--spacing-md);
+        gap: 2rem;
     }
 
-    .step-card {
-        padding: var(--spacing-sm);
-    }
-
-    .step-number {
-        font-size: 2.5rem;
-    }
-
-    .step-card h3 {
-        font-size: 1.125rem;
-    }
-
-    /* ========== FEATURES SECTION ========== */
-    .features-section {
-        padding: var(--spacing-lg) 0;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-
-    .feature-card {
-        padding: var(--spacing-md);
-    }
-
-    .feature-icon {
-        font-size: 2rem;
-    }
-
-    .feature-card h3 {
-        font-size: 1.25rem;
-    }
-
-    /* ========== PROFESSIONALS SECTION ========== */
-    .professionals-section {
-        padding: var(--spacing-lg) 0;
-    }
-
-    .professionals-content {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-
-    .professionals-text h2 {
-        font-size: 1.875rem;
-    }
-
-    .professionals-text p {
-        font-size: 1rem;
-    }
-
-    .professionals-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .professionals-buttons .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .professionals-types {
-        grid-template-columns: 1fr;
-    }
-
-    /* ========== CONTACT SECTION ========== */
-    .contact-section {
-        padding: var(--spacing-lg) 0;
-    }
-
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-    }
-
-    .contact-info h2 {
-        font-size: 1.875rem;
-    }
-
-    .contact-item {
-        font-size: 0.95rem;
-    }
-
-    .social-links {
-        gap: var(--spacing-sm);
-    }
-
-    .form-group {
-        margin-bottom: var(--spacing-sm);
-    }
-
-    .btn {
-        padding: 0.875rem 1.5rem;
-        font-size: 0.95rem;
-    }
-
-    /* ========== FOOTER ========== */
-    .footer {
-        padding: var(--spacing-lg) 0 var(--spacing-md);
-    }
-
+    .features-grid,
+    .professionals-content,
+    .contact-grid,
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
-        text-align: center;
+        gap: 2rem;
     }
 
-    .footer-col ul {
-        align-items: center;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        text-align: center;
-    }
-
-    .footer-legal {
-        gap: var(--spacing-sm);
+    .section-header h2 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
     }
 }
 
 /* iPhone 12 & Similar (390px - 428px) */
 @media (max-width: 428px) {
     :root {
-        --spacing-xs: 0.375rem;
-        --spacing-sm: 0.625rem;
+        /* Even tighter spacing for phones */
         --spacing-md: 1.25rem;
-        --spacing-lg: 2rem;
-        --spacing-xl: 3rem;
+        --spacing-lg: 1.75rem;
+        --spacing-xl: 2.5rem;
     }
 
     html {
         font-size: 14px;
-        /* Smaller base for small phones */
     }
 
     .container {
-        padding: 0 0.875rem;
+        padding: 0 1rem;
     }
 
-    /* Hero */
+    /* Make Header Very Compact */
+    .top-bar-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.1rem 0;
+    }
+
+    .nav-content {
+        padding: 0.25rem 0;
+        /* Minimal padding */
+    }
+
+    .navbar {
+        min-height: 50px;
+        /* Ensure not too tall */
+    }
+
+    .logo-image {
+        height: 26px;
+    }
+
+    /* Hero Refinements */
     .hero-title {
-        font-size: 2rem;
-        line-height: 1.15;
+        font-size: 1.85rem;
     }
 
-    .hero-subtitle {
+    .hero-image {
+        min-height: 240px;
+    }
+
+    .hero-image-main,
+    .hero-image-placeholder {
+        min-height: 240px;
+    }
+
+    /* Misc Mobile Adjustments */
+    .btn {
+        padding: 0.75rem 1rem;
         font-size: 0.95rem;
     }
 
-    .badge {
-        padding: 0.375rem 0.75rem;
-        font-size: 0.75rem;
-    }
-
-    /* Top Bar - Stack on very small screens */
-    .top-bar-content {
-        flex-direction: column;
-        gap: 0.25rem;
-        padding: 0.375rem 0;
-    }
-
-    .top-bar-item {
-        font-size: 0.7rem;
-    }
-
-    /* Buttons */
-    .btn {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.9rem;
-    }
-
-    /* Product Cards */
     .product-carousel {
-        height: 220px;
+        height: 210px;
     }
 
     .product-image {
-        height: 180px;
+        height: 170px;
     }
 
-    /* Section Headers */
-    .section-header h2 {
-        font-size: 1.625rem;
-    }
-
-    .category-title {
-        font-size: 1.375rem;
-    }
-
-    /* Contact Form */
+    /* Contact Form on Mobile */
     input,
     textarea,
     select {
+        padding: 0.75rem;
         font-size: 16px;
-        /* Prevent zoom on iOS */
-    }
-
-    /* Footer */
-    .footer-col h4 {
-        font-size: 1rem;
-    }
-
-    .footer-col ul li a {
-        font-size: 0.875rem;
+        /* Avoid iOS zoom */
     }
 }
 
@@ -1445,19 +1273,11 @@ body {
     }
 
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
     }
 
-    .section-header h2 {
-        font-size: 1.5rem;
-    }
-
-    .product-carousel {
-        height: 200px;
-    }
-
-    .product-image {
-        height: 160px;
+    .logo-image {
+        height: 24px;
     }
 }
 
@@ -1471,11 +1291,6 @@ body {
         min-height: 250px;
     }
 
-    .hero-image-main,
-    .hero-image-placeholder {
-        min-height: 250px;
-    }
-
     .product-carousel {
         height: 200px;
     }
@@ -1483,111 +1298,15 @@ body {
 
 /* Touch-friendly improvements */
 @media (hover: none) and (pointer: coarse) {
-
-    /* Larger touch targets */
     .btn {
         min-height: 48px;
-        padding: 0.875rem 1.5rem;
     }
 
     .tab-btn {
         min-height: 44px;
     }
 
-    .nav-links a {
-        padding: 0.5rem;
-    }
-
-    /* Remove hover effects on touch devices */
     .product-card:hover {
         transform: none;
     }
-
-    .product-card:active {
-        transform: scale(0.98);
-    }
-}
-
-/* Product Carousel */
-.product-carousel {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-}
-
-.carousel-track {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-    min-width: 100%;
-    height: 100%;
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: white;
-    /* Ensure consistent background for transparent/contained images */
-    cursor: zoom-in;
-    /* Indicate clickable zoom */
-}
-
-/* Lightbox Styles */
-#lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-#lightbox.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-#lightbox img {
-    max-width: 95%;
-    max-height: 95%;
-    object-fit: contain;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-    border-radius: var(--radius-sm);
-}
-
-#lightbox.active img {
-    transform: scale(1);
-}
-
-#lightbox .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
-    background: transparent;
-    border: none;
-    line-height: 1;
-}
-
-#lightbox .close-btn:hover {
-    color: var(--accent);
 }
