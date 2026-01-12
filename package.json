@@ -1,19 +1,22 @@
 {
     "name": "edplit-espana",
     "version": "1.0.0",
-    "description": "EDPLIT España - Soluciones de montaje oculto para interiores minimalistas",
-    "main": "index.html",
+    "description": "EDPLIT España - Official Distributor Website",
     "scripts": {
-        "dev": "npx -y live-server --port=3000 --open=/",
-        "start": "npx -y live-server --port=3000 --open=/"
+        "dev": "vercel dev",
+        "build": "echo 'Static site - no build needed'"
     },
+    "dependencies": {
+        "resend": "^3.0.0"
+    },
+    "devDependencies": {},
     "keywords": [
         "edplit",
-        "españa",
-        "pulsadores",
-        "enchufes",
-        "ocultos"
+        "bathroom",
+        "hidden",
+        "installation"
     ],
     "author": "EDPLIT España",
-    "license": "ISC"
+    "license": "UNLICENSED",
+    "private": true
 }

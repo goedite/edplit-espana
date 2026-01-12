@@ -692,7 +692,7 @@
                 </div>
 
                 <div class="contact-form">
-                    <form>
+                    <form id="contact-form">
                         <div class="form-group">
                             <label for="nombre">Nombre *</label>
                             <input type="text" id="nombre" name="nombre" required>
@@ -714,8 +714,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="proyecto-tipo">Tipo de proyecto</label>
-                            <select id="proyecto-tipo" name="proyecto-tipo">
+                            <label for="tipo">Tipo de proyecto</label>
+                            <select id="tipo" name="tipo">
                                 <option value="">Selecciona una opción</option>
                                 <option value="reforma">Reforma particular</option>
                                 <option value="obra-nueva">Obra nueva</option>
@@ -729,7 +729,13 @@
                             <textarea id="mensaje" name="mensaje" rows="4"></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Enviar mensaje →</button>
+                        <div id="form-message"
+                            style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px;"></div>
+
+                        <button type="submit" class="btn btn-primary" id="submit-btn">
+                            <span id="btn-text">Enviar mensaje →</span>
+                            <span id="btn-loading" style="display: none;">Enviando...</span>
+                        </button>
                     </form>
                 </div>
             </div>

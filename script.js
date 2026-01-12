@@ -84,29 +84,82 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // FORM SUBMISSION
+    // CONTACT FORM SUBMISSION - VERCEL API
     // ==========================================
-    const contactForm = document.querySelector('.contact-form form');
+    const contactForm = document.getElementById('contact-form');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
+
+            // Get form elements
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+            const formMessage = document.getElementById('form-message');
 
             // Get form data
             const formData = new FormData(contactForm);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
+            const data = {
+                nombre: formData.get('nombre'),
+                empresa: formData.get('empresa'),
+                email: formData.get('email'),
+                telefono: formData.get('telefono'),
+                tipo: formData.get('tipo'),
+                mensaje: formData.get('mensaje')
+            };
 
-            // Log form data (in production, this would send to a server)
-            console.log('Form submitted:', data);
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            formMessage.style.display = 'none';
 
-            // Show success message
-            alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
+            try {
+                // Send to Vercel API
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
 
-            // Reset form
-            contactForm.reset();
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Success message
+                    formMessage.textContent = '¡Mensaje enviado correctamente! Te contactaremos pronto.';
+                    formMessage.style.backgroundColor = '#d4edda';
+                    formMessage.style.color = '#155724';
+                    formMessage.style.border = '1px solid #c3e6cb';
+                    formMessage.style.display = 'block';
+
+                    // Reset form
+                    contactForm.reset();
+
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        formMessage.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error(result.message || 'Error al enviar el mensaje');
+                }
+            } catch (error) {
+                // Error message
+                formMessage.textContent = error.message || 'Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o contáctanos directamente.';
+                formMessage.style.backgroundColor = '#f8d7da';
+                formMessage.style.color = '#721c24';
+                formMessage.style.border = '1px solid #f5c6cb';
+                formMessage.style.display = 'block';
+
+                console.error('Form submission error:', error);
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
         });
     }
 
