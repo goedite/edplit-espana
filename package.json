@@ -1,0 +1,19 @@
+{
+    "name": "edplit-espana",
+    "version": "1.0.0",
+    "description": "EDPLIT España - Soluciones de montaje oculto para interiores minimalistas",
+    "main": "index.html",
+    "scripts": {
+        "dev": "npx -y live-server --port=3000 --open=/",
+        "start": "npx -y live-server --port=3000 --open=/"
+    },
+    "keywords": [
+        "edplit",
+        "españa",
+        "pulsadores",
+        "enchufes",
+        "ocultos"
+    ],
+    "author": "EDPLIT España",
+    "license": "ISC"
+}

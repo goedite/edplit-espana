@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Accede a la tienda global de Edplit para envíos internacionales y catálogo completo de productos.">
+    <title>Tienda Global - EDPLIT España</title>
+    <link rel="icon" type="image/png" href="images/logo/favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .global-store-section {
+            padding: var(--spacing-xl) 0;
+            background: var(--bg-body);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .store-card {
+            background: var(--bg-lighter);
+            padding: var(--spacing-lg);
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+        }
+
+        .store-card.highlighted {
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 24px rgba(184, 134, 87, 0.15);
+        }
+
+        .store-card h3 {
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-md) 0;
+        }
+
+        .feature-list li {
+            padding: var(--spacing-xs) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            background: var(--bg-lighter);
+            border-radius: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-item">✓ Envío gratis desde 490 €</div>
+            <div class="top-bar-item">✓ 10 años de garantía</div>
+            <div class="top-bar-item">✓ Distribuidor oficial en España</div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo/logo.png" alt="EDPLIT España" class="logo-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span style="display:none;"><span class="logo-text">edplit</span><span
+                            class="logo-domain">.es</span></span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#productos">Productos</a></li>
+                <li><a href="index.html#como-funciona">Cómo funciona</a></li>
+                <li><a href="index.html#profesionales">Profesionales</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li><a href="tienda-global.html" class="external-link">Tienda global ↗</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="page-header"
+        style="padding: var(--spacing-xl) 0; background: var(--bg-lighter); text-align: center;">
+        <div class="container">
+            <h1 class="hero-title" style="font-size: 3.5rem;">Tienda Global Edplit</h1>
+            <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">Elige la mejor opción para tu compra:
+                tienda española con envío local o tienda global con catálogo completo internacional.</p>
+        </div>
+    </header>
+
+    <!-- COMPARISON SECTION -->
+    <section class="global-store-section">
+        <div class="container">
+            <div class="comparison-grid">
+                <!-- Spanish Store -->
+                <div class="store-card highlighted">
+                    <h3>🇪🇸 Tienda España (edplit.es)</h3>
+                    <p><strong>Recomendado para clientes en España</strong></p>
+
+                    <ul class="feature-list">
+                        <li>Envío rápido en España (2-3 días)</li>
+                        <li>Envío gratis desde 490 €</li>
+                        <li>Soporte en español</li>
+                        <li>Precios en euros (IVA incluido)</li>
+                        <li>Asesoramiento personalizado</li>
+                        <li>Stock local disponible</li>
+                        <li>Garantía de 10 años</li>
+                    </ul>
+
+                    <a href="index.html#productos" class="btn btn-primary"
+                        style="margin-top: var(--spacing-md); width: 100%;">Ver productos España</a>
+                </div>
+
+                <!-- Global Store -->
+                <div class="store-card">
+                    <h3>🌍 Tienda Global (edplit.com)</h3>
+                    <p><strong>Para envíos internacionales</strong></p>
+
+                    <ul class="feature-list">
+                        <li>Envío a todo el mundo</li>
+                        <li>Catálogo completo internacional</li>
+                        <li>Múltiples idiomas</li>
+                        <li>Múltiples divisas</li>
+                        <li>Productos exclusivos globales</li>
+                        <li>Soporte internacional</li>
+                        <li>Fabricante oficial</li>
+                    </ul>
+
+                    <a href="https://edplit.com?utm_source=edplit-es&utm_medium=landing&utm_campaign=tienda-global"
+                        class="btn btn-outline" style="margin-top: var(--spacing-md); width: 100%;" target="_blank"
+                        rel="noopener">
+                        Ir a tienda global ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2>¿Necesitas ayuda para decidir?</h2>
+                <p style="margin: var(--spacing-md) 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Nuestro equipo está aquí para ayudarte a encontrar la mejor solución para tu proyecto,
+                    ya sea en España o internacional.
+                </p>
+                <a href="index.html#contacto" class="btn btn-primary">Contactar con nosotros</a>
+            </div>
+
+            <!-- Info Section -->
+            <div
+                style="margin-top: var(--spacing-xl); padding: var(--spacing-lg); background: var(--bg-lighter); border-radius: 12px;">
+                <h3 style="margin-bottom: var(--spacing-md);">Información importante</h3>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-md);">
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: var(--spacing-xs);">📦 Envíos</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            Tienda España: 2-3 días laborables<br>
+                            Tienda Global: 5-10 días según destino
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: var(--spacing-xs);">💶 Precios</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            Tienda España: IVA español incluido<br>
+                            Tienda Global: Impuestos según país destino
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent-color); margin-bottom: var(--spacing-xs);">🛡️ Garantía</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            Ambas tiendas: 10 años de garantía<br>
+                            Productos fabricados por Edplit
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <div class="logo">
+                        <img src="images/logo/logo.png" alt="EDPLIT España" class="logo-image" style="max-width: 120px;"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display:none;"><span class="logo-text">edplit</span><span
+                                class="logo-domain">.es</span></span>
+                    </div>
+                    <p>Distribuidor exclusivo de Edplit para España. Soluciones de montaje oculto.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Productos</h4>
+                    <ul>
+                        <li><a href="pulsadores.html">Pulsadores</a></li>
+                        <li><a href="enchufes.html">Enchufes</a></li>
+                        <li><a href="ventiladores.html">Ventiladores</a></li>
+                        <li><a href="tapas.html">Tapas</a></li>
+                        <li><a href="toalleros.html">Toalleros</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Profesionales</h4>
+                    <ul>
+                        <li><a href="index.html#profesionales">Partners</a></li>
+                        <li><a href="#">Fichas técnicas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="index.html#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Edplit España · Distribuidor oficial</p>
+                <div class="footer-legal">
+                    <a href="#">Privacidad</a>
+                    <a href="#">Términos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
