@@ -1,25 +1,25 @@
 export default async function handler(req, res) {
-    // Only allow POST requests
-    if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Method not allowed' });
+  // Only allow POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  try {
+    const { nombre, empresa, email, telefono, tipo, mensaje } = req.body;
+
+    // Basic validation
+    if (!nombre || !email) {
+      return res.status(400).json({ message: 'Nombre y email son requeridos' });
     }
 
-    try {
-        const { nombre, empresa, email, telefono, tipo, mensaje } = req.body;
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Email inválido' });
+    }
 
-        // Basic validation
-        if (!nombre || !email) {
-            return res.status(400).json({ message: 'Nombre y email son requeridos' });
-        }
-
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ message: 'Email inválido' });
-        }
-
-        // Prepare email content
-        const emailContent = `
+    // Prepare email content
+    const emailContent = `
       Nueva solicitud de contacto - EDPLIT España
       
       Nombre: ${nombre}
@@ -36,20 +36,22 @@ export default async function handler(req, res) {
       Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
     `;
 
-        // Send email using Resend (recommended for Vercel)
-        // You'll need to install: npm install resend
-        // And set RESEND_API_KEY in Vercel environment variables
+    // ==========================================
+    // 1. SEND EMAIL VIA RESEND
+    // ==========================================
+    // You'll need to install: npm install resend
+    // And set RESEND_API_KEY in Vercel environment variables
 
-        const { Resend } = require('resend');
-        const resend = new Resend(process.env.RESEND_API_KEY);
+    const { Resend } = require('resend');
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-        await resend.emails.send({
-            from: 'EDPLIT España <contacto@edplit.es>',
-            to: 'info@edplit.es',
-            replyTo: email,
-            subject: `Nueva solicitud: ${tipo || 'Contacto'} - ${nombre}`,
-            text: emailContent,
-            html: `
+    await resend.emails.send({
+      from: 'EDPLIT España <contacto@edplit.es>',
+      to: 'info@edplit.es',
+      replyTo: email,
+      subject: `Nueva solicitud: ${tipo || 'Contacto'} - ${nombre}`,
+      text: emailContent,
+      html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #B88657;">Nueva solicitud de contacto</h2>
           <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -72,19 +74,58 @@ export default async function handler(req, res) {
           </p>
         </div>
       `
+    });
+
+    // ==========================================
+    // 2. ADD CONTACT TO BREVO
+    // ==========================================
+    if (process.env.BREVO_API_KEY) {
+      try {
+        const brevoResponse = await fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'api-key': process.env.BREVO_API_KEY
+          },
+          body: JSON.stringify({
+            email: email,
+            attributes: {
+              FIRSTNAME: nombre.split(' ')[0] || nombre,
+              LASTNAME: nombre.split(' ').slice(1).join(' ') || '',
+              SMS: telefono || '',
+              COMPANY: empresa || '',
+              TIPO_PROYECTO: tipo || '',
+              MENSAJE: mensaje || '',
+              FECHA_CONTACTO: new Date().toISOString()
+            },
+            listIds: [parseInt(process.env.BREVO_LIST_ID || '2')], // Default list ID
+            updateEnabled: true // Update if contact already exists
+          })
         });
 
-        // Success response
-        return res.status(200).json({
-            success: true,
-            message: 'Mensaje enviado correctamente'
-        });
-
-    } catch (error) {
-        console.error('Error sending email:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Error al enviar el mensaje. Por favor, intenta de nuevo.'
-        });
+        // Brevo returns 201 for new contact, 204 for updated contact
+        if (!brevoResponse.ok && brevoResponse.status !== 204) {
+          console.error('Brevo API error:', await brevoResponse.text());
+          // Don't fail the whole request if Brevo fails
+        }
+      } catch (brevoError) {
+        console.error('Error adding to Brevo:', brevoError);
+        // Don't fail the whole request if Brevo fails
+      }
     }
+
+    // Success response
+    return res.status(200).json({
+      success: true,
+      message: 'Mensaje enviado correctamente'
+    });
+
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al enviar el mensaje. Por favor, intenta de nuevo.'
+    });
+  }
 }
