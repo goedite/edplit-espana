@@ -1025,13 +1025,15 @@ body {
 
 /* Mobile & Tablets (768px and below) */
 @media (max-width: 768px) {
+/* Mobile & Tablets (768px and below) */
+@media (max-width: 768px) {
     :root {
-        --spacing-xs: 0.5rem;
-        --spacing-sm: 0.75rem;
-        --spacing-md: 1.5rem;
-        --spacing-lg: 2rem;
-        /* Reduced padding */
-        --spacing-xl: 3rem;
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        /* MUCH tighter */
+        --spacing-xl: 2rem;
     }
 
     html {
@@ -1039,7 +1041,7 @@ body {
     }
 
     .container {
-        padding: 0 1.25rem;
+        padding: 0 1rem;
     }
 
     /* ========== TOP BAR - Compact ========== */
@@ -1056,15 +1058,13 @@ body {
 
     /* ========== NAVIGATION - Compact ========== */
     .navbar {
-        padding: 0.5rem 0;
-        /* Reduced padding */
+        padding: 0.4rem 0;
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
     }
 
     .logo-image {
         height: 28px;
-        /* Slightly smaller logo */
         max-width: 130px;
     }
 
@@ -1080,37 +1080,41 @@ body {
         line-height: 1;
     }
 
-    /* ========== HERO SECTION - Visual Balance ========== */
+    /* ========== HERO SECTION - TIGHT ========== */
     .hero {
-        padding: var(--spacing-lg) 0;
-        /* Tighter vertical padding */
+        padding: 1.5rem 0;
+        /* Much tighter */
     }
 
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: var(--spacing-md);
+        gap: 1rem;
+        /* Reduced gap */
     }
 
     .hero-title {
-        font-size: 2.25rem;
+        font-size: 2rem;
         line-height: 1.15;
         letter-spacing: -0.01em;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
+        /* Tighter */
     }
 
     .hero-subtitle {
-        font-size: 1rem;
-        line-height: 1.6;
+        font-size: 0.95rem;
+        line-height: 1.5;
         max-width: 100%;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        /* Tighter */
         padding: 0 0.5rem;
     }
 
     .hero-buttons {
         flex-direction: column;
         width: 100%;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        /* Tighter */
         align-items: center;
     }
 
@@ -1123,32 +1127,31 @@ body {
     .trust-badges {
         display: flex;
         flex-direction: row;
-        /* Force row layout */
         flex-wrap: wrap;
         justify-content: center;
         gap: 0.5rem;
-        /* Tighter gap */
-        margin-top: 0.75rem;
+        margin-top: 0.5rem;
+        /* Tighter */
     }
 
     .trust-item {
         font-size: 0.75rem;
-        /* Smaller text for mobile */
         white-space: nowrap;
-        /* Prevent intra-item wrapping */
         padding: 0.25rem 0.5rem;
         opacity: 0.9;
     }
 
     .hero-image {
-        min-height: 280px;
+        min-height: 250px;
+        /* Smaller */
         order: -1;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
+        /* Tighter */
     }
 
     .hero-image-main,
     .hero-image-placeholder {
-        min-height: 280px;
+        min-height: 250px;
         border-radius: var(--radius-md);
     }
 
@@ -1156,168 +1159,91 @@ body {
         display: none;
     }
 
-    /* ========== BRANDS & SECTIONS ========== */
+    /* ========== BRANDS & SECTIONS - TIGHT ========== */
     .brands-section {
-        padding: 1.5rem 0;
+        padding: 1rem 0;
+        /* Much tighter */
     }
 
     .brands-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
+        gap: 0.75rem;
+        /* Tighter */
     }
 
+    /* ALL SECTIONS - MUCH LESS PADDING */
     .products-section,
     .how-it-works,
     .features-section,
     .professionals-section,
     .contact-section {
-        padding: 3rem 0;
-        /* Consistent section padding */
+        padding: 1.5rem 0;
+        /* Was 3rem - cut in half! */
     }
 
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .steps-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .features-grid,
-    .professionals-content,
-    .contact-grid,
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+    .section-header {
+        margin-bottom: 1rem;
+        /* Tighter */
     }
 
     .section-header h2 {
         font-size: 1.75rem;
         margin-bottom: 0.5rem;
     }
-}
 
-/* iPhone 12 & Similar (390px - 428px) */
-@media (max-width: 428px) {
-    :root {
-        /* Even tighter spacing for phones */
-        --spacing-md: 1.25rem;
-        --spacing-lg: 1.75rem;
-        --spacing-xl: 2.5rem;
+    .section-header p {
+        margin-bottom: 0.5rem;
     }
 
-    html {
-        font-size: 14px;
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        /* Tighter */
     }
 
-    .container {
-        padding: 0 1rem;
+    .product-card {
+        padding: 1rem;
+        /* Tighter */
     }
 
-    /* Make Header Very Compact */
-    .top-bar-content {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 0.1rem 0;
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        /* Tighter */
     }
 
-    .nav-content {
-        padding: 0.25rem 0;
-        /* Minimal padding */
+    .step-card {
+        padding: 1rem;
+        /* Tighter */
     }
 
-    .navbar {
-        min-height: 50px;
-        /* Ensure not too tall */
+    .features-grid,
+    .professionals-content,
+    .contact-grid {
+        gap: 1.25rem;
+        /* Tighter */
     }
 
-    .logo-image {
-        height: 26px;
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        text-align: center;
     }
 
-    /* Hero Refinements */
-    .hero-title {
-        font-size: 1.85rem;
+    .footer {
+        padding: 1.5rem 0 1rem;
+        /* Tighter */
     }
 
-    .hero-image {
-        min-height: 240px;
+    /* Product tabs */
+    .product-tabs {
+        margin-bottom: 1rem;
+        /* Tighter */
     }
 
-    .hero-image-main,
-    .hero-image-placeholder {
-        min-height: 240px;
-    }
-
-    /* Misc Mobile Adjustments */
-    .btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-    }
-
-    .product-carousel {
-        height: 210px;
-    }
-
-    .product-image {
-        height: 170px;
-    }
-
-    /* Contact Form on Mobile */
-    input,
-    textarea,
-    select {
-        padding: 0.75rem;
-        font-size: 16px;
-        /* Avoid iOS zoom */
-    }
-}
-
-/* Very Small Phones (360px and below) */
-@media (max-width: 360px) {
-    html {
-        font-size: 13px;
-    }
-
-    .hero-title {
-        font-size: 1.6rem;
-    }
-
-    .logo-image {
-        height: 24px;
-    }
-}
-
-/* Landscape Mode for Phones */
-@media (max-height: 500px) and (orientation: landscape) {
-    .hero {
-        padding: var(--spacing-md) 0;
-    }
-
-    .hero-image {
-        min-height: 250px;
-    }
-
-    .product-carousel {
-        height: 200px;
-    }
-}
-
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-    .btn {
-        min-height: 48px;
-    }
-
-    .tab-btn {
-        min-height: 44px;
-    }
-
-    .product-card:hover {
-        transform: none;
+    /* Category headers */
+    .category-header {
+        margin-bottom: 1rem;
+        /* Tighter */
     }
 }
