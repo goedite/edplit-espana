@@ -1,6 +1,7 @@
 {
     "name": "edplit-espana",
     "version": "1.0.0",
+    "type": "module",
     "description": "EDPLIT España - Official Distributor Website",
     "scripts": {
         "dev": "vercel dev",
