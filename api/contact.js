@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
     await resend.emails.send({
       from: 'EDPLIT España <contacto@edplit.es>',
-      to: ['info@edplit.es', 'contacto@edplit.es'],
+      to: ['admin@edplit.es', 'contacto@edplit.es'],
       replyTo: email,
       subject: `Nueva solicitud: ${tipo || 'Contacto'} - ${nombre}`,
       text: emailContent,
