@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     await resend.emails.send({
       from: 'EDPLIT España <contacto@edplit.es>',
-      to: 'info@edplit.es',
+      to: ['info@edplit.es', 'contacto@edplit.es'],
       replyTo: email,
       subject: `Nueva solicitud: ${tipo || 'Contacto'} - ${nombre}`,
       text: emailContent,
@@ -123,9 +123,11 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error sending email:', error);
+    // DEBUG: Return specific error to frontend to identify the issue
     return res.status(500).json({
       success: false,
-      message: 'Error al enviar el mensaje. Por favor, intenta de nuevo.'
+      message: error.message || 'Error desconocido',
+      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
     });
   }
 }
