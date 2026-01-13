@@ -1,3 +1,5 @@
+import { Resend } from 'resend';
+
 export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== 'POST') {
@@ -42,7 +44,6 @@ export default async function handler(req, res) {
     // You'll need to install: npm install resend
     // And set RESEND_API_KEY in Vercel environment variables
 
-    const { Resend } = require('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
