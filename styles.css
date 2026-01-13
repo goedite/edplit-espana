@@ -640,36 +640,54 @@ body {
     width: 100%;
     border-radius: var(--radius-sm);
     margin-bottom: var(--spacing-sm);
+    background: #fbf9f6;
+    /* Neutral warm background for 'contain' mode */
 }
 
 .carousel-track {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Softer, slower transition */
     width: 100%;
 }
 
 .carousel-slide {
     min-width: 100%;
     flex: 0 0 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 240px;
+    /* Fixed height container */
 }
 
 .carousel-slide img {
     width: 100%;
-    height: 240px;
-    object-fit: cover;
+    height: 100%;
+    /* Fill container */
+    object-fit: contain;
+    /* No distortion */
     display: block;
     border-radius: var(--radius-sm);
+    cursor: zoom-in;
+    padding: 10px;
+    /* Slight breathing room */
 }
 
-/* Updated Product Image - removed previous definition to avoid conflicts */
+/* Updated Product Image */
 .product-image {
     width: 100%;
     height: 240px;
-    object-fit: cover;
+    object-fit: contain;
+    /* No distortion */
     border-radius: var(--radius-sm);
     margin-bottom: var(--spacing-sm);
-    background: #ebe6df;
-    transition: transform 0.5s ease;
+    background: #fbf9f6;
+    /* Neutral warm background */
+    transition: transform 0.8s ease;
+    /* Slower hover effect */
+    cursor: zoom-in;
+    padding: 10px;
 }
 
 .product-card:hover .product-image {
@@ -1018,6 +1036,7 @@ body {
 
 .footer-col ul li a:hover {
     color: white;
+    padding-left: 5px;
 }
 
 .footer-bottom {
@@ -1041,6 +1060,64 @@ body {
 
 .footer-legal a:hover {
     color: white;
+}
+
+/* ==========================================
+   LIGHTBOX
+   ========================================== */
+#lightbox {
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+#lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    object-fit: contain;
+    /* Ensure the whole image is seen in lightbox */
+}
+
+#lightbox.active img {
+    transform: scale(1);
+}
+
+#lightbox .close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 3rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 10001;
+    line-height: 1;
+}
+
+#lightbox .close-btn:hover {
+    transform: rotate(90deg);
+    color: var(--accent);
 }
 
 /* ==========================================

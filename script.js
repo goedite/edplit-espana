@@ -246,7 +246,7 @@ function initCarousels() {
             setInterval(() => {
                 currentIndex = (currentIndex + 1) % slides.length;
                 updateCarousel(track, currentIndex);
-            }, 3000); // Rotate every 3 seconds
+            }, 7000); // Rotate every 7 seconds
         }
     });
 }
@@ -257,6 +257,8 @@ function updateCarousel(track, index) {
 
 // Lightbox Functionality
 function initLightbox() {
+    console.log('Initializing Lightbox...'); // Debug log
+
     // Create Lightbox DOM if it doesn't exist
     if (!document.getElementById('lightbox')) {
         const lightbox = document.createElement('div');
@@ -266,6 +268,7 @@ function initLightbox() {
             <img src="" alt="Zoomed Image">
         `;
         document.body.appendChild(lightbox);
+        console.log('Lightbox DOM created'); // Debug log
     }
 
     const lightbox = document.getElementById('lightbox');
@@ -273,8 +276,19 @@ function initLightbox() {
     const closeBtn = lightbox.querySelector('.close-btn');
 
     // Add click event to all carousel images
-    document.querySelectorAll('.product-carousel img').forEach(img => {
-        img.addEventListener('click', e => {
+    const images = document.querySelectorAll('.product-carousel img');
+    console.log(`Found ${images.length} images for lightbox`); // Debug log
+
+    images.forEach(img => {
+        // Clone element to remove old event listeners which might be stacking or failing
+        const newImg = img.cloneNode(true);
+        img.parentNode.replaceChild(newImg, img);
+
+        newImg.addEventListener('click', e => {
+            console.log('Image clicked:', e.target.src); // Debug log
+            e.preventDefault(); // Prevent any default behavior
+            e.stopPropagation(); // Stop bubbling
+
             lightboxImg.src = e.target.src;
             lightboxImg.alt = e.target.alt;
             lightbox.classList.add('active');
