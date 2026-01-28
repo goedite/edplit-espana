@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Contactos CRM</title>
+    <link rel="icon" type="image/png" href="images/logo/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+        }
+
+        .header a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .controls input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .controls button {
+            padding: 12px 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background: #2563eb;
+        }
+
+        .stats {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f9fafb;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .email {
+            color: #3b82f6;
+        }
+
+        .date {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .message {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #6b7280;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .auth-form {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .auth-form h2 {
+            margin-bottom: 20px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 14px;
+            background: #1f2937;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+
+            th,
+            td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+
+            .message {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="auth-form">
+            <h2>🔐 Admin Panel</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Introduce tu token de acceso</p>
+            <input type="password" id="token-input" placeholder="Token de admin...">
+            <button onclick="authenticate()">Acceder</button>
+            <p id="auth-error" style="color: #dc2626; margin-top: 15px; display: none;"></p>
+        </div>
+
+        <!-- Dashboard (hidden until auth) -->
+        <div id="dashboard" style="display: none;">
+            <div class="header">
+                <h1>📋 Contactos CRM - Brevo</h1>
+                <a href="index.html">← Volver a la web</a>
+            </div>
+
+            <div class="controls">
+                <input type="text" id="search" placeholder="Buscar por nombre, email o empresa...">
+                <button onclick="loadContacts()">Buscar</button>
+                <span class="stats" id="stats"></span>
+            </div>
+
+            <div id="loading" class="loading">Cargando contactos...</div>
+            <div id="error" class="error" style="display: none;"></div>
+
+            <div class="table-container" id="table-container" style="display: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Empresa</th>
+                            <th>Tipo</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contacts-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = sessionStorage.getItem('adminToken') || '';
+
+        // Check if already authenticated
+        if (authToken) {
+            showDashboard();
+        }
+
+        function authenticate() {
+            const input = document.getElementById('token-input').value;
+            if (!input) return;
+
+            authToken = input;
+            sessionStorage.setItem('adminToken', authToken);
+            showDashboard();
+        }
+
+        function showDashboard() {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadContacts();
+        }
+
+        async function loadContacts() {
+            const search = document.getElementById('search').value;
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const tableContainer = document.getElementById('table-container');
+            const tbody = document.getElementById('contacts-table');
+            const stats = document.getElementById('stats');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            tableContainer.style.display = 'none';
+
+            try {
+                const res = await fetch(`/api/admin/contacts?token=${encodeURIComponent(authToken)}&search=${encodeURIComponent(search)}&limit=100`);
+                const data = await res.json();
+
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        sessionStorage.removeItem('adminToken');
+                        document.getElementById('auth-screen').style.display = 'block';
+                        document.getElementById('dashboard').style.display = 'none';
+                        document.getElementById('auth-error').textContent = 'Token inválido';
+                        document.getElementById('auth-error').style.display = 'block';
+                        return;
+                    }
+                    throw new Error(data.message || 'Error');
+                }
+
+                loading.style.display = 'none';
+                tableContainer.style.display = 'block';
+                stats.textContent = `${data.contacts.length} contactos encontrados`;
+
+                tbody.innerHTML = data.contacts.map(c => `
+                    <tr>
+                        <td><strong>${escapeHtml(c.name)}</strong></td>
+                        <td class="email">${escapeHtml(c.email)}</td>
+                        <td>${escapeHtml(c.phone)}</td>
+                        <td>${escapeHtml(c.company)}</td>
+                        <td>${escapeHtml(c.projectType)}</td>
+                        <td class="message" title="${escapeHtml(c.message)}">${escapeHtml(c.message)}</td>
+                        <td class="date">${formatDate(c.contactDate || c.createdAt)}</td>
+                    </tr>
+                `).join('');
+
+            } catch (err) {
+                loading.style.display = 'none';
+                error.style.display = 'block';
+                error.textContent = 'Error: ' + err.message;
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str || str === '-') return '-';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr || dateStr === '-') return '-';
+            try {
+                return new Date(dateStr).toLocaleDateString('es-ES');
+            } catch {
+                return dateStr;
+            }
+        }
+
+        // Search on Enter
+        document.getElementById('search').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loadContacts();
+        });
+    </script>
+</body>
+
+</html>

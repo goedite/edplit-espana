@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDPLIT - Generador de Presupuestos</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --edplit-gold: #b69776;
+      --edplit-gold-dark: #9a7d5f;
+      --edplit-blue: #1a4b8c;
+      --edplit-dark: #0d2847;
+      --edplit-light: #f5f0eb;
+      --edplit-accent: #b69776;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+      --radius: 12px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #8b6f5c 0%, #b69776 50%, #d4bc9e 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: var(--gray-700);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--edplit-gold) 0%, var(--edplit-gold-dark) 100%);
+      color: white;
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      width: 140px;
+      height: auto;
+    }
+
+    .header-info h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .header-info p {
+      opacity: 0.85;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .budget-badge {
+      background: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .budget-badge span {
+      font-size: 12px;
+      color: var(--edplit-gold-dark);
+      display: block;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .budget-badge strong {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: var(--gray-900);
+    }
+
+    /* Content */
+    .content {
+      padding: 32px 40px;
+    }
+
+    /* Company Info Banner */
+    .company-banner {
+      background: linear-gradient(135deg, var(--edplit-light) 0%, #ece4db 100%);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+      border: 1px solid rgba(182, 151, 118, 0.2);
+    }
+
+    .company-banner h3 {
+      color: var(--edplit-gold-dark);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .company-banner p {
+      color: var(--gray-700);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .bank-info {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-radius: 10px;
+      padding: 16px 20px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      display: none;
+    }
+
+    .bank-info.visible {
+      display: block;
+    }
+
+    .bank-info h4 {
+      color: #b45309;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .bank-info p {
+      font-size: 13px;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--edplit-dark);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--edplit-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: linear-gradient(180deg, var(--edplit-gold), var(--edplit-gold-dark));
+      border-radius: 2px;
+    }
+
+    /* Forms */
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--edplit-gold);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(182, 151, 118, 0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Product Catalog Section */
+    .catalog-section {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .catalog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .catalog-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--edplit-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .catalog-title span {
+      background: var(--edplit-gold);
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .price-tier-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price-tier-selector label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-500);
+    }
+
+    .price-tier-selector select {
+      padding: 8px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      background: white;
+      cursor: pointer;
+    }
+
+    .catalog-filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--edplit-gold);
+      outline: none;
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+    }
+
+    .category-filter select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 13px;
+      background: white;
+      cursor: pointer;
+      min-width: 200px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .product-card {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .product-card:hover {
+      border-color: var(--edplit-gold);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .product-card .sku {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--edplit-gold-dark);
+      background: var(--edplit-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+
+    .product-card .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-900);
+      line-height: 1.4;
+    }
+
+    .product-card .category {
+      font-size: 11px;
+      color: var(--gray-500);
+    }
+
+    .product-card .price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--success);
+      margin-top: auto;
+    }
+
+    /* Line Items */
+    .line-items-section {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .line-header {
+      display: grid;
+      grid-template-columns: 60px 2fr 80px 100px 80px 100px 40px;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 2px solid var(--gray-200);
+      margin-bottom: 12px;
+    }
+
+    .line-header span {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #lineItemsContainer {
+      min-height: 60px;
+    }
+
+    .line-item {
+      display: grid;
+      grid-template-columns: 60px 2fr 80px 100px 80px 100px 40px;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+      align-items: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .line-item input {
+      padding: 10px;
+      border: 2px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .line-item input:focus {
+      border-color: var(--edplit-gold);
+      outline: none;
+    }
+
+    .line-item .sku-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--edplit-gold-dark);
+      background: var(--edplit-light);
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .line-item .total {
+      background: linear-gradient(135deg, var(--edplit-light), #ece4db);
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: var(--edplit-gold-dark);
+      text-align: right;
+      font-size: 13px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      color: #065f46;
+      margin-top: 16px;
+    }
+
+    .btn-add:hover {
+      background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+      transform: translateY(-1px);
+    }
+
+    .btn-remove {
+      background: var(--gray-100);
+      color: var(--danger);
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+    }
+
+    .btn-remove:hover {
+      background: #fee2e2;
+    }
+
+    .btn-generate {
+      background: linear-gradient(135deg, var(--edplit-gold), var(--edplit-gold-dark));
+      color: white;
+      width: 100%;
+      padding: 18px 24px;
+      font-size: 16px;
+      margin-top: 24px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(182, 151, 118, 0.4);
+    }
+
+    .btn-generate:disabled {
+      background: var(--gray-300);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Totals */
+    .totals {
+      background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 24px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 14px;
+    }
+
+    .total-row:last-child {
+      border-bottom: none;
+      padding-top: 16px;
+      margin-top: 8px;
+    }
+
+    .total-row.grand-total {
+      background: linear-gradient(135deg, var(--edplit-light), #ece4db);
+      margin: 16px -24px -24px;
+      padding: 20px 24px;
+      border-radius: 0 0 var(--radius) var(--radius);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--edplit-gold-dark);
+    }
+
+    .total-row.discount {
+      color: var(--success);
+    }
+
+    .total-row span:last-child {
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--gray-500);
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .line-header {
+        display: none;
+      }
+
+      .line-item {
+        grid-template-columns: 1fr;
+        background: white;
+        padding: 16px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        border: 1px solid var(--gray-200);
+        gap: 8px;
+      }
+
+      .line-item::before {
+        content: attr(data-label);
+        font-size: 10px;
+        color: var(--gray-500);
+        text-transform: uppercase;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .content {
+        padding: 20px;
+      }
+
+      .header {
+        padding: 20px;
+      }
+
+      .catalog-section {
+        padding: 16px;
+      }
+    }
+
+    /* Scrollbar */
+    .product-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .product-grid::-webkit-scrollbar-track {
+      background: var(--gray-100);
+      border-radius: 4px;
+    }
+
+    .product-grid::-webkit-scrollbar-thumb {
+      background: var(--gray-300);
+      border-radius: 4px;
+    }
+
+    .product-grid::-webkit-scrollbar-thumb:hover {
+      background: var(--gray-400);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <svg class="logo" viewBox="0 0 466 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M126.148 223.113L126.155 222.973L126.174 222.84L126.212 222.707L126.257 222.58L126.313 222.46L126.383 222.346L126.459 222.244H126.465L126.548 222.143L126.65 222.054L126.751 221.979H126.757L126.864 221.909L126.985 221.852L127.111 221.807L127.245 221.769L127.384 221.75L127.518 221.744H127.524H176.749H183.587C184.341 221.744 184.956 222.358 184.956 223.113V227.574C184.956 228.328 184.341 228.943 183.587 228.943H176.749H176.242C171.699 228.943 168.01 232.631 168.01 237.174C168.01 345.884 168.01 268.649 168.01 387.264C168.01 391.808 171.699 395.497 176.242 395.497H183.587H211.304C217.014 395.497 222.128 391.954 224.143 386.612L231.754 366.429C231.95 365.896 232.463 365.542 233.033 365.542H242.539C243.42 365.542 244.073 366.352 243.876 367.214L236.151 401.624C236.012 402.245 235.454 402.695 234.814 402.695H183.587H127.524H127.518L127.384 402.689L127.245 402.669L127.111 402.632L126.985 402.587L126.864 402.53L126.65 402.378L126.548 402.296L126.465 402.194H126.459L126.383 402.087L126.313 401.979L126.257 401.858L126.212 401.731L126.174 401.599L126.155 401.459L126.148 401.32V396.865L126.155 396.725L126.174 396.586L126.212 396.459L126.257 396.332L126.313 396.213L126.383 396.098L126.465 395.991L126.548 395.896L126.65 395.807L126.751 395.731H126.757L126.864 395.661L126.985 395.604L127.111 395.559L127.245 395.522L127.384 395.503L127.518 395.497H127.524H134.862C139.412 395.497 143.093 391.808 143.093 387.264V237.174C143.093 232.631 139.412 228.943 134.862 228.943H127.524H127.518L127.384 228.936L127.245 228.917L127.111 228.879L126.985 228.835L126.864 228.778L126.757 228.708H126.751L126.65 228.632L126.548 228.544L126.465 228.442H126.459L126.383 228.34L126.313 228.227L126.257 228.106L126.212 227.979L126.174 227.846L126.155 227.713L126.148 227.574V223.113Z"
+            fill="white" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M249.516 223.115C249.516 222.357 250.13 221.744 250.887 221.744H306.952C307.709 221.744 308.324 222.357 308.324 223.115V227.571C308.324 228.329 307.709 228.943 306.952 228.943H299.608C295.064 228.943 291.379 232.628 291.379 237.174V387.262C291.379 391.808 295.064 395.493 299.608 395.493H306.952C307.709 395.493 308.324 396.107 308.324 396.865V401.321C308.324 402.079 307.709 402.693 306.952 402.693H250.887C250.13 402.693 249.516 402.079 249.516 401.321V396.865C249.516 396.107 250.13 395.493 250.887 395.493H258.231C262.777 395.493 266.462 391.808 266.462 387.262V237.174C266.462 232.628 262.777 228.943 258.231 228.943H250.887C250.13 228.943 249.516 228.329 249.516 227.571V223.115Z"
+            fill="white" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0.53125 223.113C0.53125 222.358 1.14601 221.744 1.90586 221.744H57.9693H78.6845C91.1871 221.744 104.483 226.775 113.911 235.045C119.887 240.279 124.697 246.838 127.884 254.221C133.62 267.528 133.657 281.254 127.884 294.663C124.697 302.045 119.887 308.604 113.911 313.838C104.483 322.108 91.1871 327.14 78.6845 327.14H57.9693H42.3928V361.346V387.264C42.3928 391.808 46.0807 395.497 50.6249 395.497H57.9693C58.7292 395.497 59.3377 396.104 59.3377 396.865V401.32C59.3377 402.08 58.7292 402.695 57.9693 402.695H1.90586C1.14601 402.695 0.53125 402.08 0.53125 401.32V396.865C0.53125 396.104 1.14601 395.497 1.90586 395.497H9.24403C13.7945 395.497 17.4761 391.808 17.4761 387.264V237.174C17.4761 232.631 13.7945 228.943 9.24403 228.943H1.90586C1.14601 228.943 0.53125 228.328 0.53125 227.574V223.113ZM99.8246 248.656C91.7768 236.483 78.501 228.943 62.0885 228.943H57.9693H50.6249C46.0807 228.943 42.3928 232.631 42.3928 237.174V262.629V319.941H57.9693C61.1632 319.941 64.2489 319.985 67.449 319.662C81.3843 318.204 92.6762 311.044 99.8246 300.227C109.964 284.904 109.945 263.966 99.8246 248.656Z"
+            fill="white" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M448.389 399.793C446.593 397.997 445.48 395.515 445.48 392.784C445.48 390.052 446.593 387.569 448.387 385.776C450.183 383.979 452.665 382.867 455.398 382.867C458.131 382.867 460.613 383.979 462.407 385.773C464.203 387.569 465.315 390.052 465.315 392.784C465.315 395.515 464.203 397.997 462.409 399.791C460.613 401.587 458.131 402.699 455.398 402.699C452.665 402.699 450.183 401.587 448.389 399.793ZM454.392 389.939V392.04H455.696C455.959 392.04 456.183 392.016 456.361 391.97C456.527 391.927 456.669 391.862 456.768 391.785C456.857 391.718 456.931 391.611 456.977 391.489C457.03 391.345 457.062 391.161 457.062 390.94C457.062 390.74 457.033 390.569 456.982 390.444C456.936 390.331 456.869 390.237 456.785 390.174C456.684 390.099 456.544 390.04 456.378 390.003C456.193 389.96 455.957 389.939 455.685 389.939H454.392ZM447.402 392.784C447.402 394.994 448.298 396.998 449.742 398.44C451.189 399.884 453.19 400.783 455.398 400.783C457.606 400.783 459.612 399.884 461.056 398.44C462.503 396.993 463.401 394.989 463.401 392.784C463.401 390.576 462.503 388.573 461.056 387.126C459.612 385.682 457.606 384.784 455.398 384.784C453.188 384.784 451.187 385.679 449.745 387.124C448.298 388.568 447.402 390.574 447.402 392.784ZM452.456 397.079V388.104H455.685C456.223 388.104 456.706 388.162 457.117 388.277C457.543 388.395 457.907 388.583 458.198 388.826C458.494 389.071 458.72 389.377 458.868 389.729C459.012 390.081 459.086 390.477 459.086 390.918C459.086 391.233 459.048 391.532 458.976 391.814C458.901 392.096 458.785 392.363 458.641 392.596C458.485 392.835 458.292 393.042 458.07 393.21L457.644 393.478L459.563 397.079H457.358L457.264 396.906L455.656 393.863H454.392V397.079H452.456Z"
+            fill="white" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M360.22 401.332C360.22 402.086 360.835 402.701 361.588 402.701H368.426H410.82H417.658C418.412 402.701 419.026 402.086 419.026 401.332V396.871C419.026 396.116 418.412 395.502 417.658 395.502H410.82H410.314H410.098L409.889 395.489L409.68 395.476L409.471 395.458L409.267 395.439H409.261L409.059 395.407L408.856 395.375L408.653 395.338L408.457 395.293H408.45L408.254 395.242L408.064 395.192H408.058L407.867 395.135L407.677 395.071H407.671L407.487 395.001H407.48L407.297 394.932H407.291L407.113 394.855H407.107L406.929 394.773H406.923L406.746 394.691L406.568 394.602H406.562L406.39 394.507L406.219 394.412H406.213L406.048 394.311H406.042L405.878 394.203L405.713 394.096H405.707L405.548 393.981L405.39 393.867L405.231 393.747L405.079 393.62H405.073L404.927 393.493L404.781 393.36H404.775L404.635 393.227L404.496 393.088H404.49L404.356 392.948H404.35L404.224 392.803H404.218L404.09 392.657L403.963 392.505H403.957L403.837 392.352L403.716 392.194L403.603 392.036H403.596L403.488 391.871L403.381 391.706L403.273 391.535L403.171 391.364L403.077 391.193L402.982 391.015L402.893 390.838L402.811 390.655L402.728 390.47L402.652 390.287L402.582 390.096L402.513 389.907L402.449 389.716L402.392 389.52L402.342 389.33L402.291 389.127L402.246 388.93L402.208 388.728L402.176 388.525L402.145 388.316L402.126 388.113L402.107 387.904L402.094 387.695L402.081 387.486V387.27C402.081 278.56 402.081 355.795 402.081 237.18V236.965L402.094 236.756L402.107 236.546L402.126 236.337L402.145 236.135L402.176 235.925L402.208 235.723L402.246 235.52L402.291 235.323L402.342 235.121L402.392 234.93L402.449 234.734L402.513 234.544L402.582 234.354L402.652 234.164L402.728 233.98L402.811 233.796L402.893 233.613L402.982 233.435L403.077 233.258L403.171 233.087L403.273 232.916L403.381 232.744L403.488 232.579L403.596 232.415H403.603L403.716 232.256L403.837 232.098L403.957 231.946H403.963L404.09 231.794L404.218 231.648H404.224L404.35 231.503H404.356L404.49 231.363H404.496L404.635 231.223L404.775 231.09H404.781L404.927 230.958L405.073 230.831H405.079L405.231 230.704L405.39 230.584L405.548 230.469L405.707 230.355H405.713L405.878 230.247L406.042 230.14H406.048L406.213 230.039H406.219L406.39 229.944L406.562 229.848H406.568L406.746 229.759L406.923 229.677H406.929L407.107 229.595H407.113L407.291 229.519H407.297L407.48 229.449H407.487L407.671 229.379H407.677L407.867 229.316L408.058 229.259H408.064L408.254 229.208L408.45 229.158H408.457L408.653 229.113L408.856 229.075L409.059 229.043L409.261 229.012H409.267L409.471 228.992L409.68 228.974L409.889 228.961L410.098 228.949H410.314H417.658H432.702C438.412 228.949 443.525 232.491 445.54 237.833L453.151 258.016C453.347 258.548 453.861 258.903 454.431 258.903H463.937C464.817 258.903 465.47 258.092 465.274 257.23L457.549 222.82C457.409 222.199 456.852 221.75 456.212 221.75H417.658H361.588H323.035C322.394 221.75 321.837 222.199 321.697 222.82L313.972 257.23C313.776 258.092 314.429 258.903 315.31 258.903H324.815C325.386 258.903 325.899 258.548 326.096 258.016L333.706 237.833C335.721 232.491 340.836 228.949 346.545 228.949H361.588H368.933H369.148L369.358 228.961L369.567 228.974L369.776 228.992L369.979 229.012H369.985L370.188 229.043L370.39 229.075L370.594 229.113L370.79 229.158H370.796L370.993 229.208L371.182 229.259H371.189L371.379 229.316L371.569 229.379H371.575L371.76 229.449H371.766L371.949 229.519H371.956L372.134 229.595H372.14L372.317 229.677H372.323L372.501 229.759L372.679 229.848H372.685L372.856 229.944L373.027 230.039H373.033L373.198 230.14H373.204L373.369 230.247L373.534 230.355H373.54L373.699 230.469L373.857 230.584L374.016 230.704L374.168 230.831H374.174L374.32 230.958L374.465 231.09H374.472L374.611 231.223L374.75 231.363H374.757L374.89 231.503H374.896L375.023 231.648H375.03L375.156 231.794L375.283 231.946H375.289L375.41 232.098L375.53 232.256L375.644 232.415H375.651L375.758 232.579L375.865 232.744L375.974 232.916L376.075 233.087L376.17 233.258L376.265 233.435L376.354 233.613L376.436 233.796L376.519 233.98L376.595 234.164L376.664 234.354L376.734 234.544L376.797 234.734L376.854 234.93L376.905 235.121L376.955 235.323L377 235.52L377.038 235.723L377.07 235.925L377.101 236.135L377.12 236.337L377.14 236.546L377.152 236.756L377.165 236.965V237.18V387.27V387.486L377.152 387.695L377.14 387.904L377.12 388.113L377.101 388.316L377.07 388.525L377.038 388.728L377 388.93L376.955 389.127L376.905 389.33L376.854 389.52L376.797 389.716L376.734 389.907L376.664 390.096L376.595 390.287L376.519 390.47L376.436 390.655L376.354 390.838L376.265 391.015L376.17 391.193L376.075 391.364L375.974 391.535L375.865 391.706L375.758 391.871L375.651 392.036H375.644L375.53 392.194L375.41 392.352L375.289 392.505H375.283L375.156 392.657L375.03 392.803H375.023L374.896 392.948H374.89L374.757 393.088H374.75L374.611 393.227L374.472 393.36H374.465L374.32 393.493L374.174 393.62H374.168L374.016 393.747L373.857 393.867L373.699 393.981L373.54 394.096H373.534L373.369 394.203L373.204 394.311H373.198L373.033 394.412H373.027L372.856 394.507L372.685 394.602H372.679L372.501 394.691L372.323 394.773H372.317L372.14 394.855H372.134L371.956 394.932H371.949L371.766 395.001H371.76L371.575 395.071H371.569L371.379 395.135L371.189 395.192H371.182L370.993 395.242L370.796 395.293H370.79L370.594 395.338L370.39 395.375L370.188 395.407L369.985 395.439H369.979L369.776 395.458L369.567 395.476L369.358 395.489L369.148 395.502H368.933H368.426H361.588C360.835 395.502 360.22 396.116 360.22 396.871V401.332Z"
+            fill="white" />
+          <path
+            d="M84.3767 9.17725C82.0258 8.07991 81.0038 5.26974 82.1011 2.91884C83.1984 0.567935 86.0086 -0.452204 88.3595 0.643254C99.2633 5.75539 110.178 10.8732 126.256 15.4489L126.458 15.5109C134.777 17.8618 144.395 20.0622 154.234 21.8259C158.966 22.6766 163.807 23.4333 168.635 24.0639C175.215 21.6113 182.102 19.1926 188.613 17.0111C196.012 14.5285 202.839 12.3789 209.052 10.7527C215.399 9.08881 221.19 7.93503 226.391 7.48141L226.498 7.4701C231.829 7.00331 236.683 7.26678 240.414 8.08743L240.621 8.13072C245.532 9.26006 248.935 11.5978 250.006 14.9256L250.132 15.3227C251.052 18.7823 249.431 22.4132 245.486 25.5264L245.298 25.6769C242.456 27.8584 238.132 30.0004 232.523 31.6643L230.664 32.1932C224.658 33.7762 217.176 34.8735 208.687 35.3384L208.593 35.3459C200.462 35.7864 191.393 35.6847 181.801 34.9412C177.894 34.64 173.86 34.2241 169.781 33.7121L167.519 34.576C160.656 37.1923 154.189 39.8444 148.933 42.2725C143.411 44.8116 139.208 47.1117 136.435 49.1596C134.487 50.5976 133.448 51.5877 133.403 52.0789C133.398 52.1731 133.983 52.1731 135.193 52.734L135.395 52.8356C137.998 53.9875 142.101 54.9456 147.893 55.6006C159.32 56.888 176.627 56.9313 189.482 56.9501L195.628 56.969C202.391 57.001 206.972 57.1139 210.112 57.4489C214.29 57.8894 216.729 58.8342 218.455 60.5433C218.915 60.9837 219.325 61.4882 219.671 62.0679L219.843 62.3766C220.694 63.9784 220.952 65.8305 220.308 67.9161L220.195 68.2435C219.703 69.6364 218.759 71.1252 217.29 72.631C215.626 74.3382 213.112 76.2807 209.519 78.4415C204.124 81.6996 195.856 85.722 186.388 90.3221C179.928 93.4598 172.864 96.8948 165.798 100.539C156.534 105.316 147.213 110.477 138.982 115.664C132.043 120.026 125.865 124.432 121.139 128.622C116.324 132.889 113.084 136.885 111.59 140.604C110.342 143.71 110.412 146.71 111.899 149.597C113.651 152.995 117.258 156.454 122.247 159.744C127.738 163.362 134.815 166.701 142.952 169.519C150.912 172.272 159.924 174.548 169.277 176.268C179.083 178.077 189.294 179.301 199.106 179.867C208.314 180.396 217.194 180.358 225.275 179.88C233.272 179.414 240.514 178.493 246.533 177.283C246.2 174.554 246.162 171.537 246.331 168.373C246.514 164.892 246.967 161.199 247.863 157.589C248.765 153.932 250.139 150.296 252.168 146.956L252.332 146.667C254.487 143.186 257.393 140.054 260.488 137.76C263.746 135.353 267.345 133.79 270.721 133.576C274.661 133.329 278.184 134.799 280.806 137.553C283.163 140.022 284.765 143.559 285.154 147.713C285.514 151.487 284.891 155.824 283.447 160.059C282.288 163.462 280.579 166.878 278.437 169.935L278.582 169.758C280.554 167.433 282.672 164.798 284.84 161.956L285.457 158.282C286.396 153.207 287.682 148.229 289.22 143.224C290.763 138.176 292.553 133.147 294.507 128.023C296.625 122.465 299.007 116.622 301.422 111.347C303.438 106.923 305.493 102.927 307.421 99.9083C309.168 97.1734 310.843 95.182 312.343 93.8757C313.773 92.641 315.193 91.8467 316.503 91.4759C318.357 90.9639 320.051 91.1277 321.559 91.922L322.044 92.1873C322.49 92.464 322.938 92.8424 323.341 93.2716L323.518 93.4598C325.125 95.3006 325.831 98.1427 325.504 101.9C325.246 104.621 324.5 108.051 323.228 112.09C321.905 116.287 319.945 121.362 317.386 126.952L317.297 127.159C315.04 132.057 312.294 137.402 309.042 142.947C305.84 148.419 302.096 154.147 298.264 159.581L293.82 165.719C293.462 168.587 293.235 171.403 293.184 174.07C293.114 177.959 293.404 181.537 294.155 184.475C294.805 187.033 295.819 189.064 296.973 190.575C298.221 192.207 299.644 193.28 300.967 193.828L301.125 193.897C303.395 194.741 306.136 194.048 308.852 193.361C311.379 192.719 313.958 194.249 314.6 196.777C315.244 199.305 313.711 201.882 311.183 202.526C306.986 203.591 302.751 204.662 297.633 202.644L297.349 202.537C294.609 201.404 291.791 199.343 289.472 196.297C287.575 193.815 285.975 190.658 284.99 186.807C284.33 184.217 283.952 181.273 283.818 178.109C280.831 181.48 278.101 184.223 275.576 186.359C272.24 189.182 269.153 191.048 266.215 192.043C263.008 193.116 259.964 193.192 257.241 192.429L256.951 192.352C253.939 191.426 251.417 189.491 249.64 186.769L249.382 186.335C242.77 187.727 234.735 188.772 225.83 189.295C217.417 189.794 208.177 189.832 198.591 189.284C188.425 188.697 177.816 187.424 167.575 185.533C157.806 183.731 148.335 181.343 139.89 178.418C131.015 175.342 123.213 171.649 117.08 167.608C110.734 163.43 106.026 158.779 103.517 153.921C100.694 148.438 100.543 142.848 102.843 137.099C104.897 131.981 108.987 126.802 114.899 121.563C120.036 117.006 126.635 112.299 133.964 107.686C142.485 102.316 152.034 97.0209 161.475 92.1554C168.648 88.4568 175.776 84.9897 182.292 81.8257C191.455 77.3761 199.454 73.4818 204.647 70.3554C206.884 69.019 208.51 67.8652 209.65 66.8827L209.116 66.8262C206.234 66.5232 201.943 66.4102 195.609 66.3857L189.482 66.367C176.329 66.3406 158.614 66.2973 146.859 64.9798C140.016 64.2043 134.954 62.9695 131.495 61.4242L131.21 61.3056C125.846 58.8098 123.629 55.3051 124.026 51.1962C124.353 47.8439 126.659 44.6611 130.827 41.5855C134.166 39.1198 138.918 36.4922 144.989 33.7008L151.384 30.8775C141.497 29.0743 132.005 26.8871 123.887 24.5927L123.672 24.5363C107.047 19.8025 95.7021 14.4833 84.3767 9.17725ZM191.349 26.0307C197.292 26.251 202.908 26.2058 208.075 25.9291H208.145C215.979 25.4943 222.822 24.4987 228.269 23.0682L229.837 22.6334C234.268 21.329 237.545 19.7404 239.576 18.1781L240.445 17.6548L238.366 17.2821C235.573 16.6779 231.729 16.501 227.304 16.885L227.229 16.8926C222.521 17.2954 217.24 18.3532 211.422 19.8797C205.391 21.4551 198.773 23.5406 191.6 25.9479L191.349 26.0307ZM255.778 174.876C258.067 174.094 260.077 173.238 261.835 172.299C265.157 170.52 267.696 168.365 269.758 165.781C271.837 163.172 273.469 160.096 274.51 157.034C275.544 153.996 276.003 151.02 275.777 148.594C275.594 146.629 274.939 145.059 273.993 144.077C273.281 143.331 272.342 142.928 271.314 142.992C269.808 143.087 267.955 143.962 266.097 145.336C263.947 146.93 261.899 149.155 260.348 151.658L260.198 151.884C258.735 154.31 257.713 157.04 257.026 159.844C256.283 162.863 255.899 165.958 255.748 168.869C255.633 171.006 255.633 173.023 255.778 174.876ZM266.272 180.605C264.358 181.625 262.259 182.559 259.938 183.404C260.834 183.611 261.943 183.53 263.191 183.114C265.005 182.495 267.085 181.198 269.487 179.161L272.259 176.628C270.49 178.085 268.51 179.408 266.272 180.605ZM300.703 138.53L300.91 138.183C303.948 132.996 306.565 127.916 308.726 123.214L308.822 123.026C311.178 117.863 312.993 113.169 314.216 109.261L315.45 104.825L315.362 104.962C313.717 107.541 311.865 111.158 309.992 115.267C307.756 120.152 305.443 125.849 303.331 131.389L300.703 138.53Z"
+            fill="white" />
+        </svg>
+        <div class="header-info">
+          <h1>Generador de Presupuestos</h1>
+          <p>Soluciones Invisibles · Catálogo Integrado</p>
+        </div>
+      </div>
+      <div class="budget-badge">
+        <span>Nº Presupuesto</span>
+        <strong id="budgetNumberDisplay">P-2026-0001</strong>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Company Info -->
+      <div class="company-banner">
+        <div>
+          <h3>📍 Datos de Empresa</h3>
+          <p>
+            <strong>Invest Build Multiply Company S.L.</strong><br>
+            Carrer Cementeri de Benipeixcar, 23<br>
+            46727 El Real de Gandía, Valencia<br>
+            NIF: B13843537<br>
+            📞 +34 673 83 44 94 · +34 642 001 244<br>
+            ✉️ <span id="companyEmail"></span>
+          </p>
+        </div>
+        <div class="bank-info" id="bankInfo">
+          <h4>🏦 Datos Bancarios</h4>
+          <p>
+            <strong>IBAN:</strong> ES12 1234 5678 9012 3456 7890<br>
+            <strong>BIC/SWIFT:</strong> ABCDESXX<br>
+            <strong>Banco:</strong> Banco Ejemplo S.A.
+          </p>
+        </div>
+      </div>
+
+      <!-- Budget Data -->
+      <div class="section">
+        <h2 class="section-title">Datos del Presupuesto</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nº Presupuesto</label>
+            <input type="text" id="budgetNumber" value="P-2026-0001" placeholder="P-2026-0001">
+          </div>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" id="invoiceDate">
+          </div>
+          <div class="form-group">
+            <label>Válido hasta</label>
+            <input type="date" id="dueDate">
+          </div>
+          <div class="form-group">
+            <label>Forma de Pago</label>
+            <select id="paymentMethod">
+              <option value="Transf. bancaria">Transferencia bancaria</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Tarjeta">Tarjeta</option>
+              <option value="PayPal">PayPal</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Data -->
+      <div class="section">
+        <h2 class="section-title">Datos del Cliente</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre del Cliente *</label>
+            <input type="text" id="clientName" placeholder="Juan García López" required>
+          </div>
+          <div class="form-group">
+            <label>Empresa</label>
+            <input type="text" id="clientCompany" placeholder="Empresa ABC S.L.">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="clientEmail" placeholder="cliente@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" id="clientAddress" placeholder="Calle Mayor 123, 2ºB">
+          </div>
+          <div class="form-group">
+            <label>Ciudad y CP</label>
+            <input type="text" id="clientCity" placeholder="Valencia 46001">
+          </div>
+          <div class="form-group">
+            <label>NIF/CIF</label>
+            <input type="text" id="clientTax" placeholder="B12345678">
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Catalog -->
+      <div class="section">
+        <h2 class="section-title">Catálogo de Productos EDPLIT</h2>
+        <div class="catalog-section">
+          <div class="catalog-header">
+            <div class="catalog-title">
+              Selecciona productos para añadir
+              <span id="productCount">57 productos</span>
+            </div>
+            <div class="price-tier-selector">
+              <label>Nivel de precio:</label>
+              <select id="priceTier">
+                <option value="retail">Retail (PVP)</option>
+                <option value="tier1">5-10 uds (-10%)</option>
+                <option value="tier2">10-20 uds (-15%)</option>
+                <option value="tier3">20-50 uds (-20%)</option>
+                <option value="tier4">50-100 uds (-25%)</option>
+                <option value="tier5">100+ uds (-30%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="catalog-filters">
+            <div class="search-box">
+              <input type="text" id="productSearch" placeholder="Buscar por nombre, SKU o descripción...">
+            </div>
+            <div class="category-filter">
+              <select id="categoryFilter">
+                <option value="">Todas las categorías</option>
+                <option value="Access Hatches">Trampillas de Acceso</option>
+                <option value="Exhaust Fans">Ventiladores</option>
+                <option value="Fan Mounting Systems">Sistemas de Montaje</option>
+                <option value="Flush Buttons">Pulsadores Ocultos</option>
+                <option value="Sockets & Switches">Enchufes e Interruptores</option>
+                <option value="Towel Holders">Soportes para Toallas</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="product-grid" id="productGrid">
+            <!-- Products will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Line Items -->
+      <div class="section">
+        <h2 class="section-title">Líneas del Presupuesto</h2>
+        <div class="line-items-section">
+          <div class="line-header">
+            <span>SKU</span>
+            <span>Descripción</span>
+            <span>Cantidad</span>
+            <span>Precio (€)</span>
+            <span>IVA %</span>
+            <span>Total</span>
+            <span></span>
+          </div>
+          <div id="lineItemsContainer">
+            <!-- Line items will be added here -->
+          </div>
+          <button class="btn btn-add" onclick="addEmptyLine()">+ Añadir línea manual</button>
+        </div>
+
+        <div class="form-row" style="margin-top: 20px;">
+          <div class="form-group">
+            <label>Descuento General (%)</label>
+            <input type="number" id="discount" value="0" min="0" max="100" step="0.1" oninput="calculateTotals()">
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="total-row">
+            <span>Subtotal (sin IVA)</span>
+            <span id="subtotal">0,00 €</span>
+          </div>
+          <div class="total-row">
+            <span>IVA Total</span>
+            <span id="vatTotal">0,00 €</span>
+          </div>
+          <div class="total-row discount" id="discountRow" style="display: none;">
+            <span>Descuento (<span id="discountPercent">0</span>%)</span>
+            <span id="discountAmount">-0,00 €</span>
+          </div>
+          <div class="total-row grand-total">
+            <span>TOTAL</span>
+            <span id="grandTotal">0,00 €</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="section">
+        <h2 class="section-title">Notas y Observaciones</h2>
+        <div class="form-group full-width">
+          <textarea id="notes"
+            placeholder="Añade condiciones, plazos de entrega, garantías o cualquier información adicional..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn btn-generate" onclick="generatePDF()">
+        📄 Generar Presupuesto PDF
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // EDPLIT PRODUCT DATABASE
+    // ==========================================
+    const PRODUCTS = [
+      // Access Hatches
+      { sku: 'E20001', name: 'Trampilla de acceso oculta universal EDPLIT – con consumibles', category: 'Access Hatches', categoryEs: 'Trampillas de Acceso', prices: { retail: 149, tier1: 134.1, tier2: 126.65, tier3: 119.2, tier4: 111.75, tier5: 104.3 } },
+      { sku: 'E20002', name: 'Trampilla de acceso oculta universal EDPLIT – sin consumibles', category: 'Access Hatches', categoryEs: 'Trampillas de Acceso', prices: { retail: 89, tier1: 80.1, tier2: 75.65, tier3: 71.2, tier4: 66.75, tier5: 62.3 } },
+
+      // Exhaust Fans
+      { sku: 'E30007', name: 'Ventilador de conducto Vents Quietline 100 mm', category: 'Exhaust Fans', categoryEs: 'Ventiladores', prices: { retail: 149, tier1: 134.1, tier2: 126.65, tier3: 119.2, tier4: 111.75, tier5: 104.3 } },
+      { sku: 'E30008', name: 'Ventilador de conducto Vents Quietline 125 mm', category: 'Exhaust Fans', categoryEs: 'Ventiladores', prices: { retail: 189, tier1: 170.1, tier2: 160.65, tier3: 151.2, tier4: 141.75, tier5: 132.3 } },
+      { sku: 'E30009', name: 'Ventilador de conducto Vents Quietline 150 mm', category: 'Exhaust Fans', categoryEs: 'Ventiladores', prices: { retail: 289, tier1: 260.1, tier2: 245.65, tier3: 231.2, tier4: 216.75, tier5: 202.3 } },
+
+      // Fan Mounting Systems (WITH consumables)
+      { sku: 'E30001', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 100 mm – con consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 190, tier1: 171, tier2: 161.5, tier3: 152, tier4: 142.5, tier5: 133 } },
+      { sku: 'E30002', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 125 mm – con consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 229, tier1: 206.1, tier2: 194.65, tier3: 183.2, tier4: 171.75, tier5: 160.3 } },
+      { sku: 'E30003', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 150 mm – con consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 249, tier1: 224.1, tier2: 211.65, tier3: 199.2, tier4: 186.75, tier5: 174.3 } },
+
+      // Fan Mounting Systems (WITHOUT consumables)
+      { sku: 'E30004', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 100 mm – sin consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 129, tier1: 116.1, tier2: 109.65, tier3: 103.2, tier4: 96.75, tier5: 90.3 } },
+      { sku: 'E30005', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 125 mm – sin consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 169, tier1: 152.1, tier2: 143.65, tier3: 135.2, tier4: 126.75, tier5: 118.3 } },
+      { sku: 'E30006', name: 'Sistema de montaje oculto para ventilador de baño EDPLIT 150 mm – sin consumibles', category: 'Fan Mounting Systems', categoryEs: 'Sistemas de Montaje', prices: { retail: 199, tier1: 179.1, tier2: 169.15, tier3: 159.2, tier4: 149.25, tier5: 139.3 } },
+
+      // Flush Buttons (WITH consumables)
+      { sku: 'E10001', name: 'M1 pulsador oculto Edplit Invisi Tile Touch, con consumibles (5 en 1 universal: Sigma, Omega, AlcaPlast, Delta, Tece)', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 390, tier1: 351, tier2: 331.5, tier3: 312, tier4: 292.5, tier5: 273 } },
+      { sku: 'E10002', name: 'M1 pulsador oculto para Sigma/Omega/Alcaplast, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10003', name: 'M1 pulsador oculto para Delta, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10004', name: 'M1 pulsador oculto para Tece, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10005', name: 'M2 pulsador oculto Edplit Invisi Tile Touch, con consumibles (5 en 1 universal)', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 390, tier1: 351, tier2: 331.5, tier3: 312, tier4: 292.5, tier5: 273 } },
+      { sku: 'E10006', name: 'M2 pulsador oculto para Sigma/Omega/Alcaplast, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10007', name: 'M2 pulsador oculto para Delta, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10008', name: 'M2 pulsador oculto para Tece, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10009', name: 'M3 pulsador oculto Edplit InvisiFlush (GROHE) – blanca, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 350, tier1: 315, tier2: 297.5, tier3: 280, tier4: 262.5, tier5: 245 } },
+      { sku: 'E10010', name: 'M3 pulsador oculto Edplit InvisiFlush (GROHE) – negra, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 350, tier1: 315, tier2: 297.5, tier3: 280, tier4: 262.5, tier5: 245 } },
+      { sku: 'E10024', name: 'M1 pulsador oculto para OLI, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10025', name: 'M2 pulsador oculto para OLI, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10028', name: 'M1 pulsador oculto para Jomotech, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+      { sku: 'E10029', name: 'M2 pulsador oculto para Jomotech, con consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 370, tier1: 333, tier2: 314.5, tier3: 296, tier4: 277.5, tier5: 259 } },
+
+      // Flush Buttons (WITHOUT consumables)
+      { sku: 'E10013', name: 'M3 pulsador oculto Edplit InvisiFlush (GROHE) – blanca, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 260, tier1: 234, tier2: 221, tier3: 208, tier4: 195, tier5: 182 } },
+      { sku: 'E10014', name: 'M3 pulsador oculto Edplit InvisiFlush (GROHE) – negra, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 260, tier1: 234, tier2: 221, tier3: 208, tier4: 195, tier5: 182 } },
+      { sku: 'E10015', name: 'M1 pulsador oculto Edplit Invisi Tile Touch, sin consumibles (5 en 1 universal)', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 290, tier1: 261, tier2: 246.5, tier3: 232, tier4: 217.5, tier5: 203 } },
+      { sku: 'E10016', name: 'M1 pulsador oculto para Sigma/Omega/Alcaplast, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10017', name: 'M1 pulsador oculto para Delta, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10018', name: 'M1 pulsador oculto para Tece, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10019', name: 'M2 pulsador oculto para Sigma/Omega/Alcaplast, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10020', name: 'M2 pulsador oculto para Delta, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10021', name: 'M2 pulsador oculto para Tece, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10022', name: 'M2 pulsador oculto Edplit Invisi Tile Touch, sin consumibles (5 en 1 universal)', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 290, tier1: 261, tier2: 246.5, tier3: 232, tier4: 217.5, tier5: 203 } },
+      { sku: 'E10026', name: 'M1 pulsador oculto para OLI, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10027', name: 'M2 pulsador oculto para OLI, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10030', name: 'M1 pulsador oculto para Jomotech, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+      { sku: 'E10031', name: 'M2 pulsador oculto para Jomotech, sin consumibles', category: 'Flush Buttons', categoryEs: 'Pulsadores Ocultos', prices: { retail: 270, tier1: 243, tier2: 229.5, tier3: 216, tier4: 202.5, tier5: 189 } },
+
+      // Sockets & Switches
+      { sku: 'E40009', name: 'Marco oculto EDPLIT para enchufe e interruptor – simple', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 9.4, tier1: 8.46, tier2: 7.99, tier3: 7.5, tier4: 7.05, tier5: 6.58 } },
+      { sku: 'E40010', name: 'Marco oculto EDPLIT para enchufe e interruptor – doble', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 17, tier1: 15.3, tier2: 14.45, tier3: 13.6, tier4: 12.75, tier5: 11.9 } },
+      { sku: 'E40011', name: 'Marco oculto EDPLIT para enchufe e interruptor – triple', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 25, tier1: 22.5, tier2: 21.25, tier3: 20, tier4: 18.75, tier5: 17.5 } },
+      { sku: 'E40012', name: 'Marco oculto EDPLIT para enchufe e interruptor – cuádruple', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 32, tier1: 28.8, tier2: 27.2, tier3: 25.6, tier4: 24, tier5: 22.4 } },
+      { sku: 'E40013', name: 'Mecanismo de enchufe EDPLIT ONE (tipo F) – negro', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 49, tier1: 44.1, tier2: 41.65, tier3: 39.2, tier4: 36.75, tier5: 34.3 } },
+      { sku: 'E40014', name: 'Mecanismo de enchufe EDPLIT ONE (tipo F) – blanco', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 49, tier1: 44.1, tier2: 41.65, tier3: 39.2, tier4: 36.75, tier5: 34.3 } },
+      { sku: 'E40015', name: 'Mecanismo de enchufe EDPLIT ONE (tipo F) – beige', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 49, tier1: 44.1, tier2: 41.65, tier3: 39.2, tier4: 36.75, tier5: 34.3 } },
+      { sku: 'E40016', name: 'Interruptor invisible EDPLIT – simple', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 49, tier1: 44.1, tier2: 41.65, tier3: 39.2, tier4: 36.75, tier5: 34.3 } },
+      { sku: 'E40017', name: 'Interruptor invisible EDPLIT – doble', category: 'Sockets & Switches', categoryEs: 'Enchufes e Interruptores', prices: { retail: 69, tier1: 62.1, tier2: 58.65, tier3: 55.2, tier4: 51.75, tier5: 48.3 } },
+
+      // Towel Holders
+      { sku: 'E60001', name: 'Juego de soportes ocultos para toallas (3 uds.)', category: 'Towel Holders', categoryEs: 'Soportes para Toallas', prices: { retail: 95, tier1: 85.5, tier2: 80.75, tier3: 76, tier4: 71.25, tier5: 66.5 } },
+      { sku: 'E60002', name: 'Juego de soportes ocultos para toallas (5 uds.)', category: 'Towel Holders', categoryEs: 'Soportes para Toallas', prices: { retail: 139, tier1: 125.1, tier2: 118.15, tier3: 111.2, tier4: 104.25, tier5: 97.3 } },
+    ];
+
+    // ==========================================
+    // UTILITY FUNCTIONS
+    // ==========================================
+
+    function formatCurrency(amount) {
+      return amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      const d = new Date(dateString);
+      return d.toLocaleDateString('es-ES');
+    }
+
+    function getCurrentPriceTier() {
+      return document.getElementById('priceTier').value;
+    }
+
+    function getProductPrice(product) {
+      const tier = getCurrentPriceTier();
+      return product.prices[tier];
+    }
+
+    // ==========================================
+    // PRODUCT CATALOG
+    // ==========================================
+
+    function renderProducts(products) {
+      const grid = document.getElementById('productGrid');
+      const tier = getCurrentPriceTier();
+
+      if (products.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1;">
+            <div class="icon">🔍</div>
+            <p>No se encontraron productos</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = products.map(product => `
+        <div class="product-card" onclick="addProductLine('${product.sku}')">
+          <span class="sku">${product.sku}</span>
+          <span class="name">${product.name}</span>
+          <span class="category">${product.categoryEs}</span>
+          <span class="price">${formatCurrency(product.prices[tier])}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('productCount').textContent = `${products.length} productos`;
+    }
+
+    function filterProducts() {
+      const search = document.getElementById('productSearch').value.toLowerCase();
+      const category = document.getElementById('categoryFilter').value;
+
+      let filtered = PRODUCTS;
+
+      if (category) {
+        filtered = filtered.filter(p => p.category === category);
+      }
+
+      if (search) {
+        filtered = filtered.filter(p =>
+          p.name.toLowerCase().includes(search) ||
+          p.sku.toLowerCase().includes(search) ||
+          p.categoryEs.toLowerCase().includes(search)
+        );
+      }
+
+      renderProducts(filtered);
+    }
+
+    function updateProductPrices() {
+      filterProducts(); // Re-render with new prices
+    }
+
+    // ==========================================
+    // LINE ITEMS
+    // ==========================================
+
+    function addProductLine(sku) {
+      const product = PRODUCTS.find(p => p.sku === sku);
+      if (!product) return;
+
+      const container = document.getElementById('lineItemsContainer');
+      const price = getProductPrice(product);
+
+      const lineHtml = `
+        <div class="line-item">
+          <div class="sku-display">${product.sku}</div>
+          <input type="text" value="${product.name}" class="desc" aria-label="Descripción">
+          <input type="number" value="1" min="1" step="1" class="qty" aria-label="Cantidad" oninput="calculateTotals()">
+          <input type="number" value="${price}" min="0" step="0.01" class="price" aria-label="Precio" oninput="calculateTotals()">
+          <input type="number" value="21" min="0" max="100" class="vat" aria-label="IVA" oninput="calculateTotals()">
+          <div class="total">${formatCurrency(price * 1.21)}</div>
+          <button class="btn btn-remove" onclick="removeLine(this)" aria-label="Eliminar">×</button>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', lineHtml);
+      calculateTotals();
+    }
+
+    function addEmptyLine() {
+      const container = document.getElementById('lineItemsContainer');
+
+      const lineHtml = `
+        <div class="line-item">
+          <div class="sku-display">-</div>
+          <input type="text" placeholder="Descripción del producto/servicio" class="desc" aria-label="Descripción">
+          <input type="number" value="1" min="1" step="1" class="qty" aria-label="Cantidad" oninput="calculateTotals()">
+          <input type="number" value="0" min="0" step="0.01" class="price" aria-label="Precio" oninput="calculateTotals()">
+          <input type="number" value="21" min="0" max="100" class="vat" aria-label="IVA" oninput="calculateTotals()">
+          <div class="total">0,00 €</div>
+          <button class="btn btn-remove" onclick="removeLine(this)" aria-label="Eliminar">×</button>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', lineHtml);
+    }
+
+    function removeLine(btn) {
+      btn.closest('.line-item').remove();
+      calculateTotals();
+    }
+
+    function calculateTotals() {
+      const lines = document.querySelectorAll('.line-item');
+      let subtotal = 0;
+      let vatTotal = 0;
+
+      lines.forEach(line => {
+        const qty = parseFloat(line.querySelector('.qty').value) || 0;
+        const price = parseFloat(line.querySelector('.price').value) || 0;
+        const vat = parseFloat(line.querySelector('.vat').value) || 0;
+
+        const base = qty * price;
+        const vatAmt = base * vat / 100;
+        const total = base + vatAmt;
+
+        subtotal += base;
+        vatTotal += vatAmt;
+
+        line.querySelector('.total').textContent = formatCurrency(total);
+      });
+
+      const discountPercent = parseFloat(document.getElementById('discount').value) || 0;
+      const totalBeforeDiscount = subtotal + vatTotal;
+      const discountAmount = totalBeforeDiscount * discountPercent / 100;
+      const grandTotal = totalBeforeDiscount - discountAmount;
+
+      document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+      document.getElementById('vatTotal').textContent = formatCurrency(vatTotal);
+      document.getElementById('grandTotal').textContent = formatCurrency(grandTotal);
+
+      const discountRow = document.getElementById('discountRow');
+      if (discountPercent > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('discountPercent').textContent = discountPercent;
+        document.getElementById('discountAmount').textContent = '-' + formatCurrency(discountAmount);
+      } else {
+        discountRow.style.display = 'none';
+      }
+    }
+
+    // ==========================================
+    // PDF GENERATION
+    // ==========================================
+
+    // Logo as base64 PNG (white version for dark background)
+    const LOGO_BASE64 = 'data:image/svg+xml;base64,' + btoa(`<svg width="466" height="403" viewBox="0 0 466 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M126.148 223.113L126.155 222.973L126.174 222.84L126.212 222.707L126.257 222.58L126.313 222.46L126.383 222.346L126.459 222.244H126.465L126.548 222.143L126.65 222.054L126.751 221.979H126.757L126.864 221.909L126.985 221.852L127.111 221.807L127.245 221.769L127.384 221.75L127.518 221.744H127.524H176.749H183.587C184.341 221.744 184.956 222.358 184.956 223.113V227.574C184.956 228.328 184.341 228.943 183.587 228.943H176.749H176.242C171.699 228.943 168.01 232.631 168.01 237.174C168.01 345.884 168.01 268.649 168.01 387.264C168.01 391.808 171.699 395.497 176.242 395.497H183.587H211.304C217.014 395.497 222.128 391.954 224.143 386.612L231.754 366.429C231.95 365.896 232.463 365.542 233.033 365.542H242.539C243.42 365.542 244.073 366.352 243.876 367.214L236.151 401.624C236.012 402.245 235.454 402.695 234.814 402.695H183.587H127.524H127.518L127.384 402.689L127.245 402.669L127.111 402.632L126.985 402.587L126.864 402.53L126.65 402.378L126.548 402.296L126.465 402.194H126.459L126.383 402.087L126.313 401.979L126.257 401.858L126.212 401.731L126.174 401.599L126.155 401.459L126.148 401.32V396.865L126.155 396.725L126.174 396.586L126.212 396.459L126.257 396.332L126.313 396.213L126.383 396.098L126.465 395.991L126.548 395.896L126.65 395.807L126.751 395.731H126.757L126.864 395.661L126.985 395.604L127.111 395.559L127.245 395.522L127.384 395.503L127.518 395.497H127.524H134.862C139.412 395.497 143.093 391.808 143.093 387.264V237.174C143.093 232.631 139.412 228.943 134.862 228.943H127.524H127.518L127.384 228.936L127.245 228.917L127.111 228.879L126.985 228.835L126.864 228.778L126.757 228.708H126.751L126.65 228.632L126.548 228.544L126.465 228.442H126.459L126.383 228.34L126.313 228.227L126.257 228.106L126.212 227.979L126.174 227.846L126.155 227.713L126.148 227.574V223.113Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M249.516 223.115C249.516 222.357 250.13 221.744 250.887 221.744H306.952C307.709 221.744 308.324 222.357 308.324 223.115V227.571C308.324 228.329 307.709 228.943 306.952 228.943H299.608C295.064 228.943 291.379 232.628 291.379 237.174V387.262C291.379 391.808 295.064 395.493 299.608 395.493H306.952C307.709 395.493 308.324 396.107 308.324 396.865V401.321C308.324 402.079 307.709 402.693 306.952 402.693H250.887C250.13 402.693 249.516 402.079 249.516 401.321V396.865C249.516 396.107 250.13 395.493 250.887 395.493H258.231C262.777 395.493 266.462 391.808 266.462 387.262V237.174C266.462 232.628 262.777 228.943 258.231 228.943H250.887C250.13 228.943 249.516 228.329 249.516 227.571V223.115Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.53125 223.113C0.53125 222.358 1.14601 221.744 1.90586 221.744H57.9693H78.6845C91.1871 221.744 104.483 226.775 113.911 235.045C119.887 240.279 124.697 246.838 127.884 254.221C133.62 267.528 133.657 281.254 127.884 294.663C124.697 302.045 119.887 308.604 113.911 313.838C104.483 322.108 91.1871 327.14 78.6845 327.14H57.9693H42.3928V361.346V387.264C42.3928 391.808 46.0807 395.497 50.6249 395.497H57.9693C58.7292 395.497 59.3377 396.104 59.3377 396.865V401.32C59.3377 402.08 58.7292 402.695 57.9693 402.695H1.90586C1.14601 402.695 0.53125 402.08 0.53125 401.32V396.865C0.53125 396.104 1.14601 395.497 1.90586 395.497H9.24403C13.7945 395.497 17.4761 391.808 17.4761 387.264V237.174C17.4761 232.631 13.7945 228.943 9.24403 228.943H1.90586C1.14601 228.943 0.53125 228.328 0.53125 227.574V223.113ZM99.8246 248.656C91.7768 236.483 78.501 228.943 62.0885 228.943H57.9693H50.6249C46.0807 228.943 42.3928 232.631 42.3928 237.174V262.629V319.941H57.9693C61.1632 319.941 64.2489 319.985 67.449 319.662C81.3843 318.204 92.6762 311.044 99.8246 300.227C109.964 284.904 109.945 263.966 99.8246 248.656Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M448.389 399.793C446.593 397.997 445.48 395.515 445.48 392.784C445.48 390.052 446.593 387.569 448.387 385.776C450.183 383.979 452.665 382.867 455.398 382.867C458.131 382.867 460.613 383.979 462.407 385.773C464.203 387.569 465.315 390.052 465.315 392.784C465.315 395.515 464.203 397.997 462.409 399.791C460.613 401.587 458.131 402.699 455.398 402.699C452.665 402.699 450.183 401.587 448.389 399.793ZM454.392 389.939V392.04H455.696C455.959 392.04 456.183 392.016 456.361 391.97C456.527 391.927 456.669 391.862 456.768 391.785C456.857 391.718 456.931 391.611 456.977 391.489C457.03 391.345 457.062 391.161 457.062 390.94C457.062 390.74 457.033 390.569 456.982 390.444C456.936 390.331 456.869 390.237 456.785 390.174C456.684 390.099 456.544 390.04 456.378 390.003C456.193 389.96 455.957 389.939 455.685 389.939H454.392ZM447.402 392.784C447.402 394.994 448.298 396.998 449.742 398.44C451.189 399.884 453.19 400.783 455.398 400.783C457.606 400.783 459.612 399.884 461.056 398.44C462.503 396.993 463.401 394.989 463.401 392.784C463.401 390.576 462.503 388.573 461.056 387.126C459.612 385.682 457.606 384.784 455.398 384.784C453.188 384.784 451.187 385.679 449.745 387.124C448.298 388.568 447.402 390.574 447.402 392.784ZM452.456 397.079V388.104H455.685C456.223 388.104 456.706 388.162 457.117 388.277C457.543 388.395 457.907 388.583 458.198 388.826C458.494 389.071 458.72 389.377 458.868 389.729C459.012 390.081 459.086 390.477 459.086 390.918C459.086 391.233 459.048 391.532 458.976 391.814C458.901 392.096 458.785 392.363 458.641 392.596C458.485 392.835 458.292 393.042 458.07 393.21L457.644 393.478L459.563 397.079H457.358L457.264 396.906L455.656 393.863H454.392V397.079H452.456Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M360.22 401.332C360.22 402.086 360.835 402.701 361.588 402.701H368.426H410.82H417.658C418.412 402.701 419.026 402.086 419.026 401.332V396.871C419.026 396.116 418.412 395.502 417.658 395.502H410.82H410.314H410.098L409.889 395.489L409.68 395.476L409.471 395.458L409.267 395.439H409.261L409.059 395.407L408.856 395.375L408.653 395.338L408.457 395.293H408.45L408.254 395.242L408.064 395.192H408.058L407.867 395.135L407.677 395.071H407.671L407.487 395.001H407.48L407.297 394.932H407.291L407.113 394.855H407.107L406.929 394.773H406.923L406.746 394.691L406.568 394.602H406.562L406.39 394.507L406.219 394.412H406.213L406.048 394.311H406.042L405.878 394.203L405.713 394.096H405.707L405.548 393.981L405.39 393.867L405.231 393.747L405.079 393.62H405.073L404.927 393.493L404.781 393.36H404.775L404.635 393.227L404.496 393.088H404.49L404.356 392.948H404.35L404.224 392.803H404.218L404.09 392.657L403.963 392.505H403.957L403.837 392.352L403.716 392.194L403.603 392.036H403.596L403.488 391.871L403.381 391.706L403.273 391.535L403.171 391.364L403.077 391.193L402.982 391.015L402.893 390.838L402.811 390.655L402.728 390.47L402.652 390.287L402.582 390.096L402.513 389.907L402.449 389.716L402.392 389.52L402.342 389.33L402.291 389.127L402.246 388.93L402.208 388.728L402.176 388.525L402.145 388.316L402.126 388.113L402.107 387.904L402.094 387.695L402.081 387.486V387.27C402.081 278.56 402.081 355.795 402.081 237.18V236.965L402.094 236.756L402.107 236.546L402.126 236.337L402.145 236.135L402.176 235.925L402.208 235.723L402.246 235.52L402.291 235.323L402.342 235.121L402.392 234.93L402.449 234.734L402.513 234.544L402.582 234.354L402.652 234.164L402.728 233.98L402.811 233.796L402.893 233.613L402.982 233.435L403.077 233.258L403.171 233.087L403.273 232.916L403.381 232.744L403.488 232.579L403.596 232.415H403.603L403.716 232.256L403.837 232.098L403.957 231.946H403.963L404.09 231.794L404.218 231.648H404.224L404.35 231.503H404.356L404.49 231.363H404.496L404.635 231.223L404.775 231.09H404.781L404.927 230.958L405.073 230.831H405.079L405.231 230.704L405.39 230.584L405.548 230.469L405.707 230.355H405.713L405.878 230.247L406.042 230.14H406.048L406.213 230.039H406.219L406.39 229.944L406.562 229.848H406.568L406.746 229.759L406.923 229.677H406.929L407.107 229.595H407.113L407.291 229.519H407.297L407.48 229.449H407.487L407.671 229.379H407.677L407.867 229.316L408.058 229.259H408.064L408.254 229.208L408.45 229.158H408.457L408.653 229.113L408.856 229.075L409.059 229.043L409.261 229.012H409.267L409.471 228.992L409.68 228.974L409.889 228.961L410.098 228.949H410.314H417.658H432.702C438.412 228.949 443.525 232.491 445.54 237.833L453.151 258.016C453.347 258.548 453.861 258.903 454.431 258.903H463.937C464.817 258.903 465.47 258.092 465.274 257.23L457.549 222.82C457.409 222.199 456.852 221.75 456.212 221.75H417.658H361.588H323.035C322.394 221.75 321.837 222.199 321.697 222.82L313.972 257.23C313.776 258.092 314.429 258.903 315.31 258.903H324.815C325.386 258.903 325.899 258.548 326.096 258.016L333.706 237.833C335.721 232.491 340.836 228.949 346.545 228.949H361.588H368.933H369.148L369.358 228.961L369.567 228.974L369.776 228.992L369.979 229.012H369.985L370.188 229.043L370.39 229.075L370.594 229.113L370.79 229.158H370.796L370.993 229.208L371.182 229.259H371.189L371.379 229.316L371.569 229.379H371.575L371.76 229.449H371.766L371.949 229.519H371.956L372.134 229.595H372.14L372.317 229.677H372.323L372.501 229.759L372.679 229.848H372.685L372.856 229.944L373.027 230.039H373.033L373.198 230.14H373.204L373.369 230.247L373.534 230.355H373.54L373.699 230.469L373.857 230.584L374.016 230.704L374.168 230.831H374.174L374.32 230.958L374.465 231.09H374.472L374.611 231.223L374.75 231.363H374.757L374.89 231.503H374.896L375.023 231.648H375.03L375.156 231.794L375.283 231.946H375.289L375.41 232.098L375.53 232.256L375.644 232.415H375.651L375.758 232.579L375.865 232.744L375.974 232.916L376.075 233.087L376.17 233.258L376.265 233.435L376.354 233.613L376.436 233.796L376.519 233.98L376.595 234.164L376.664 234.354L376.734 234.544L376.797 234.734L376.854 234.93L376.905 235.121L376.955 235.323L377 235.52L377.038 235.723L377.07 235.925L377.101 236.135L377.12 236.337L377.14 236.546L377.152 236.756L377.165 236.965V237.18V387.27V387.486L377.152 387.695L377.14 387.904L377.12 388.113L377.101 388.316L377.07 388.525L377.038 388.728L377 388.93L376.955 389.127L376.905 389.33L376.854 389.52L376.797 389.716L376.734 389.907L376.664 390.096L376.595 390.287L376.519 390.47L376.436 390.655L376.354 390.838L376.265 391.015L376.17 391.193L376.075 391.364L375.974 391.535L375.865 391.706L375.758 391.871L375.651 392.036H375.644L375.53 392.194L375.41 392.352L375.289 392.505H375.283L375.156 392.657L375.03 392.803H375.023L374.896 392.948H374.89L374.757 393.088H374.75L374.611 393.227L374.472 393.36H374.465L374.32 393.493L374.174 393.62H374.168L374.016 393.747L373.857 393.867L373.699 393.981L373.54 394.096H373.534L373.369 394.203L373.204 394.311H373.198L373.033 394.412H373.027L372.856 394.507L372.685 394.602H372.679L372.501 394.691L372.323 394.773H372.317L372.14 394.855H372.134L371.956 394.932H371.949L371.766 395.001H371.76L371.575 395.071H371.569L371.379 395.135L371.189 395.192H371.182L370.993 395.242L370.796 395.293H370.79L370.594 395.338L370.39 395.375L370.188 395.407L369.985 395.439H369.979L369.776 395.458L369.567 395.476L369.358 395.489L369.148 395.502H368.933H368.426H361.588C360.835 395.502 360.22 396.116 360.22 396.871V401.332Z" fill="white"/>
+<path d="M84.3767 9.17725C82.0258 8.07991 81.0038 5.26974 82.1011 2.91884C83.1984 0.567935 86.0086 -0.452204 88.3595 0.643254C99.2633 5.75539 110.178 10.8732 126.256 15.4489L126.458 15.5109C134.777 17.8618 144.395 20.0622 154.234 21.8259C158.966 22.6766 163.807 23.4333 168.635 24.0639C175.215 21.6113 182.102 19.1926 188.613 17.0111C196.012 14.5285 202.839 12.3789 209.052 10.7527C215.399 9.08881 221.19 7.93503 226.391 7.48141L226.498 7.4701C231.829 7.00331 236.683 7.26678 240.414 8.08743L240.621 8.13072C245.532 9.26006 248.935 11.5978 250.006 14.9256L250.132 15.3227C251.052 18.7823 249.431 22.4132 245.486 25.5264L245.298 25.6769C242.456 27.8584 238.132 30.0004 232.523 31.6643L230.664 32.1932C224.658 33.7762 217.176 34.8735 208.687 35.3384L208.593 35.3459C200.462 35.7864 191.393 35.6847 181.801 34.9412C177.894 34.64 173.86 34.2241 169.781 33.7121L167.519 34.576C160.656 37.1923 154.189 39.8444 148.933 42.2725C143.411 44.8116 139.208 47.1117 136.435 49.1596C134.487 50.5976 133.448 51.5877 133.403 52.0789C133.398 52.1731 133.983 52.1731 135.193 52.734L135.395 52.8356C137.998 53.9875 142.101 54.9456 147.893 55.6006C159.32 56.888 176.627 56.9313 189.482 56.9501L195.628 56.969C202.391 57.001 206.972 57.1139 210.112 57.4489C214.29 57.8894 216.729 58.8342 218.455 60.5433C218.915 60.9837 219.325 61.4882 219.671 62.0679L219.843 62.3766C220.694 63.9784 220.952 65.8305 220.308 67.9161L220.195 68.2435C219.703 69.6364 218.759 71.1252 217.29 72.631C215.626 74.3382 213.112 76.2807 209.519 78.4415C204.124 81.6996 195.856 85.722 186.388 90.3221C179.928 93.4598 172.864 96.8948 165.798 100.539C156.534 105.316 147.213 110.477 138.982 115.664C132.043 120.026 125.865 124.432 121.139 128.622C116.324 132.889 113.084 136.885 111.59 140.604C110.342 143.71 110.412 146.71 111.899 149.597C113.651 152.995 117.258 156.454 122.247 159.744C127.738 163.362 134.815 166.701 142.952 169.519C150.912 172.272 159.924 174.548 169.277 176.268C179.083 178.077 189.294 179.301 199.106 179.867C208.314 180.396 217.194 180.358 225.275 179.88C233.272 179.414 240.514 178.493 246.533 177.283C246.2 174.554 246.162 171.537 246.331 168.373C246.514 164.892 246.967 161.199 247.863 157.589C248.765 153.932 250.139 150.296 252.168 146.956L252.332 146.667C254.487 143.186 257.393 140.054 260.488 137.76C263.746 135.353 267.345 133.79 270.721 133.576C274.661 133.329 278.184 134.799 280.806 137.553C283.163 140.022 284.765 143.559 285.154 147.713C285.514 151.487 284.891 155.824 283.447 160.059C282.288 163.462 280.579 166.878 278.437 169.935L278.582 169.758C280.554 167.433 282.672 164.798 284.84 161.956L285.457 158.282C286.396 153.207 287.682 148.229 289.22 143.224C290.763 138.176 292.553 133.147 294.507 128.023C296.625 122.465 299.007 116.622 301.422 111.347C303.438 106.923 305.493 102.927 307.421 99.9083C309.168 97.1734 310.843 95.182 312.343 93.8757C313.773 92.641 315.193 91.8467 316.503 91.4759C318.357 90.9639 320.051 91.1277 321.559 91.922L322.044 92.1873C322.49 92.464 322.938 92.8424 323.341 93.2716L323.518 93.4598C325.125 95.3006 325.831 98.1427 325.504 101.9C325.246 104.621 324.5 108.051 323.228 112.09C321.905 116.287 319.945 121.362 317.386 126.952L317.297 127.159C315.04 132.057 312.294 137.402 309.042 142.947C305.84 148.419 302.096 154.147 298.264 159.581L293.82 165.719C293.462 168.587 293.235 171.403 293.184 174.07C293.114 177.959 293.404 181.537 294.155 184.475C294.805 187.033 295.819 189.064 296.973 190.575C298.221 192.207 299.644 193.28 300.967 193.828L301.125 193.897C303.395 194.741 306.136 194.048 308.852 193.361C311.379 192.719 313.958 194.249 314.6 196.777C315.244 199.305 313.711 201.882 311.183 202.526C306.986 203.591 302.751 204.662 297.633 202.644L297.349 202.537C294.609 201.404 291.791 199.343 289.472 196.297C287.575 193.815 285.975 190.658 284.99 186.807C284.33 184.217 283.952 181.273 283.818 178.109C280.831 181.48 278.101 184.223 275.576 186.359C272.24 189.182 269.153 191.048 266.215 192.043C263.008 193.116 259.964 193.192 257.241 192.429L256.951 192.352C253.939 191.426 251.417 189.491 249.64 186.769L249.382 186.335C242.77 187.727 234.735 188.772 225.83 189.295C217.417 189.794 208.177 189.832 198.591 189.284C188.425 188.697 177.816 187.424 167.575 185.533C157.806 183.731 148.335 181.343 139.89 178.418C131.015 175.342 123.213 171.649 117.08 167.608C110.734 163.43 106.026 158.779 103.517 153.921C100.694 148.438 100.543 142.848 102.843 137.099C104.897 131.981 108.987 126.802 114.899 121.563C120.036 117.006 126.635 112.299 133.964 107.686C142.485 102.316 152.034 97.0209 161.475 92.1554C168.648 88.4568 175.776 84.9897 182.292 81.8257C191.455 77.3761 199.454 73.4818 204.647 70.3554C206.884 69.019 208.51 67.8652 209.65 66.8827L209.116 66.8262C206.234 66.5232 201.943 66.4102 195.609 66.3857L189.482 66.367C176.329 66.3406 158.614 66.2973 146.859 64.9798C140.016 64.2043 134.954 62.9695 131.495 61.4242L131.21 61.3056C125.846 58.8098 123.629 55.3051 124.026 51.1962C124.353 47.8439 126.659 44.6611 130.827 41.5855C134.166 39.1198 138.918 36.4922 144.989 33.7008L151.384 30.8775C141.497 29.0743 132.005 26.8871 123.887 24.5927L123.672 24.5363C107.047 19.8025 95.7021 14.4833 84.3767 9.17725ZM191.349 26.0307C197.292 26.251 202.908 26.2058 208.075 25.9291H208.145C215.979 25.4943 222.822 24.4987 228.269 23.0682L229.837 22.6334C234.268 21.329 237.545 19.7404 239.576 18.1781L240.445 17.6548L238.366 17.2821C235.573 16.6779 231.729 16.501 227.304 16.885L227.229 16.8926C222.521 17.2954 217.24 18.3532 211.422 19.8797C205.391 21.4551 198.773 23.5406 191.6 25.9479L191.349 26.0307ZM255.778 174.876C258.067 174.094 260.077 173.238 261.835 172.299C265.157 170.52 267.696 168.365 269.758 165.781C271.837 163.172 273.469 160.096 274.51 157.034C275.544 153.996 276.003 151.02 275.777 148.594C275.594 146.629 274.939 145.059 273.993 144.077C273.281 143.331 272.342 142.928 271.314 142.992C269.808 143.087 267.955 143.962 266.097 145.336C263.947 146.93 261.899 149.155 260.348 151.658L260.198 151.884C258.735 154.31 257.713 157.04 257.026 159.844C256.283 162.863 255.899 165.958 255.748 168.869C255.633 171.006 255.633 173.023 255.778 174.876ZM266.272 180.605C264.358 181.625 262.259 182.559 259.938 183.404C260.834 183.611 261.943 183.53 263.191 183.114C265.005 182.495 267.085 181.198 269.487 179.161L272.259 176.628C270.49 178.085 268.51 179.408 266.272 180.605ZM300.703 138.53L300.91 138.183C303.948 132.996 306.565 127.916 308.726 123.214L308.822 123.026C311.178 117.863 312.993 113.169 314.216 109.261L315.45 104.825L315.362 104.962C313.717 107.541 311.865 111.158 309.992 115.267C307.756 120.152 305.443 125.849 303.331 131.389L300.703 138.53Z" fill="white"/>
+</svg>`);
+
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Get form data
+      const budgetNumber = document.getElementById('budgetNumber').value || `P-${new Date().getFullYear()}-0001`;
+      const invoiceDate = document.getElementById('invoiceDate').value;
+      const dueDate = document.getElementById('dueDate').value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      const clientName = document.getElementById('clientName').value;
+      const clientCompany = document.getElementById('clientCompany').value;
+      const clientEmail = document.getElementById('clientEmail').value;
+      const clientAddress = document.getElementById('clientAddress').value;
+      const clientCity = document.getElementById('clientCity').value;
+      const clientTax = document.getElementById('clientTax').value;
+      const notes = document.getElementById('notes').value;
+      const discountPercent = parseFloat(document.getElementById('discount').value) || 0;
+
+      // Validate
+      if (!clientName.trim()) {
+        alert('Por favor, introduce el nombre del cliente');
+        document.getElementById('clientName').focus();
+        return;
+      }
+
+      // Colors
+      const gold = [182, 151, 118];
+      const goldDark = [154, 125, 95];
+      const lightGold = [245, 240, 235];
+      const gray = [55, 65, 81];
+      const green = [16, 185, 129];
+
+      // Header
+      doc.setFillColor(...goldDark);
+      doc.rect(0, 0, 210, 40, 'F');
+
+      // Add logo
+      try {
+        const img = new Image();
+        img.src = LOGO_BASE64;
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          setTimeout(resolve, 500); // Fallback timeout
+        });
+
+        // Create canvas to convert SVG to PNG
+        const canvas = document.createElement('canvas');
+        canvas.width = 466;
+        canvas.height = 403;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const pngData = canvas.toDataURL('image/png');
+
+        doc.addImage(pngData, 'PNG', 15, 8, 35, 30);
+      } catch (e) {
+        // Fallback to text if image fails
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.text('EDPLIT', 20, 20);
+      }
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Soluciones Invisibles', 52, 28);
+
+      // Budget number box - white background
+      doc.setFillColor(255, 255, 255);
+      doc.roundedRect(140, 10, 55, 20, 3, 3, 'F');
+      doc.setTextColor(...goldDark);
+      doc.setFontSize(8);
+      doc.text('Nº PRESUPUESTO', 167, 17, { align: 'center' });
+      doc.setTextColor(...gray);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text(budgetNumber, 167, 25, { align: 'center' });
+
+      // Company info
+      let y = 50;
+      doc.setTextColor(...gray);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Invest Build Multiply Company S.L.', 20, y);
+      doc.text('Carrer Cementeri de Benipeixcar, 23', 20, y + 5);
+      doc.text('46727 El Real de Gandía, Valencia', 20, y + 10);
+      doc.text('NIF: B13843537', 20, y + 15);
+      doc.text('+34 673 83 44 94 / +34 642 001 244', 20, y + 20);
+
+      // Dates
+      doc.setTextColor(...goldDark);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Fecha:', 130, y);
+      doc.text('Válido hasta:', 130, y + 6);
+      doc.text('Forma de pago:', 130, y + 12);
+
+      doc.setTextColor(...gray);
+      doc.setFont('helvetica', 'normal');
+      doc.text(invoiceDate ? formatDate(invoiceDate) : '-', 165, y);
+      doc.text(dueDate ? formatDate(dueDate) : '-', 165, y + 6);
+      doc.text(paymentMethod, 165, y + 12);
+
+      // Client section
+      y = 85;
+      doc.setFillColor(...lightGold);
+      doc.roundedRect(15, y - 5, 180, 35, 3, 3, 'F');
+
+      doc.setTextColor(...goldDark);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CLIENTE', 20, y + 2);
+
+      doc.setTextColor(...gray);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      let cy = y + 10;
+      if (clientName) { doc.text(clientName, 20, cy); cy += 5; }
+      if (clientCompany) { doc.text(clientCompany, 20, cy); cy += 5; }
+      if (clientEmail) { doc.text(clientEmail, 20, cy); }
+
+      cy = y + 10;
+      if (clientAddress) { doc.text(clientAddress, 110, cy); cy += 5; }
+      if (clientCity) { doc.text(clientCity, 110, cy); cy += 5; }
+      if (clientTax) { doc.text('NIF/CIF: ' + clientTax, 110, cy); }
+
+      // Line items table
+      y = 130;
+
+      // Table header
+      doc.setFillColor(...gold);
+      doc.rect(15, y, 180, 10, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.text('SKU', 18, y + 7);
+      doc.text('DESCRIPCIÓN', 38, y + 7);
+      doc.text('CANT.', 115, y + 7);
+      doc.text('PRECIO', 132, y + 7);
+      doc.text('IVA', 155, y + 7);
+      doc.text('TOTAL', 172, y + 7);
+
+      y += 12;
+      doc.setTextColor(...gray);
+      doc.setFont('helvetica', 'normal');
+
+      // Line items
+      const lines = document.querySelectorAll('.line-item');
+      let subtotal = 0;
+      let vatTotal = 0;
+      let lineCount = 0;
+
+      lines.forEach((line, index) => {
+        const sku = line.querySelector('.sku-display').textContent;
+        const desc = line.querySelector('.desc').value;
+        const qty = parseFloat(line.querySelector('.qty').value) || 0;
+        const price = parseFloat(line.querySelector('.price').value) || 0;
+        const vat = parseFloat(line.querySelector('.vat').value) || 0;
+
+        if (desc && (qty > 0 || price > 0)) {
+          const base = qty * price;
+          const vatAmt = base * vat / 100;
+          const total = base + vatAmt;
+
+          subtotal += base;
+          vatTotal += vatAmt;
+
+          // Check for new page
+          if (y > 250) {
+            doc.addPage();
+            y = 20;
+
+            // Repeat header
+            doc.setFillColor(...gold);
+            doc.rect(15, y, 180, 10, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'bold');
+            doc.text('SKU', 18, y + 7);
+            doc.text('DESCRIPCIÓN', 38, y + 7);
+            doc.text('CANT.', 115, y + 7);
+            doc.text('PRECIO', 132, y + 7);
+            doc.text('IVA', 155, y + 7);
+            doc.text('TOTAL', 172, y + 7);
+            y += 12;
+            doc.setTextColor(...gray);
+            doc.setFont('helvetica', 'normal');
+          }
+
+          // Alternate row colors
+          if (lineCount % 2 === 0) {
+            doc.setFillColor(248, 250, 252);
+            doc.rect(15, y - 4, 180, 8, 'F');
+          }
+
+          doc.setFontSize(7);
+          doc.text(sku, 18, y);
+          doc.setFontSize(8);
+          doc.text(desc.substring(0, 40), 38, y);
+          doc.text(qty.toString(), 118, y);
+          doc.text(price.toFixed(2) + ' €', 132, y);
+          doc.text(vat + '%', 157, y);
+          doc.setFont('helvetica', 'bold');
+          doc.text(total.toFixed(2) + ' €', 172, y);
+          doc.setFont('helvetica', 'normal');
+
+          y += 8;
+          lineCount++;
+        }
+      });
+
+      // Calculate totals
+      const totalBeforeDiscount = subtotal + vatTotal;
+      const discountAmount = totalBeforeDiscount * discountPercent / 100;
+      const grandTotal = totalBeforeDiscount - discountAmount;
+
+      // Totals section
+      y += 10;
+      doc.setDrawColor(200, 200, 200);
+      doc.line(120, y, 195, y);
+
+      y += 8;
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Subtotal (sin IVA):', 125, y);
+      doc.text(subtotal.toFixed(2) + ' €', 175, y);
+
+      y += 6;
+      doc.text('IVA Total:', 125, y);
+      doc.text(vatTotal.toFixed(2) + ' €', 175, y);
+
+      if (discountPercent > 0) {
+        y += 6;
+        doc.setTextColor(...green);
+        doc.text('Descuento (' + discountPercent + '%):', 125, y);
+        doc.text('-' + discountAmount.toFixed(2) + ' €', 175, y);
+        doc.setTextColor(...gray);
+      }
+
+      y += 8;
+      doc.setFillColor(...lightGold);
+      doc.roundedRect(118, y - 5, 77, 12, 2, 2, 'F');
+      doc.setTextColor(...goldDark);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TOTAL:', 125, y + 3);
+      doc.text(grandTotal.toFixed(2) + ' €', 175, y + 3);
+
+      // Bank info if transfer
+      if (paymentMethod === 'Transf. bancaria') {
+        y += 20;
+        doc.setFillColor(254, 243, 199);
+        doc.roundedRect(15, y, 180, 20, 2, 2, 'F');
+        doc.setFontSize(8);
+        doc.setTextColor(180, 83, 9);
+        doc.setFont('helvetica', 'bold');
+        doc.text('DATOS BANCARIOS PARA TRANSFERENCIA', 20, y + 6);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...gray);
+        doc.text('IBAN: ES12 1234 5678 9012 3456 7890  |  BIC: ABCDESXX  |  Banco Ejemplo S.A.', 20, y + 13);
+        y += 20;
+      }
+
+      // Notes
+      if (notes.trim()) {
+        y += 15;
+        if (y > 250) {
+          doc.addPage();
+          y = 20;
+        }
+
+        doc.setFontSize(9);
+        doc.setTextColor(...goldDark);
+        doc.setFont('helvetica', 'bold');
+        doc.text('NOTAS Y OBSERVACIONES:', 15, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...gray);
+        doc.setFontSize(8);
+
+        const splitNotes = doc.splitTextToSize(notes, 180);
+        y += 6;
+        doc.text(splitNotes, 15, y);
+      }
+
+      // Footer
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.text('Este documento es un presupuesto y no una factura. Precios válidos según las condiciones indicadas.', 105, 287, { align: 'center' });
+      doc.text('EDPLIT - Soluciones Invisibles · edplit.ibm@gmail.com · www.edplit.com', 105, 292, { align: 'center' });
+
+      // Save
+      const stamp = invoiceDate ? formatDate(invoiceDate).replace(/\//g, '-') : 'sin-fecha';
+      const safeClientName = clientName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20);
+      const pdfFilename = 'EDPLIT_Presupuesto_' + budgetNumber + '_' + safeClientName + '_' + stamp + '.pdf';
+      doc.save(pdfFilename);
+
+      // ==========================================
+      // SEND DATA TO MAKE.COM WEBHOOK
+      // ==========================================
+      const webhookUrl = window.MAKE_WEBHOOK_URL || '';
+
+      if (webhookUrl) {
+        // Prepare quote data for automation
+        const quoteData = {
+          budgetNumber: budgetNumber,
+          date: invoiceDate,
+          validUntil: validUntil,
+          paymentMethod: paymentMethod,
+          client: {
+            name: clientName,
+            company: clientCompany,
+            email: clientEmail,
+            address: clientAddress,
+            city: clientCity,
+            tax: clientTax
+          },
+          items: lineItems.map(item => ({
+            sku: item.sku,
+            description: item.description,
+            quantity: item.quantity,
+            price: item.price,
+            vat: item.vat,
+            total: item.price * item.quantity * (1 + item.vat / 100)
+          })),
+          totals: {
+            subtotal: subtotal,
+            vatTotal: vatTotal,
+            discountPercent: discountPercent,
+            discountAmount: discountAmount,
+            grandTotal: grandTotal
+          },
+          notes: notes,
+          pdfFilename: pdfFilename,
+          createdAt: new Date().toISOString()
+        };
+
+        // Send to Make.com (async, don't block PDF download)
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(quoteData)
+        }).then(response => {
+          if (response.ok) {
+            console.log('✅ Datos enviados a automatización');
+          }
+        }).catch(err => {
+          console.log('⚠️ No se pudo enviar a automatización:', err);
+        });
+      }
+    }
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Set company email (anti-spam protection)
+      const emailUser = 'edplit.ibm';
+      const emailDomain = 'gmail.com';
+      document.getElementById('companyEmail').textContent = emailUser + '@' + emailDomain;
+
+      // Set current year in budget number
+      const currentYear = new Date().getFullYear();
+      const defaultBudgetNumber = `P-${currentYear}-0001`;
+      document.getElementById('budgetNumber').value = defaultBudgetNumber;
+      document.getElementById('budgetNumber').placeholder = defaultBudgetNumber;
+      document.getElementById('budgetNumberDisplay').textContent = defaultBudgetNumber;
+
+      // Set today's date (format YYYY-MM-DD for input type date)
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayFormatted = `${year}-${month}-${day}`;
+      document.getElementById('invoiceDate').value = todayFormatted;
+
+      // Set validity date (30 days from today)
+      const validUntil = new Date(now);
+      validUntil.setDate(validUntil.getDate() + 30);
+      const validYear = validUntil.getFullYear();
+      const validMonth = String(validUntil.getMonth() + 1).padStart(2, '0');
+      const validDay = String(validUntil.getDate()).padStart(2, '0');
+      document.getElementById('dueDate').value = `${validYear}-${validMonth}-${validDay}`;
+
+      // Update budget number display
+      document.getElementById('budgetNumber').addEventListener('input', function () {
+        document.getElementById('budgetNumberDisplay').textContent = this.value || `P-${new Date().getFullYear()}-0001`;
+      });
+
+      // Show bank info for transfer
+      document.getElementById('paymentMethod').addEventListener('change', function () {
+        document.getElementById('bankInfo').classList.toggle('visible', this.value === 'Transf. bancaria');
+      });
+
+      // Product search
+      document.getElementById('productSearch').addEventListener('input', filterProducts);
+
+      // Category filter
+      document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+
+      // Price tier
+      document.getElementById('priceTier').addEventListener('change', updateProductPrices);
+
+      // Initial render
+      renderProducts(PRODUCTS);
+    });
+  </script>
+</body>
+
+</html>
