@@ -1672,3 +1672,13 @@ body {
         padding: 1rem;
     }
 }
+
+
+/* VAT Disclaimer - Final */
+.vat-disclaimer {
+    font-size: 0.7em;
+    color: rgba(128, 128, 128, 0.8);
+    margin-top: 0.25rem;
+    font-weight: 400;
+    font-style: italic;
+}
