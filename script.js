@@ -316,3 +316,56 @@ function initLightbox() {
         }
     });
 }
+
+// ==========================================
+// COOKIE CONSENT BANNER
+// ==========================================
+function initCookieConsent() {
+    const banner = document.querySelector('.cookie-consent-banner');
+    if (!banner) return; // Exit if banner doesn't exist on this page
+
+    const acceptBtn = document.getElementById('cookie-accept');
+    const rejectBtn = document.getElementById('cookie-reject');
+    const CONSENT_KEY = 'edplit_cookie_consent';
+
+    // Check if user has already made a choice
+    const consent = localStorage.getItem(CONSENT_KEY);
+
+    if (!consent) {
+        // No choice made yet, show banner after a short delay
+        setTimeout(() => {
+            banner.classList.add('show');
+        }, 1000);
+    }
+
+    // Handle Accept button
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem(CONSENT_KEY, 'accepted');
+            hideBanner();
+        });
+    }
+
+    // Handle Reject button
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => {
+            localStorage.setItem(CONSENT_KEY, 'rejected');
+            hideBanner();
+        });
+    }
+
+    function hideBanner() {
+        banner.classList.remove('show');
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 400);
+    }
+}
+
+// Initialize cookie consent when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieConsent);
+} else {
+    initCookieConsent();
+}

@@ -94,7 +94,12 @@ export default async function handler(req, res) {
             attributes: {
               FIRSTNAME: nombre.split(' ')[0] || nombre,
               LASTNAME: nombre.split(' ').slice(1).join(' ') || '',
-              SMS: telefono || '',
+              // Format phone: add +34 if Spanish number without prefix
+              ...(telefono && telefono.trim() && {
+                SMS: telefono.startsWith('+') ? telefono.replace(/\s/g, '') :
+                  telefono.replace(/\s/g, '').length >= 9 ? '+34' + telefono.replace(/\s/g, '').replace(/^0+/, '') :
+                    undefined
+              }),
               COMPANY: empresa || '',
               TIPO_PROYECTO: tipo || '',
               MENSAJE: mensaje || '',

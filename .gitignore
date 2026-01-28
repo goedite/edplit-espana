@@ -44,3 +44,4 @@ build/
 *.MKV
 *.wmv
 *.WMV
+.vercel
