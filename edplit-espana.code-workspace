@@ -1,8 +1,41 @@
 {
-"folders": [
-{
-"path": "."
-}
-],
-"settings": {}
+    "folders": [
+        {
+            "path": ".",
+            "name": "EDPLIT España - Web Oficial (Última versión: 28/01/2026)"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.DS_Store": true,
+            "**/node_modules": true,
+            "**/.vercel": true
+        },
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[html]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[css]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "files.associations": {
+            "*.html": "html",
+            "*.css": "css",
+            "*.js": "javascript"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "esbenp.prettier-vscode",
+            "dbaeumer.vscode-eslint",
+            "ritwickdey.liveserver",
+            "formulahendry.auto-rename-tag",
+            "pranaygp.vscode-css-peek"
+        ]
+    }
 }
