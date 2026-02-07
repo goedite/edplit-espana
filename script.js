@@ -361,17 +361,17 @@ function initCookieConsent() {
 
     function loadGoogleAnalytics() {
         // Check if already loaded
-        if (window.gtag) {
-            console.log('Google Analytics ya está cargado');
+        if (window.google_tag_manager) {
+            console.log('Google Tag Manager ya está cargado');
             return;
         }
 
-        // Load analytics.js
+        // Load analytics.js (contains GTM code)
         const script = document.createElement('script');
         script.src = '/analytics.js';
         script.async = true;
         document.head.appendChild(script);
-        console.log('Google Analytics cargado después del consentimiento');
+        console.log('Google Tag Manager cargado después del consentimiento');
     }
 
     function hideBanner() {
