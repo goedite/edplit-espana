@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Compra productos EDPLIT en España. Pulsadores ocultos, enchufes invisibles, ventiladores y más. Envío 24-48h.">
+    <title>Tienda Online - EDPLIT España</title>
+    <link rel="icon" type="image/png" href="images/logo/favicon.png">
+    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .store-section {
+            padding: var(--spacing-xl) 0;
+            background: var(--bg-body);
+            min-height: 80vh;
+        }
+
+        .store-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .store-header h1 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(to right, var(--primary) 0%, #6e5e54 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .store-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .shopify-collection-wrapper {
+            margin: var(--spacing-lg) 0;
+        }
+
+        /* Personalización adicional del widget de Shopify */
+        #collection-component-1770468052995 {
+            max-width: 100%;
+        }
+
+        /* Mejoras de estilo para integración perfecta */
+        .shopify-buy__product {
+            transition: all 0.3s ease !important;
+        }
+
+        .shopify-buy__product:hover {
+            transform: translateY(-5px) !important;
+        }
+
+        .info-banner {
+            background: var(--bg-lighter);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--border);
+        }
+
+        .info-banner h3 {
+            color: var(--accent);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.25rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--text-secondary);
+        }
+
+        .info-item::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-item">✓ Envío gratis desde 490 €</div>
+            <div class="top-bar-item">✓ 10 años de garantía</div>
+            <div class="top-bar-item">✓ Distribuidor oficial en España</div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo/logo.png" alt="EDPLIT España" class="logo-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span style="display:none;"><span class="logo-text">edplit</span><span
+                            class="logo-domain">.es</span></span>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html#productos">Productos</a></li>
+                <li><a href="index.html#como-funciona">Cómo funciona</a></li>
+                <li><a href="index.html#profesionales">Profesionales</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li><a href="tienda.html" class="external-link">Tienda online ↗</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- STORE SECTION -->
+    <section class="store-section">
+        <div class="container">
+            <div class="store-header reveal-on-scroll">
+                <h1>Tienda Online EDPLIT España</h1>
+                <p>Compra directamente nuestros productos con envío rápido en España. Pago seguro y garantía de 10
+                    años.</p>
+            </div>
+
+            <!-- Info Banner -->
+            <div class="info-banner reveal-on-scroll">
+                <h3>🚀 Ventajas de comprar en nuestra tienda</h3>
+                <div class="info-grid">
+                    <div class="info-item">Envío gratis desde 490 €</div>
+                    <div class="info-item">Entrega en 24-48h en España</div>
+                    <div class="info-item">Pago seguro con tarjeta</div>
+                    <div class="info-item">10 años de garantía oficial</div>
+                    <div class="info-item">Stock disponible inmediato</div>
+                    <div class="info-item">Soporte técnico en español</div>
+                </div>
+            </div>
+
+            <!-- Shopify Collection Widget -->
+            <div class="shopify-collection-wrapper reveal-on-scroll delay-200">
+                <div id='collection-component-1770468052995'></div>
+                <script type="text/javascript">
+                    /*<![CDATA[*/
+                    (function () {
+                        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+                        if (window.ShopifyBuy) {
+                            if (window.ShopifyBuy.UI) {
+                                ShopifyBuyInit();
+                            } else {
+                                loadScript();
+                            }
+                        } else {
+                            loadScript();
+                        }
+                        function loadScript() {
+                            var script = document.createElement('script');
+                            script.async = true;
+                            script.src = scriptURL;
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+                            script.onload = ShopifyBuyInit;
+                        }
+                        function ShopifyBuyInit() {
+                            var client = ShopifyBuy.buildClient({
+                                domain: 'nydnkg-y0.myshopify.com',
+                                storefrontAccessToken: 'a3ce446ee27ce0db392f28f94ff7a108',
+                            });
+                            ShopifyBuy.UI.onReady(client).then(function (ui) {
+                                ui.createComponent('collection', {
+                                    id: '687638315391',
+                                    node: document.getElementById('collection-component-1770468052995'),
+                                    moneyFormat: '%E2%82%AC%7B%7Bamount_with_comma_separator%7D%7D',
+                                    options: {
+                                        "product": {
+                                            "styles": {
+                                                "product": {
+                                                    "@media (min-width: 601px)": {
+                                                        "max-width": "calc(25% - 20px)",
+                                                        "margin-left": "20px",
+                                                        "margin-bottom": "50px",
+                                                        "width": "calc(25% - 20px)"
+                                                    },
+                                                    "img": {
+                                                        "height": "calc(100% - 15px)",
+                                                        "position": "absolute",
+                                                        "left": "0",
+                                                        "right": "0",
+                                                        "top": "0"
+                                                    },
+                                                    "imgWrapper": {
+                                                        "padding-top": "calc(75% + 15px)",
+                                                        "position": "relative",
+                                                        "height": "0"
+                                                    }
+                                                },
+                                                "button": {
+                                                    "font-family": "Roboto, sans-serif",
+                                                    "font-size": "13px",
+                                                    "padding-top": "14.5px",
+                                                    "padding-bottom": "14.5px",
+                                                    ":hover": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "background-color": "#b8956e",
+                                                    ":focus": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "border-radius": "12px",
+                                                    "padding-left": "46px",
+                                                    "padding-right": "46px"
+                                                },
+                                                "quantityInput": {
+                                                    "font-size": "13px",
+                                                    "padding-top": "14.5px",
+                                                    "padding-bottom": "14.5px"
+                                                }
+                                            },
+                                            "text": {
+                                                "button": "Añadir al carrito"
+                                            },
+                                            "googleFonts": [
+                                                "Roboto"
+                                            ]
+                                        },
+                                        "productSet": {
+                                            "styles": {
+                                                "products": {
+                                                    "@media (min-width: 601px)": {
+                                                        "margin-left": "-20px"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "modalProduct": {
+                                            "contents": {
+                                                "img": false,
+                                                "imgWithCarousel": true,
+                                                "button": false,
+                                                "buttonWithQuantity": true
+                                            },
+                                            "styles": {
+                                                "product": {
+                                                    "@media (min-width: 601px)": {
+                                                        "max-width": "100%",
+                                                        "margin-left": "0px",
+                                                        "margin-bottom": "0px"
+                                                    }
+                                                },
+                                                "button": {
+                                                    "font-family": "Roboto, sans-serif",
+                                                    "font-size": "13px",
+                                                    "padding-top": "14.5px",
+                                                    "padding-bottom": "14.5px",
+                                                    ":hover": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "background-color": "#b8956e",
+                                                    ":focus": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "border-radius": "12px",
+                                                    "padding-left": "46px",
+                                                    "padding-right": "46px"
+                                                },
+                                                "quantityInput": {
+                                                    "font-size": "13px",
+                                                    "padding-top": "14.5px",
+                                                    "padding-bottom": "14.5px"
+                                                }
+                                            },
+                                            "googleFonts": [
+                                                "Roboto"
+                                            ],
+                                            "text": {
+                                                "button": "Añadir al carrito"
+                                            }
+                                        },
+                                        "option": {},
+                                        "cart": {
+                                            "styles": {
+                                                "button": {
+                                                    "font-family": "Roboto, sans-serif",
+                                                    "font-size": "13px",
+                                                    "padding-top": "14.5px",
+                                                    "padding-bottom": "14.5px",
+                                                    ":hover": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "background-color": "#b8956e",
+                                                    ":focus": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    "border-radius": "12px"
+                                                },
+                                                "title": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "header": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "lineItems": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "subtotalText": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "subtotal": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "notice": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "currency": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "close": {
+                                                    "color": "#2d2a26",
+                                                    ":hover": {
+                                                        "color": "#2d2a26"
+                                                    }
+                                                },
+                                                "empty": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "noteDescription": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "discountText": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "discountIcon": {
+                                                    "fill": "#2d2a26"
+                                                },
+                                                "discountAmount": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "cart": {
+                                                    "background-color": "#faf8f5"
+                                                },
+                                                "footer": {
+                                                    "background-color": "#faf8f5"
+                                                }
+                                            },
+                                            "text": {
+                                                "title": "Carrito",
+                                                "total": "Subtotal",
+                                                "empty": "Tu carrito está vacío.",
+                                                "notice": "Los gastos de envío y códigos de descuento se calculan al finalizar la compra.",
+                                                "button": "Finalizar pedido",
+                                                "noteDescription": "Notas para el pedido / Instrucciones de entrega"
+                                            },
+                                            "contents": {
+                                                "note": true
+                                            },
+                                            "googleFonts": [
+                                                "Roboto"
+                                            ]
+                                        },
+                                        "toggle": {
+                                            "styles": {
+                                                "toggle": {
+                                                    "font-family": "Roboto, sans-serif",
+                                                    "background-color": "#b8956e",
+                                                    ":hover": {
+                                                        "background-color": "#a68663"
+                                                    },
+                                                    ":focus": {
+                                                        "background-color": "#a68663"
+                                                    }
+                                                },
+                                                "count": {
+                                                    "font-size": "13px"
+                                                }
+                                            },
+                                            "googleFonts": [
+                                                "Roboto"
+                                            ]
+                                        },
+                                        "lineItem": {
+                                            "styles": {
+                                                "variantTitle": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "title": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "price": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "fullPrice": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "discount": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "discountIcon": {
+                                                    "fill": "#2d2a26"
+                                                },
+                                                "quantity": {
+                                                    "color": "#2d2a26"
+                                                },
+                                                "quantityIncrement": {
+                                                    "color": "#2d2a26",
+                                                    "border-color": "#2d2a26"
+                                                },
+                                                "quantityDecrement": {
+                                                    "color": "#2d2a26",
+                                                    "border-color": "#2d2a26"
+                                                },
+                                                "quantityInput": {
+                                                    "color": "#2d2a26",
+                                                    "border-color": "#2d2a26"
+                                                }
+                                            }
+                                        }
+                                    },
+                                });
+                            });
+                        }
+                    })();
+                    /*]]>*/
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <div class="logo">
+                        <img src="images/logo/logo.png" alt="EDPLIT España" class="logo-image" style="max-width: 120px;"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display:none;"><span class="logo-text">edplit</span><span
+                                class="logo-domain">.es</span></span>
+                    </div>
+                    <p>Distribuidor exclusivo de Edplit para España. Soluciones de montaje oculto.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Productos</h4>
+                    <ul>
+                        <li><a href="pulsadores.html">Pulsadores</a></li>
+                        <li><a href="enchufes.html">Enchufes</a></li>
+                        <li><a href="ventiladores.html">Ventiladores</a></li>
+                        <li><a href="tapas.html">Tapas</a></li>
+                        <li><a href="toalleros.html">Toalleros</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Profesionales</h4>
+                    <ul>
+                        <li><a href="index.html#profesionales">Partners</a></li>
+                        <li><a href="#">Fichas técnicas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="index.html#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Edplit España · Distribuidor oficial</p>
+                <div class="footer-legal">
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="cookies.html">Cookies</a>
+                    <a href="aviso-legal.html">Aviso legal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div class="cookie-consent-banner">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                <h3>🍪 Usamos cookies</h3>
+                <p>
+                    Utilizamos cookies técnicas necesarias para el funcionamiento de la web.
+                    Consulta nuestra <a href="cookies.html">Política de Cookies</a> para más información.
+                </p>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="cookie-reject" class="cookie-btn cookie-btn-reject">Rechazar</button>
+                <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
