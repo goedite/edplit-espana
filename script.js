@@ -331,7 +331,10 @@ function initCookieConsent() {
     // Check if user has already made a choice
     const consent = localStorage.getItem(CONSENT_KEY);
 
-    if (!consent) {
+    if (consent === 'accepted') {
+        // User already accepted, load Analytics immediately
+        loadGoogleAnalytics();
+    } else if (!consent) {
         // No choice made yet, show banner after a short delay
         setTimeout(() => {
             banner.classList.add('show');
@@ -343,6 +346,8 @@ function initCookieConsent() {
         acceptBtn.addEventListener('click', () => {
             localStorage.setItem(CONSENT_KEY, 'accepted');
             hideBanner();
+            // Load Google Analytics after consent
+            loadGoogleAnalytics();
         });
     }
 
@@ -352,6 +357,21 @@ function initCookieConsent() {
             localStorage.setItem(CONSENT_KEY, 'rejected');
             hideBanner();
         });
+    }
+
+    function loadGoogleAnalytics() {
+        // Check if already loaded
+        if (window.gtag) {
+            console.log('Google Analytics ya está cargado');
+            return;
+        }
+
+        // Load analytics.js
+        const script = document.createElement('script');
+        script.src = '/analytics.js';
+        script.async = true;
+        document.head.appendChild(script);
+        console.log('Google Analytics cargado después del consentimiento');
     }
 
     function hideBanner() {
