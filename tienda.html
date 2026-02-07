@@ -15,19 +15,19 @@
         rel="stylesheet">
     <style>
         .store-section {
-            padding: var(--spacing-xl) 0;
+            padding: var(--spacing-md) 0 var(--spacing-xl) 0;
             background: var(--bg-body);
             min-height: 80vh;
         }
 
         .store-header {
             text-align: center;
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
         }
 
         .store-header h1 {
-            font-size: 3rem;
-            margin-bottom: var(--spacing-sm);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(to right, var(--primary) 0%, #6e5e54 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -35,14 +35,14 @@
         }
 
         .store-header p {
-            font-size: 1.125rem;
+            font-size: 0.95rem;
             color: var(--text-secondary);
-            max-width: 700px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .shopify-collection-wrapper {
-            margin: var(--spacing-lg) 0;
+            margin: var(--spacing-md) 0;
         }
 
         /* Personalización adicional del widget de Shopify */
@@ -59,39 +59,52 @@
             transform: translateY(-5px) !important;
         }
 
+        /* Banner de ventajas más discreto */
         .info-banner {
-            background: var(--bg-lighter);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-lg);
-            border: 1px solid var(--border);
+            background: transparent;
+            padding: var(--spacing-sm) 0;
+            border-radius: 0;
+            margin-top: var(--spacing-xl);
+            margin-bottom: 0;
+            border: none;
+            border-top: 1px solid var(--border);
         }
 
         .info-banner h3 {
-            color: var(--accent);
-            margin-bottom: var(--spacing-sm);
-            font-size: 1.25rem;
+            display: none; /* Ocultar el título "Ventajas de comprar" */
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+            margin-top: 0;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: var(--spacing-xs);
-            color: var(--text-secondary);
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            justify-content: center;
         }
 
         .info-item::before {
             content: "✓";
-            color: var(--success);
+            color: var(--accent);
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .store-header h1 {
+                font-size: 1.75rem;
+            }
         }
     </style>
 </head>
@@ -136,26 +149,12 @@
     <section class="store-section">
         <div class="container">
             <div class="store-header reveal-on-scroll">
-                <h1>Tienda Online EDPLIT España</h1>
-                <p>Compra directamente nuestros productos con envío rápido en España. Pago seguro y garantía de 10
-                    años.</p>
+                <h1>Tienda Online</h1>
+                <p>Compra directamente con envío rápido en España</p>
             </div>
 
-            <!-- Info Banner -->
-            <div class="info-banner reveal-on-scroll">
-                <h3>🚀 Ventajas de comprar en nuestra tienda</h3>
-                <div class="info-grid">
-                    <div class="info-item">Envío gratis desde 490 €</div>
-                    <div class="info-item">Entrega en 24-48h en España</div>
-                    <div class="info-item">Pago seguro con tarjeta</div>
-                    <div class="info-item">10 años de garantía oficial</div>
-                    <div class="info-item">Stock disponible inmediato</div>
-                    <div class="info-item">Soporte técnico en español</div>
-                </div>
-            </div>
-
-            <!-- Shopify Collection Widget -->
-            <div class="shopify-collection-wrapper reveal-on-scroll delay-200">
+            <!-- Shopify Collection Widget (PRIMERO - LO PRINCIPAL) -->
+            <div class="shopify-collection-wrapper reveal-on-scroll">
                 <div id='collection-component-1770468052995'></div>
                 <script type="text/javascript">
                     /*<![CDATA[*/
@@ -437,6 +436,19 @@
                     })();
                     /*]]>*/
                 </script>
+            </div>
+
+            <!-- Info Banner (DESPUÉS - DISCRETO) -->
+            <div class="info-banner reveal-on-scroll">
+                <h3>🚀 Ventajas de comprar en nuestra tienda</h3>
+                <div class="info-grid">
+                    <div class="info-item">Envío gratis desde 490 €</div>
+                    <div class="info-item">Entrega 24-48h</div>
+                    <div class="info-item">Pago seguro</div>
+                    <div class="info-item">10 años garantía</div>
+                    <div class="info-item">Stock disponible</div>
+                    <div class="info-item">Soporte en español</div>
+                </div>
             </div>
         </div>
     </section>
