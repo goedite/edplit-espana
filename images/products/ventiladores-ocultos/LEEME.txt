@@ -1,0 +1,10 @@
+Instrucciones para añadir fotos de Ventiladores Ocultos:
+
+1. Pega aquí las fotos nuevas que quieras usar para los ventiladores.
+2. Nómbralas de forma descriptiva o numerada para facilitar su identificación.
+   Ejemplos sugeridos:
+   - ventilador-oculto-1.jpg
+   - ventilador-oculto-detalle.jpg
+   - ventilador-instalacion.jpg
+
+3. Una vez las hayas copiado, avísame para actualizar la página web (ventiladores.html) y mostrar estas nuevas fotos en el carrusel.
