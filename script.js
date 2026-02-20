@@ -128,6 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (response.ok && result.success) {
+                    // Enviar evento de conversión a Google Analytics / GTM
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'generate_lead',
+                        'form_type': formData.get('tipo') || 'contacto_general'
+                    });
+
                     // Success message
                     formMessage.textContent = '¡Mensaje enviado correctamente! Te contactaremos pronto.';
                     formMessage.style.backgroundColor = '#d4edda';
@@ -223,6 +230,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+    // ==========================================
+    // GOOGLE ANALYTICS CUSTOM EVENTS (Google Ads)
+    // ==========================================
+    // Rastrear clics hacia la tienda de Shopify
+    document.querySelectorAll('a[href*="tienda.edplit.es"]').forEach(link => {
+        link.addEventListener('click', function () {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'click_tienda',
+                'link_url': this.href,
+                'link_text': this.innerText.trim()
+            });
+        });
+    });
+
+    // Rastrear clics hacia redes sociales / YouTube / Contacto
+    document.querySelectorAll('a[href*="youtube.com"], a[href*="instagram.com"], a[href*="tiktok.com"]').forEach(link => {
+        link.addEventListener('click', function () {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'click_social',
+                'social_network': this.href
+            });
+        });
+    });
 
     // Initialize carousels
     initCarousels();
