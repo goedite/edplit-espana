@@ -2,423 +2,536 @@
 // EDPLIT ESPAÑA - JAVASCRIPT
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
+  // ==========================================
+  // PRODUCT TABS FUNCTIONALITY
+  // ==========================================
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const productCategories = document.querySelectorAll(".product-category");
 
-    // ==========================================
-    // PRODUCT TABS FUNCTIONALITY
-    // ==========================================
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const productCategories = document.querySelectorAll('.product-category');
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Get the category to show
+      const category = button.getAttribute("data-category");
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Get the category to show
-            const category = button.getAttribute('data-category');
+      // Remove active class from all buttons
+      tabButtons.forEach((btn) => btn.classList.remove("active"));
 
-            // Remove active class from all buttons
-            tabButtons.forEach(btn => btn.classList.remove('active'));
+      // Add active class to clicked button
+      button.classList.add("active");
 
-            // Add active class to clicked button
-            button.classList.add('active');
+      // Hide all categories
+      productCategories.forEach((cat) => cat.classList.remove("active"));
 
-            // Hide all categories
-            productCategories.forEach(cat => cat.classList.remove('active'));
-
-            // Show selected category
-            const targetCategory = document.querySelector(`.product-category[data-category="${category}"]`);
-            if (targetCategory) {
-                targetCategory.classList.add('active');
-            }
-        });
+      // Show selected category
+      const targetCategory = document.querySelector(
+        `.product-category[data-category="${category}"]`,
+      );
+      if (targetCategory) {
+        targetCategory.classList.add("active");
+      }
     });
+  });
 
-    // ==========================================
-    // SMOOTH SCROLLING FOR ANCHOR LINKS
-    // ==========================================
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
+  // ==========================================
+  // SMOOTH SCROLLING FOR ANCHOR LINKS
+  // ==========================================
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
 
-            // Skip if it's just "#"
-            if (href === '#') {
-                e.preventDefault();
-                return;
-            }
+      // Skip if it's just "#"
+      if (href === "#") {
+        e.preventDefault();
+        return;
+      }
 
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
 
-                // Get navbar height for offset
-                const navbar = document.querySelector('.navbar');
-                const navbarHeight = navbar ? navbar.offsetHeight : 0;
+        // Get navbar height for offset
+        const navbar = document.querySelector(".navbar");
+        const navbarHeight = navbar ? navbar.offsetHeight : 0;
 
-                // Calculate position
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+        // Calculate position
+        const targetPosition =
+          target.getBoundingClientRect().top +
+          window.pageYOffset -
+          navbarHeight -
+          20;
 
-                // Smooth scroll
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
+        // Smooth scroll
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
         });
+      }
     });
+  });
 
-    // ==========================================
-    // NAVBAR SCROLL EFFECT
-    // ==========================================
-    const navbar = document.querySelector('.navbar');
-    let lastScroll = 0;
+  // ==========================================
+  // NAVBAR SCROLL EFFECT
+  // ==========================================
+  const navbar = document.querySelector(".navbar");
+  let lastScroll = 0;
 
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
 
-        if (currentScroll > 100) {
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+    if (currentScroll > 100) {
+      navbar.style.boxShadow = "0 2px 10px rgba(0,0,0,0.1)";
+    } else {
+      navbar.style.boxShadow = "none";
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // ==========================================
+  // CONTACT FORM SUBMISSION - VERCEL API
+  // ==========================================
+  const contactForm = document.getElementById("contact-form");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      // Get form elements
+      const submitBtn = document.getElementById("submit-btn");
+      const btnText = document.getElementById("btn-text");
+      const btnLoading = document.getElementById("btn-loading");
+      const formMessage = document.getElementById("form-message");
+
+      // Get form data
+      const formData = new FormData(contactForm);
+      const data = {
+        nombre: formData.get("nombre"),
+        empresa: formData.get("empresa"),
+        email: formData.get("email"),
+        telefono: formData.get("telefono"),
+        tipo: formData.get("tipo"),
+        mensaje: formData.get("mensaje"),
+      };
+
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.style.display = "none";
+      btnLoading.style.display = "inline";
+      formMessage.style.display = "none";
+
+      try {
+        // Send to Vercel API
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          // Enviar evento de conversión a Google Analytics / GTM
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "generate_lead",
+            form_type: formData.get("tipo") || "contacto_general",
+          });
+
+          // Success message
+          formMessage.textContent =
+            "¡Mensaje enviado correctamente! Te contactaremos pronto.";
+          formMessage.style.backgroundColor = "#d4edda";
+          formMessage.style.color = "#155724";
+          formMessage.style.border = "1px solid #c3e6cb";
+          formMessage.style.display = "block";
+
+          // Reset form
+          contactForm.reset();
+
+          // Hide message after 5 seconds
+          setTimeout(() => {
+            formMessage.style.display = "none";
+          }, 5000);
         } else {
-            navbar.style.boxShadow = 'none';
+          throw new Error(result.message || "Error al enviar el mensaje");
         }
+      } catch (error) {
+        // Error message
+        formMessage.textContent =
+          error.message ||
+          "Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o contáctanos directamente.";
+        formMessage.style.backgroundColor = "#f8d7da";
+        formMessage.style.color = "#721c24";
+        formMessage.style.border = "1px solid #f5c6cb";
+        formMessage.style.display = "block";
 
-        lastScroll = currentScroll;
+        console.error("Form submission error:", error);
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.style.display = "inline";
+        btnLoading.style.display = "none";
+      }
+    });
+  }
+
+  // ==========================================
+  // SCROLL ANIMATIONS
+  // ==========================================
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("reveal-active");
+        observer.unobserve(entry.target); // Only animate once
+      }
+    });
+  }, observerOptions);
+
+  // Select all elements with the reveal class
+  document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
+    observer.observe(el);
+  });
+
+  // ==========================================
+  // MOBILE MENU
+  // ==========================================
+  const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (mobileMenuBtn && navLinks) {
+    // Create overlay element
+    const overlay = document.createElement("div");
+    overlay.className = "nav-overlay";
+    document.body.appendChild(overlay);
+
+    // Toggle menu
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenuBtn.classList.toggle("active");
+      navLinks.classList.toggle("active");
+      overlay.classList.toggle("active");
+      document.body.style.overflow = navLinks.classList.contains("active")
+        ? "hidden"
+        : "";
     });
 
-    // ==========================================
-    // CONTACT FORM SUBMISSION - VERCEL API
-    // ==========================================
-    const contactForm = document.getElementById('contact-form');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            // Get form elements
-            const submitBtn = document.getElementById('submit-btn');
-            const btnText = document.getElementById('btn-text');
-            const btnLoading = document.getElementById('btn-loading');
-            const formMessage = document.getElementById('form-message');
-
-            // Get form data
-            const formData = new FormData(contactForm);
-            const data = {
-                nombre: formData.get('nombre'),
-                empresa: formData.get('empresa'),
-                email: formData.get('email'),
-                telefono: formData.get('telefono'),
-                tipo: formData.get('tipo'),
-                mensaje: formData.get('mensaje')
-            };
-
-            // Show loading state
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline';
-            formMessage.style.display = 'none';
-
-            try {
-                // Send to Vercel API
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    // Enviar evento de conversión a Google Analytics / GTM
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'generate_lead',
-                        'form_type': formData.get('tipo') || 'contacto_general'
-                    });
-
-                    // Success message
-                    formMessage.textContent = '¡Mensaje enviado correctamente! Te contactaremos pronto.';
-                    formMessage.style.backgroundColor = '#d4edda';
-                    formMessage.style.color = '#155724';
-                    formMessage.style.border = '1px solid #c3e6cb';
-                    formMessage.style.display = 'block';
-
-                    // Reset form
-                    contactForm.reset();
-
-                    // Hide message after 5 seconds
-                    setTimeout(() => {
-                        formMessage.style.display = 'none';
-                    }, 5000);
-                } else {
-                    throw new Error(result.message || 'Error al enviar el mensaje');
-                }
-            } catch (error) {
-                // Error message
-                formMessage.textContent = error.message || 'Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o contáctanos directamente.';
-                formMessage.style.backgroundColor = '#f8d7da';
-                formMessage.style.color = '#721c24';
-                formMessage.style.border = '1px solid #f5c6cb';
-                formMessage.style.display = 'block';
-
-                console.error('Form submission error:', error);
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                btnLoading.style.display = 'none';
-            }
-        });
-    }
-
-    // ==========================================
-    // SCROLL ANIMATIONS
-    // ==========================================
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-active');
-                observer.unobserve(entry.target); // Only animate once
-            }
-        });
-    }, observerOptions);
-
-    // Select all elements with the reveal class
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-        observer.observe(el);
+    // Close menu when clicking overlay
+    overlay.addEventListener("click", () => {
+      mobileMenuBtn.classList.remove("active");
+      navLinks.classList.remove("active");
+      overlay.classList.remove("active");
+      document.body.style.overflow = "";
     });
 
-    // ==========================================
-    // MOBILE MENU
-    // ==========================================
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    // Close menu when clicking a link
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenuBtn.classList.remove("active");
+        navLinks.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      });
+    });
+  }
 
-    if (mobileMenuBtn && navLinks) {
-        // Create overlay element
-        const overlay = document.createElement('div');
-        overlay.className = 'nav-overlay';
-        document.body.appendChild(overlay);
+  // ==========================================
+  // GOOGLE ANALYTICS CUSTOM EVENTS (Google Ads)
+  // ==========================================
+  // Rastrear clics hacia la tienda de Shopify
+  document.querySelectorAll('a[href*="tienda.edplit.es"]').forEach((link) => {
+    link.addEventListener("click", function () {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "click_tienda",
+        link_url: this.href,
+        link_text: this.innerText.trim(),
+      });
+    });
+  });
 
-        // Toggle menu
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenuBtn.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+  // Rastrear clics hacia redes sociales / YouTube / Contacto
+  document
+    .querySelectorAll(
+      'a[href*="youtube.com"], a[href*="instagram.com"], a[href*="tiktok.com"]',
+    )
+    .forEach((link) => {
+      link.addEventListener("click", function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "click_social",
+          social_network: this.href,
         });
-
-        // Close menu when clicking overlay
-        overlay.addEventListener('click', () => {
-            mobileMenuBtn.classList.remove('active');
-            navLinks.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Close menu when clicking a link
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuBtn.classList.remove('active');
-                navLinks.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-    }
-
-    // ==========================================
-    // GOOGLE ANALYTICS CUSTOM EVENTS (Google Ads)
-    // ==========================================
-    // Rastrear clics hacia la tienda de Shopify
-    document.querySelectorAll('a[href*="tienda.edplit.es"]').forEach(link => {
-        link.addEventListener('click', function () {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                'event': 'click_tienda',
-                'link_url': this.href,
-                'link_text': this.innerText.trim()
-            });
-        });
+      });
     });
 
-    // Rastrear clics hacia redes sociales / YouTube / Contacto
-    document.querySelectorAll('a[href*="youtube.com"], a[href*="instagram.com"], a[href*="tiktok.com"]').forEach(link => {
-        link.addEventListener('click', function () {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                'event': 'click_social',
-                'social_network': this.href
-            });
-        });
-    });
+  // Initialize carousels
+  initCarousels();
 
-    // Initialize carousels
-    initCarousels();
+  // Initialize Hero Slider
+  initHeroSlider();
 
-    // Initialize Lightbox
-    initLightbox();
+  // Initialize Lightbox
+  initLightbox();
 });
+
+// ==========================================
+// HERO SLIDER
+// ==========================================
+function initHeroSlider() {
+  const track = document.getElementById("heroSliderTrack");
+  const prevBtn = document.getElementById("heroPrev");
+  const nextBtn = document.getElementById("heroNext");
+  const dots = document.querySelectorAll(".hero-dot");
+  const slides = document.querySelectorAll(".hero-slide");
+  if (!track || slides.length === 0) return;
+
+  let currentIndex = 0;
+  let autoplayTimer = null;
+  const TOTAL = slides.length;
+
+  function goTo(index) {
+    currentIndex = (index + TOTAL) % TOTAL;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => goTo(currentIndex + 1), 5000);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  // Arrows
+  if (prevBtn)
+    prevBtn.addEventListener("click", () => {
+      goTo(currentIndex - 1);
+      startAutoplay();
+    });
+  if (nextBtn)
+    nextBtn.addEventListener("click", () => {
+      goTo(currentIndex + 1);
+      startAutoplay();
+    });
+
+  // Dots
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      goTo(i);
+      startAutoplay();
+    });
+  });
+
+  // Pause on hover
+  const slider = document.getElementById("heroSlider");
+  if (slider) {
+    slider.addEventListener("mouseenter", stopAutoplay);
+    slider.addEventListener("mouseleave", startAutoplay);
+  }
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  track.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+  track.addEventListener(
+    "touchend",
+    (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        goTo(currentIndex + (diff > 0 ? 1 : -1));
+        startAutoplay();
+      }
+    },
+    { passive: true },
+  );
+
+  // Keyboard arrows
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      goTo(currentIndex - 1);
+      startAutoplay();
+    }
+    if (e.key === "ArrowRight") {
+      goTo(currentIndex + 1);
+      startAutoplay();
+    }
+  });
+
+  startAutoplay();
+}
 
 // Carousel Functionality
 function initCarousels() {
-    const carousels = document.querySelectorAll('.product-carousel');
+  const carousels = document.querySelectorAll(".product-carousel");
 
-    carousels.forEach(carousel => {
-        const track = carousel.querySelector('.carousel-track');
-        const slides = carousel.querySelectorAll('.carousel-slide');
+  carousels.forEach((carousel) => {
+    const track = carousel.querySelector(".carousel-track");
+    const slides = carousel.querySelectorAll(".carousel-slide");
 
-        // Only auto-rotate if there's more than one slide
-        if (slides.length > 1) {
-            let currentIndex = 0;
+    // Only auto-rotate if there's more than one slide
+    if (slides.length > 1) {
+      let currentIndex = 0;
 
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                updateCarousel(track, currentIndex);
-            }, 7000); // Rotate every 7 seconds
-        }
-    });
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel(track, currentIndex);
+      }, 7000); // Rotate every 7 seconds
+    }
+  });
 }
 
 function updateCarousel(track, index) {
-    track.style.transform = `translateX(-${index * 100}%)`;
+  track.style.transform = `translateX(-${index * 100}%)`;
 }
 
 // Lightbox Functionality
 function initLightbox() {
-    console.log('Initializing Lightbox...'); // Debug log
+  console.log("Initializing Lightbox..."); // Debug log
 
-    // Create Lightbox DOM if it doesn't exist
-    if (!document.getElementById('lightbox')) {
-        const lightbox = document.createElement('div');
-        lightbox.id = 'lightbox';
-        lightbox.innerHTML = `
+  // Create Lightbox DOM if it doesn't exist
+  if (!document.getElementById("lightbox")) {
+    const lightbox = document.createElement("div");
+    lightbox.id = "lightbox";
+    lightbox.innerHTML = `
             <button class="close-btn">&times;</button>
             <img src="" alt="Zoomed Image">
         `;
-        document.body.appendChild(lightbox);
-        console.log('Lightbox DOM created'); // Debug log
+    document.body.appendChild(lightbox);
+    console.log("Lightbox DOM created"); // Debug log
+  }
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = lightbox.querySelector("img");
+  const closeBtn = lightbox.querySelector(".close-btn");
+
+  // Add click event to all carousel images
+  const images = document.querySelectorAll(".product-carousel img");
+  console.log(`Found ${images.length} images for lightbox`); // Debug log
+
+  images.forEach((img) => {
+    // Clone element to remove old event listeners which might be stacking or failing
+    const newImg = img.cloneNode(true);
+    img.parentNode.replaceChild(newImg, img);
+
+    newImg.addEventListener("click", (e) => {
+      console.log("Image clicked:", e.target.src); // Debug log
+      e.preventDefault(); // Prevent any default behavior
+      e.stopPropagation(); // Stop bubbling
+
+      lightboxImg.src = e.target.src;
+      lightboxImg.alt = e.target.alt;
+      lightbox.classList.add("active");
+    });
+  });
+
+  // Close functionality
+  const closeLightbox = () => {
+    lightbox.classList.remove("active");
+  };
+
+  closeBtn.addEventListener("click", closeLightbox);
+
+  // Close on click outside image
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
     }
+  });
 
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const closeBtn = lightbox.querySelector('.close-btn');
-
-    // Add click event to all carousel images
-    const images = document.querySelectorAll('.product-carousel img');
-    console.log(`Found ${images.length} images for lightbox`); // Debug log
-
-    images.forEach(img => {
-        // Clone element to remove old event listeners which might be stacking or failing
-        const newImg = img.cloneNode(true);
-        img.parentNode.replaceChild(newImg, img);
-
-        newImg.addEventListener('click', e => {
-            console.log('Image clicked:', e.target.src); // Debug log
-            e.preventDefault(); // Prevent any default behavior
-            e.stopPropagation(); // Stop bubbling
-
-            lightboxImg.src = e.target.src;
-            lightboxImg.alt = e.target.alt;
-            lightbox.classList.add('active');
-        });
-    });
-
-    // Close functionality
-    const closeLightbox = () => {
-        lightbox.classList.remove('active');
-    };
-
-    closeBtn.addEventListener('click', closeLightbox);
-
-    // Close on click outside image
-    lightbox.addEventListener('click', e => {
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-            closeLightbox();
-        }
-    });
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightbox.classList.contains("active")) {
+      closeLightbox();
+    }
+  });
 }
 
 // ==========================================
 // COOKIE CONSENT BANNER
 // ==========================================
 function initCookieConsent() {
-    const banner = document.querySelector('.cookie-consent-banner');
-    if (!banner) return; // Exit if banner doesn't exist on this page
+  const banner = document.querySelector(".cookie-consent-banner");
+  if (!banner) return; // Exit if banner doesn't exist on this page
 
-    const acceptBtn = document.getElementById('cookie-accept');
-    const rejectBtn = document.getElementById('cookie-reject');
-    const CONSENT_KEY = 'edplit_cookie_consent';
+  const acceptBtn = document.getElementById("cookie-accept");
+  const rejectBtn = document.getElementById("cookie-reject");
+  const CONSENT_KEY = "edplit_cookie_consent";
 
-    // Check if user has already made a choice
-    const consent = localStorage.getItem(CONSENT_KEY);
+  // Check if user has already made a choice
+  const consent = localStorage.getItem(CONSENT_KEY);
 
-    if (consent === 'accepted') {
-        // User already accepted, load Analytics immediately
-        loadGoogleAnalytics();
-    } else if (!consent) {
-        // No choice made yet, show banner after a short delay
-        setTimeout(() => {
-            banner.classList.add('show');
-        }, 1000);
+  if (consent === "accepted") {
+    // User already accepted, load Analytics immediately
+    loadGoogleAnalytics();
+  } else if (!consent) {
+    // No choice made yet, show banner after a short delay
+    setTimeout(() => {
+      banner.classList.add("show");
+    }, 1000);
+  }
+
+  // Handle Accept button
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem(CONSENT_KEY, "accepted");
+      hideBanner();
+      // Load Google Analytics after consent
+      loadGoogleAnalytics();
+    });
+  }
+
+  // Handle Reject button
+  if (rejectBtn) {
+    rejectBtn.addEventListener("click", () => {
+      localStorage.setItem(CONSENT_KEY, "rejected");
+      hideBanner();
+    });
+  }
+
+  function loadGoogleAnalytics() {
+    // Check if already loaded
+    if (window.google_tag_manager) {
+      console.log("Google Tag Manager ya está cargado");
+      return;
     }
 
-    // Handle Accept button
-    if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-            localStorage.setItem(CONSENT_KEY, 'accepted');
-            hideBanner();
-            // Load Google Analytics after consent
-            loadGoogleAnalytics();
-        });
-    }
+    // Load analytics.js (contains GTM code)
+    const script = document.createElement("script");
+    script.src = "/analytics.js";
+    script.async = true;
+    document.head.appendChild(script);
+    console.log("Google Tag Manager cargado después del consentimiento");
+  }
 
-    // Handle Reject button
-    if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => {
-            localStorage.setItem(CONSENT_KEY, 'rejected');
-            hideBanner();
-        });
-    }
-
-    function loadGoogleAnalytics() {
-        // Check if already loaded
-        if (window.google_tag_manager) {
-            console.log('Google Tag Manager ya está cargado');
-            return;
-        }
-
-        // Load analytics.js (contains GTM code)
-        const script = document.createElement('script');
-        script.src = '/analytics.js';
-        script.async = true;
-        document.head.appendChild(script);
-        console.log('Google Tag Manager cargado después del consentimiento');
-    }
-
-    function hideBanner() {
-        banner.classList.remove('show');
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-            banner.style.display = 'none';
-        }, 400);
-    }
+  function hideBanner() {
+    banner.classList.remove("show");
+    // Remove from DOM after animation completes
+    setTimeout(() => {
+      banner.style.display = "none";
+    }, 400);
+  }
 }
 
 // Initialize cookie consent when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCookieConsent);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initCookieConsent);
 } else {
-    initCookieConsent();
+  initCookieConsent();
 }
