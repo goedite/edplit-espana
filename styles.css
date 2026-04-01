@@ -1942,9 +1942,10 @@ body {
   .whatsapp-float {
     width: 64px;
     height: 64px;
-    bottom: 20px;
-    right: 18px;
-    box-shadow: 0 5px 24px rgba(37, 211, 102, 0.55);
+    bottom: 80px;      /* Clear browser's bottom navigation bar */
+    right: 16px;
+    z-index: 99999;    /* Above everything including cookie banner */
+    box-shadow: 0 5px 24px rgba(37, 211, 102, 0.65);
   }
   .whatsapp-float svg {
     width: 38px;
