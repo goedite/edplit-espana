@@ -544,7 +544,7 @@ if (document.readyState === "loading") {
   const btn = document.createElement("a");
   btn.id = "whatsapp-float-btn";
   btn.className = "whatsapp-float";
-  btn.href = "https://wa.me/34666152226";
+  btn.href = "https://wa.me/34642001244";
   btn.target = "_blank";
   btn.rel = "noopener noreferrer";
   btn.setAttribute("aria-label", "Contactar por WhatsApp");
