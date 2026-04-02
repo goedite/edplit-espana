@@ -1887,6 +1887,9 @@ body {
 
   .cookie-consent-banner {
     padding: 1rem;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
