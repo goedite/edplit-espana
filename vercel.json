@@ -1,6 +1,12 @@
 {
   "buildCommand": "",
   "outputDirectory": ".",
+  "redirects": [
+    { "source": "/tienda.html",        "destination": "https://tienda.edplit.es", "permanent": true },
+    { "source": "/tienda",             "destination": "https://tienda.edplit.es", "permanent": true },
+    { "source": "/tienda-global.html", "destination": "https://tienda.edplit.es", "permanent": true },
+    { "source": "/tienda-global",      "destination": "https://tienda.edplit.es", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/images/(.*)",
