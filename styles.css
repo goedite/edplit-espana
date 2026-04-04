@@ -70,7 +70,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  overflow-x: hidden; /* Prevents horizontal scroll on all browsers */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS landscape */
+  text-size-adjust: 100%;
 }
 
 /* Custom Scrollbar */
@@ -167,6 +169,7 @@ body {
 .navbar {
   background: var(--bg-lighter);
   padding: var(--spacing-sm) 0;
+  position: -webkit-sticky; /* Safari < 13 */
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -338,12 +341,11 @@ body {
 
 .hero-title {
   font-size: 4.5rem;
-  /* Larger, more editorial */
   line-height: 1.05;
   font-weight: 600;
-  /* Slightly lighter weight for elegance */
   letter-spacing: -0.03em;
   margin-bottom: var(--spacing-sm);
+  color: var(--primary); /* Fallback for browsers without gradient text support */
   background: linear-gradient(to right, var(--primary) 0%, #6e5e54 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
