@@ -188,6 +188,19 @@ body {
   width: auto;
   max-width: 200px;
   object-fit: contain;
+  animation: pulseLogo 3s ease-in-out infinite;
+}
+
+@keyframes pulseLogo {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08); /* Aumenta un 8% */
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .logo-text {
