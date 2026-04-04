@@ -1,6 +1,14 @@
 import { Resend } from 'resend';
 
 export default async function handler(req, res) {
+  // CORS: only allow requests from edplit.es
+  const allowedOrigins = ['https://edplit.es', 'https://www.edplit.es'];
+  const origin = req.headers.origin;
+  if (origin && !allowedOrigins.includes(origin)) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });

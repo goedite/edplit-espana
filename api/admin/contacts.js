@@ -7,8 +7,10 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    // Simple token authentication
-    const { token, search = '', limit = '50', offset = '0' } = req.query;
+    // Token authentication via Authorization header (not URL param)
+    const { search = '', limit = '50', offset = '0' } = req.query;
+    const authHeader = req.headers['authorization'] || '';
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
 
     if (!process.env.ADMIN_TOKEN || token !== process.env.ADMIN_TOKEN) {
         return res.status(401).json({ message: 'Unauthorized' });

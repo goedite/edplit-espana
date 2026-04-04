@@ -289,7 +289,9 @@
             tableContainer.style.display = 'none';
 
             try {
-                const res = await fetch(`/api/admin/contacts?token=${encodeURIComponent(authToken)}&search=${encodeURIComponent(search)}&limit=100`);
+                const res = await fetch(`/api/admin/contacts?search=${encodeURIComponent(search)}&limit=100`, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                });
                 const data = await res.json();
 
                 if (!res.ok) {
