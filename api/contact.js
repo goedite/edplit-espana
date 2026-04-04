@@ -129,11 +129,9 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error sending email:', error);
-    // DEBUG: Return specific error to frontend to identify the issue
     return res.status(500).json({
       success: false,
-      message: error.message || 'Error desconocido',
-      details: JSON.stringify(error, Object.getOwnPropertyNames(error))
+      message: 'Error interno del servidor. Inténtalo de nuevo o contáctanos directamente.'
     });
   }
 }
