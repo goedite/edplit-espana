@@ -126,27 +126,38 @@ body {
 }
 
 /* ==========================================
-   TOP BAR
+   TOP BAR (Premium)
    ========================================== */
 .top-bar {
-  background: var(--primary);
-  color: white;
-  padding: var(--spacing-xs) 0;
-  font-size: 0.875rem;
+  background: linear-gradient(90deg, #101013, #1c1c21, #101013);
+  color: #fff;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(184, 134, 87, 0.25);
 }
 
 .top-bar-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: 2.5rem;
   flex-wrap: wrap;
 }
 
 .top-bar-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tb-icon {
+  color: var(--accent);
+  font-size: 0.70rem;
+  opacity: 0.9;
 }
 
 /* ==========================================
