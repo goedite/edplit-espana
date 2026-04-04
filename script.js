@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // ==========================================
-// HERO SLIDER
+// HERO SLIDER — infinite loop + smooth transition
 // ==========================================
 function initHeroSlider() {
   const track = document.getElementById("heroSliderTrack");
@@ -292,46 +292,71 @@ function initHeroSlider() {
   const slides = document.querySelectorAll(".hero-slide");
   if (!track || slides.length === 0) return;
 
-  let currentIndex = 0;
-  let autoplayTimer = null;
   const TOTAL = slides.length;
+  let currentIndex = 1; // 1 = first real slide (index 0 is cloned-last)
+  let isTransitioning = false;
+  let autoplayTimer = null;
+
+  // --- Clone first & last slides for seamless infinite loop ---
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone  = slides[TOTAL - 1].cloneNode(true);
+  track.appendChild(firstClone);              // after last  → [last-clone]
+  track.insertBefore(lastClone, slides[0]);   // before first ← [first-clone]
+  // Track now: [clone-last] [slide1] [slide2] ... [slideN] [clone-first]
+  //  indices:       0           1       2    ...    N          N+1
+
+  // Set starting position without animation
+  setPosition(currentIndex, false);
+
+  function setPosition(index, animate) {
+    track.style.transition = animate
+      ? 'transform 0.85s cubic-bezier(0.33, 1, 0.68, 1)'
+      : 'none';
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function updateDots() {
+    // real dot index = currentIndex - 1, wrapped
+    const dotIdx = (currentIndex - 1 + TOTAL) % TOTAL;
+    dots.forEach((d, i) => d.classList.toggle("active", i === dotIdx));
+  }
 
   function goTo(index) {
-    currentIndex = (index + TOTAL) % TOTAL;
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex = index;
+    setPosition(currentIndex, true);
+    updateDots();
   }
+
+  // After transition ends → if on a clone, jump instantly to the real slide
+  track.addEventListener('transitionend', () => {
+    isTransitioning = false;
+    if (currentIndex === TOTAL + 1) { // landed on clone-of-first → jump to real first
+      currentIndex = 1;
+      setPosition(currentIndex, false);
+    } else if (currentIndex === 0) {  // landed on clone-of-last → jump to real last
+      currentIndex = TOTAL;
+      setPosition(currentIndex, false);
+    }
+  });
 
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = setInterval(() => goTo(currentIndex + 1), 5000);
+    autoplayTimer = setInterval(() => goTo(currentIndex + 1), 4500);
   }
 
   function stopAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
+    if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
   }
 
   // Arrows
-  if (prevBtn)
-    prevBtn.addEventListener("click", () => {
-      goTo(currentIndex - 1);
-      startAutoplay();
-    });
-  if (nextBtn)
-    nextBtn.addEventListener("click", () => {
-      goTo(currentIndex + 1);
-      startAutoplay();
-    });
+  if (prevBtn) prevBtn.addEventListener("click", () => { goTo(currentIndex - 1); startAutoplay(); });
+  if (nextBtn) nextBtn.addEventListener("click", () => { goTo(currentIndex + 1); startAutoplay(); });
 
   // Dots
   dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      goTo(i);
-      startAutoplay();
-    });
+    dot.addEventListener("click", () => { goTo(i + 1); startAutoplay(); });
   });
 
   // Pause on hover
@@ -341,39 +366,22 @@ function initHeroSlider() {
     slider.addEventListener("mouseleave", startAutoplay);
   }
 
-  // Touch / swipe support
+  // Touch / swipe
   let touchStartX = 0;
-  track.addEventListener(
-    "touchstart",
-    (e) => {
-      touchStartX = e.touches[0].clientX;
-    },
-    { passive: true },
-  );
-  track.addEventListener(
-    "touchend",
-    (e) => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) {
-        goTo(currentIndex + (diff > 0 ? 1 : -1));
-        startAutoplay();
-      }
-    },
-    { passive: true },
-  );
+  track.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener("touchend", (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { goTo(currentIndex + (diff > 0 ? 1 : -1)); startAutoplay(); }
+  }, { passive: true });
 
-  // Keyboard arrows
+  // Keyboard
   document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      goTo(currentIndex - 1);
-      startAutoplay();
-    }
-    if (e.key === "ArrowRight") {
-      goTo(currentIndex + 1);
-      startAutoplay();
-    }
+    if (e.key === "ArrowLeft")  { goTo(currentIndex - 1); startAutoplay(); }
+    if (e.key === "ArrowRight") { goTo(currentIndex + 1); startAutoplay(); }
   });
 
+  // Set initial dot state
+  updateDots();
   startAutoplay();
 }
 
