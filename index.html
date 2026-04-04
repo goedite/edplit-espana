@@ -24,7 +24,9 @@
     <meta property="og:url" content="https://edplit.es/" />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="images/logo/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=6" />
+    <!-- Preload first carousel image (LCP) -->
+    <link rel="preload" as="image" href="images/products/carusell/edplit%20m1.jpg" />
+    <link rel="stylesheet" href="styles.css?v=7" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -485,47 +487,47 @@
             <div class="hero-slider-track" id="heroSliderTrack">
               <!-- FOTO 1 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20m1.jpg" alt="EDPLIT M1" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20m1.jpg" alt="EDPLIT M1" fetchpriority="high" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 2 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20m2.jpg" alt="EDPLIT M2" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20m2.jpg" alt="EDPLIT M2" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 3 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20m2%20PRO.jpg" alt="EDPLIT M2 PRO" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20m2%20PRO.jpg" alt="EDPLIT M2 PRO" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 4 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20m3.jpg" alt="EDPLIT M3" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20m3.jpg" alt="EDPLIT M3" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 5 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20m4.jpg" alt="EDPLIT M4" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20m4.jpg" alt="EDPLIT M4" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 6 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20enchufes%20ocultos.jpg" alt="Enchufes Ocultos EDPLIT" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20enchufes%20ocultos.jpg" alt="Enchufes Ocultos EDPLIT" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 7 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20termostato%20oculto.jpg" alt="Termostato Oculto EDPLIT" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20termostato%20oculto.jpg" alt="Termostato Oculto EDPLIT" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 8 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20extractor.jpg" alt="Extractor EDPLIT" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20extractor.jpg" alt="Extractor EDPLIT" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 9 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20trampilla%20oculta.jpg" alt="Trampilla Oculta EDPLIT" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20trampilla%20oculta.jpg" alt="Trampilla Oculta EDPLIT" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 10 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20toalleros.jpg" alt="Toalleros EDPLIT" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20toalleros.jpg" alt="Toalleros EDPLIT" loading="lazy" onerror="this.style.display='none'" />
               </div>
               <!-- FOTO 11 -->
               <div class="hero-slide">
-                <img src="images/products/carusell/edplit%20ba%C3%B1o.jpg" alt="EDPLIT Baño" onerror="this.style.display='none'" />
+                <img src="images/products/carusell/edplit%20ba%C3%B1o.jpg" alt="EDPLIT Baño" loading="lazy" onerror="this.style.display='none'" />
               </div>
             </div>
 
@@ -1992,8 +1994,8 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="/popup.js"></script>
+    <script src="script.js" defer></script>
+    <script src="/popup.js" defer></script>
   </body>
 </html>
 <!-- Force deploy 1768303203 -->
