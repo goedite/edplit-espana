@@ -310,7 +310,7 @@ function initHeroSlider() {
 
   function setPosition(index, animate) {
     track.style.transition = animate
-      ? 'transform 0.85s cubic-bezier(0.33, 1, 0.68, 1)'
+      ? 'transform 1.1s cubic-bezier(0.33, 1, 0.68, 1)'
       : 'none';
     track.style.transform = `translateX(-${index * 100}%)`;
   }
@@ -343,7 +343,7 @@ function initHeroSlider() {
 
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = setInterval(() => goTo(currentIndex + 1), 4500);
+    autoplayTimer = setInterval(() => goTo(currentIndex + 1), 5850);
   }
 
   function stopAutoplay() {
