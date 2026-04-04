@@ -60,9 +60,11 @@
         }
         #edplit-popup-box {
           position: relative; width: 100%; max-width: 440px;
-          background: #1A1A2E; border-radius: 16px; overflow: hidden;
+          max-height: calc(100vh - 32px); overflow-y: auto; /* Evita que se salga el 5% por arriba/abajo en móviles */
+          background: #1A1A2E; border-radius: 16px;
           box-shadow: 0 25px 50px rgba(0,0,0,0.55);
           animation: ep-up .4s ease-out;
+          margin: auto;
         }
         #edplit-popup-close {
           position: absolute; top: 12px; right: 12px;
