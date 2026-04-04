@@ -1415,14 +1415,25 @@ body {
 
   /* ========== TOP BAR - Compact ========== */
   .top-bar {
-    padding: 0.25rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(184, 134, 87, 0.2);
   }
 
   .top-bar-content {
-    gap: 0.5rem;
-    font-size: 0.75rem;
+    gap: 2px;
+    padding: 0;
     justify-content: center;
+  }
+
+  .top-bar-item {
+    font-size: 0.55rem;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+  
+  .tb-icon {
+    font-size: 0.45rem;
+    margin-right: 2px;
   }
 
   /* ========== NAVIGATION - Compact ========== */
