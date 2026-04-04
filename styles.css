@@ -225,24 +225,42 @@ body {
 .nav-links {
   display: flex;
   list-style: none;
-  gap: var(--spacing-md);
+  gap: 0.5rem; /* Reducido porque cada botón ahora tiene su padding lateral */
   align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-weight: 500;
-  transition: color 0.3s ease;
+  font-size: 0.95rem;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
+  letter-spacing: 0.3px;
 }
 
 .nav-links a:hover {
-  color: var(--accent);
+  color: var(--primary);
+  background: rgba(82, 77, 71, 0.06); /* Fondo gris claro suavísimo */
+  transform: translateY(-1px);
 }
 
 .nav-links a.external-link {
-  color: var(--text-secondary);
+  color: var(--accent);
+  font-weight: 600;
+  background: rgba(184, 149, 110, 0.08); 
+  border: 1px solid rgba(184, 149, 110, 0.2);
+}
+
+.nav-links a.external-link:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px var(--accent-glow);
+  transform: translateY(-2px);
 }
 
 /* Mobile Menu Button - Hidden on Desktop */
