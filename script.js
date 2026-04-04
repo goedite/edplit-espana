@@ -321,23 +321,34 @@ function initHeroSlider() {
     dots.forEach((d, i) => d.classList.toggle("active", i === dotIdx));
   }
 
+  function updateActiveSlide() {
+    Array.from(track.children).forEach(el => el.classList.remove('is-active'));
+    const active = track.children[currentIndex];
+    if (active) {
+      void active.offsetWidth; // force reflow so animation restarts
+      active.classList.add('is-active');
+    }
+  }
+
   function goTo(index) {
     if (isTransitioning) return;
     isTransitioning = true;
     currentIndex = index;
     setPosition(currentIndex, true);
     updateDots();
+    updateActiveSlide();
   }
 
-  // After transition ends → if on a clone, jump instantly to the real slide
   track.addEventListener('transitionend', () => {
     isTransitioning = false;
-    if (currentIndex === TOTAL + 1) { // landed on clone-of-first → jump to real first
+    if (currentIndex === TOTAL + 1) {
       currentIndex = 1;
       setPosition(currentIndex, false);
-    } else if (currentIndex === 0) {  // landed on clone-of-last → jump to real last
+      updateActiveSlide();
+    } else if (currentIndex === 0) {
       currentIndex = TOTAL;
       setPosition(currentIndex, false);
+      updateActiveSlide();
     }
   });
 
@@ -380,8 +391,9 @@ function initHeroSlider() {
     if (e.key === "ArrowRight") { goTo(currentIndex + 1); startAutoplay(); }
   });
 
-  // Set initial dot state
+  // Set initial active and dot state
   updateDots();
+  updateActiveSlide();
   startAutoplay();
 }
 
