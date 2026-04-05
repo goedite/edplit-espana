@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let lastScroll = 0;
 
   window.addEventListener("scroll", () => {
+    if (!navbar) return; // guard: navbar may not exist on all pages
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 100) {
@@ -277,8 +278,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize Hero Slider
   initHeroSlider();
 
-  // Initialize Lightbox
-  initLightbox();
+  // Initialize Lightbox — use idle time to not block the main thread (FID fix)
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(initLightbox, { timeout: 2000 });
+  } else {
+    setTimeout(initLightbox, 500);
+  }
 });
 
 // ==========================================
@@ -421,66 +426,68 @@ function updateCarousel(track, index) {
   track.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// Lightbox Functionality
+// Lightbox Functionality — event delegation (no DOM cloning)
 function initLightbox() {
-  console.log("Initializing Lightbox..."); // Debug log
-
   // Create Lightbox DOM if it doesn't exist
-  if (!document.getElementById("lightbox")) {
-    const lightbox = document.createElement("div");
-    lightbox.id = "lightbox";
-    lightbox.innerHTML = `
-            <button class="close-btn">&times;</button>
-            <img src="" alt="Zoomed Image">
-        `;
-    document.body.appendChild(lightbox);
-    console.log("Lightbox DOM created"); // Debug log
+  if (!document.getElementById('lightbox')) {
+    const lb = document.createElement('div');
+    lb.id = 'lightbox';
+    lb.innerHTML = `
+      <button class="close-btn" aria-label="Cerrar">&times;</button>
+      <img src="" alt="Imagen ampliada del producto">
+    `;
+    document.body.appendChild(lb);
   }
 
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = lightbox.querySelector("img");
-  const closeBtn = lightbox.querySelector(".close-btn");
+  const lightbox    = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const closeBtn    = lightbox.querySelector('.close-btn');
 
-  // Add click event to all carousel images
-  const images = document.querySelectorAll(".product-carousel img");
-  console.log(`Found ${images.length} images for lightbox`); // Debug log
+  // Make product images visually indicate they are clickable
+  document.querySelectorAll('.product-carousel img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+  });
 
-  images.forEach((img) => {
-    // Clone element to remove old event listeners which might be stacking or failing
-    const newImg = img.cloneNode(true);
-    img.parentNode.replaceChild(newImg, img);
+  // ── Event delegation: ONE listener on document, no DOM cloning ──
+  // This avoids breaking the carousel's setInterval references
+  document.addEventListener('click', function (e) {
+    const img = e.target.closest('.product-carousel img');
+    if (!img) return;
 
-    newImg.addEventListener("click", (e) => {
-      console.log("Image clicked:", e.target.src); // Debug log
-      e.preventDefault(); // Prevent any default behavior
-      e.stopPropagation(); // Stop bubbling
+    // Use data-src if lazyloaded, else src
+    const src = img.dataset.src || img.src;
+    if (!src || src.endsWith('undefined')) return;
 
-      lightboxImg.src = e.target.src;
-      lightboxImg.alt = e.target.alt;
-      lightbox.classList.add("active");
-    });
+    lightboxImg.src = src;
+    lightboxImg.alt = img.alt || 'Imagen del producto';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // prevent background scroll
   });
 
   // Close functionality
-  const closeLightbox = () => {
-    lightbox.classList.remove("active");
-  };
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
-  closeBtn.addEventListener("click", closeLightbox);
+  closeBtn.addEventListener('click', closeLightbox);
 
   // Close on click outside image
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) {
-      closeLightbox();
-    }
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) closeLightbox();
   });
 
   // Close on Escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && lightbox.classList.contains("active")) {
-      closeLightbox();
-    }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
+
+  // Touch swipe to close on mobile
+  let touchStartY = 0;
+  lightbox.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    if (Math.abs(e.changedTouches[0].clientY - touchStartY) > 80) closeLightbox();
+  }, { passive: true });
 }
 
 // ==========================================
