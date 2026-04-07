@@ -45,3 +45,15 @@ build/
 *.wmv
 *.WMV
 .vercel
+
+# Temp image optimization (local only)
+images/products_clean/
+images/products_webp/
+images/products_backup_original/
+html_backup/
+shopify_images_ready/
+imagenes_usadas.txt
+images/imagenes_usadas.txt
+mapeo_imagenes.csv
+*.HEIC
+*.psd
