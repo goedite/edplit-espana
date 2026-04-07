@@ -1450,6 +1450,12 @@ body {
     padding: 0 1rem;
   }
 
+  /* Ocultar en móvil: trust badges y barra de marcas compatibles */
+  .trust-badges,
+  .brands-section {
+    display: none;
+  }
+
   /* ========== TOP BAR - Compact ========== */
   .top-bar {
     padding: 2px 0;
@@ -1581,13 +1587,7 @@ body {
   }
 
   .trust-badges {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    /* Tighter */
+    display: none;
   }
 
   .trust-item {
@@ -1660,8 +1660,7 @@ body {
 
   /* ========== BRANDS & SECTIONS - TIGHT ========== */
   .brands-section {
-    padding: 1rem 0;
-    /* Much tighter */
+    display: none;
   }
 
   .brands-grid {
