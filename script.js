@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // MOBILE MENU
   // ==========================================
   const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
-  const navLinks = document.querySelector(".nav-links");
+  const navLinks = document.querySelector(".nav-mobile");
 
   if (mobileMenuBtn && navLinks) {
     // Create overlay element

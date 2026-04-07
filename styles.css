@@ -229,8 +229,13 @@ body {
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 0.5rem; /* Reducido porque cada botón ahora tiene su padding lateral */
+  gap: 0.5rem;
   align-items: center;
+}
+
+/* Menú móvil SIEMPRE oculto en escritorio */
+.nav-mobile {
+  display: none;
 }
 
 .nav-links a {
@@ -1495,7 +1500,13 @@ body {
     display: flex;
   }
 
-  .nav-links {
+  /* En móvil: ocultar menú desktop, mostramos solo el móvil */
+  .nav-desktop {
+    display: none !important;
+  }
+
+  /* Menú móvil: panel deslizante */
+  .nav-mobile {
     display: flex;
     position: fixed;
     top: 0;
@@ -1512,15 +1523,15 @@ body {
     z-index: 1000;
   }
 
-  .nav-links.active {
+  .nav-mobile.active {
     right: 0;
   }
 
-  .nav-links li {
+  .nav-mobile li {
     border-bottom: 1px solid var(--border);
   }
 
-  .nav-links a {
+  .nav-mobile a {
     display: block;
     padding: 1rem 0;
     font-size: 1.1rem;
