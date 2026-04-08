@@ -707,13 +707,13 @@ body {
    PRODUCTS SECTION
    ========================================== */
 .products-section {
-  padding: var(--spacing-md) 0 var(--spacing-xl) 0;
+  padding: var(--spacing-sm) 0 var(--spacing-md) 0;
   background: var(--bg-light);
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .section-header h2 {
@@ -733,7 +733,7 @@ body {
   display: flex;
   justify-content: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   flex-wrap: wrap;
 }
 
@@ -785,8 +785,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--spacing-lg);
-  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-sm);
 }
 
 .category-subtitle {
@@ -1221,14 +1221,14 @@ body {
 .footer {
   background: var(--primary);
   color: white;
-  padding: var(--spacing-lg) 0 var(--spacing-md);
+  padding: var(--spacing-md) 0 var(--spacing-sm);
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .footer-brand p {
@@ -1264,7 +1264,7 @@ body {
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: var(--spacing-md);
+  padding-top: var(--spacing-xs);
   display: flex;
   justify-content: space-between;
   color: rgba(255, 255, 255, 0.4);
@@ -1288,14 +1288,14 @@ body {
 /* Footer Social Media */
 .footer-social {
   text-align: center;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-sm) 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-xs);
 }
 
 .footer-social h4 {
   color: white;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
   font-size: 1.125rem;
 }
 
