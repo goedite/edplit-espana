@@ -707,7 +707,7 @@ body {
    PRODUCTS SECTION
    ========================================== */
 .products-section {
-  padding: var(--spacing-sm) 0 var(--spacing-md) 0;
+  padding: var(--spacing-sm) 0 0.75rem 0;
   background: var(--bg-light);
 }
 
@@ -944,7 +944,7 @@ body {
    HOW IT WORKS SECTION
    ========================================== */
 .how-it-works {
-  padding: var(--spacing-md) 0;
+  padding: 0.75rem 0;
   background: var(--bg-lighter);
 }
 
@@ -983,19 +983,19 @@ body {
    FEATURES SECTION
    ========================================== */
 .features-section {
-  padding: var(--spacing-md) 0;
+  padding: 0.75rem 0 1rem 0;
   background: var(--bg-light);
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-lg);
+  gap: 1.5rem;
 }
 
 .feature-card {
   background: white;
-  padding: var(--spacing-lg);
+  padding: 1.5rem;
   border-radius: var(--radius-md);
   border: 1px solid rgba(229, 221, 208, 0.5);
   transition: all 0.3s ease;
