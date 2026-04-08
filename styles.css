@@ -310,7 +310,7 @@ body {
    HERO SECTION
    ========================================== */
 .hero {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-xl) 0 var(--spacing-md) 0;
   /* Remove linear gradient to let mesh show, or use a very subtle one */
   background: transparent;
   position: relative;
@@ -668,7 +668,7 @@ body {
    BRANDS SECTION
    ========================================== */
 .brands-section {
-  padding: var(--spacing-lg) 0;
+  padding: 1.5rem 0;
   background: var(--bg-lighter);
   border-bottom: 1px solid var(--border);
 }
@@ -677,7 +677,7 @@ body {
   text-align: center;
   color: var(--text-secondary);
   font-size: 0.875rem;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -707,13 +707,13 @@ body {
    PRODUCTS SECTION
    ========================================== */
 .products-section {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0 var(--spacing-xl) 0;
   background: var(--bg-light);
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
 }
 
 .section-header h2 {
