@@ -944,7 +944,7 @@ body {
    HOW IT WORKS SECTION
    ========================================== */
 .how-it-works {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0;
   background: var(--bg-lighter);
 }
 
@@ -956,17 +956,17 @@ body {
 
 .step-card {
   text-align: center;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-sm);
 }
 
 .step-number {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 0.5rem;
 }
 
 .step-card h3 {
@@ -983,7 +983,7 @@ body {
    FEATURES SECTION
    ========================================== */
 .features-section {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0;
   background: var(--bg-light);
 }
 
@@ -1027,7 +1027,7 @@ body {
    PROFESSIONALS SECTION
    ========================================== */
 .professionals-section {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0;
   background: var(--primary);
   color: white;
 }
@@ -1123,7 +1123,7 @@ body {
    CONTACT SECTION
    ========================================== */
 .contact-section {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-md) 0;
   background: var(--bg-body);
 }
 
