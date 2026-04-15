@@ -847,8 +847,8 @@ body {
 
 .carousel-track {
   display: flex;
-  transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Softer, slower transition */
+  /* transition is controlled entirely by JS (infinite loop logic) — do NOT set it here */
+  will-change: transform;
   width: 100%;
 }
 

@@ -402,26 +402,72 @@ function initHeroSlider() {
   startAutoplay();
 }
 
-// Carousel Functionality
+// ==========================================
+// PRODUCT CAROUSELS — infinite smooth auto-rotate
+// Same technique as the hero slider: clone first/last for seamless loop
+// ==========================================
 function initCarousels() {
-  const carousels = document.querySelectorAll(".product-carousel");
+  const carousels = document.querySelectorAll('.product-carousel');
 
-  carousels.forEach((carousel) => {
-    const track = carousel.querySelector(".carousel-track");
-    const slides = carousel.querySelectorAll(".carousel-slide");
+  carousels.forEach(carousel => {
+    const track = carousel.querySelector('.carousel-track');
+    if (!track) return;
 
-    // Only auto-rotate if there's more than one slide
-    if (slides.length > 1) {
-      let currentIndex = 0;
+    const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+    if (slides.length < 2) return;
 
-      setInterval(() => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateCarousel(track, currentIndex);
-      }, 7000); // Rotate every 7 seconds
+    // Clone first and last slide to create seamless loop
+    const firstClone = slides[0].cloneNode(true);
+    const lastClone  = slides[slides.length - 1].cloneNode(true);
+    track.appendChild(firstClone);             // [clone-first] at end
+    track.insertBefore(lastClone, slides[0]);  // [clone-last] at start
+    // Final layout: [clone-last] [slide1] ... [slideN] [clone-first]
+
+    const TOTAL = slides.length;
+    let current = 1;           // start at real slide 1
+    let isTransitioning = false;
+
+    // Jump to start position without animation
+    track.style.transition = 'none';
+    track.style.transform   = `translateX(-${current * 100}%)`;
+
+    function goNext() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      current++;
+      track.style.transition = 'transform 0.95s cubic-bezier(0.33, 1, 0.68, 1)';
+      track.style.transform   = `translateX(-${current * 100}%)`;
     }
+
+    // After each transition: jump silently back to real slide when hitting a clone
+    track.addEventListener('transitionend', () => {
+      if (current === TOTAL + 1) {
+        // Was clone-first → jump to real first
+        current = 1;
+        track.style.transition = 'none';
+        track.style.transform   = `translateX(-${current * 100}%)`;
+      }
+      if (current === 0) {
+        // Was clone-last → jump to real last
+        current = TOTAL;
+        track.style.transition = 'none';
+        track.style.transform   = `translateX(-${current * 100}%)`;
+      }
+      isTransitioning = false;
+    });
+
+    // Auto-advance every 3 500 ms (slow, continuous, one direction)
+    let timer = setInterval(goNext, 3500);
+
+    // Pause on hover — resume on leave
+    carousel.addEventListener('mouseenter', () => clearInterval(timer));
+    carousel.addEventListener('mouseleave', () => {
+      timer = setInterval(goNext, 3500);
+    });
   });
 }
 
+// updateCarousel kept for any legacy callers
 function updateCarousel(track, index) {
   track.style.transform = `translateX(-${index * 100}%)`;
 }
