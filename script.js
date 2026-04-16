@@ -435,7 +435,7 @@ function initCarousels() {
       if (isTransitioning) return;
       isTransitioning = true;
       current++;
-      track.style.transition = 'transform 0.95s cubic-bezier(0.33, 1, 0.68, 1)';
+      track.style.transition = 'transform 1.1s cubic-bezier(0.33, 1, 0.68, 1)';
       track.style.transform   = `translateX(-${current * 100}%)`;
     }
 
@@ -457,12 +457,12 @@ function initCarousels() {
     });
 
     // Auto-advance every 3 500 ms (slow, continuous, one direction)
-    let timer = setInterval(goNext, 3500);
+    let timer = setInterval(goNext, 5850);
 
     // Pause on hover — resume on leave
     carousel.addEventListener('mouseenter', () => clearInterval(timer));
     carousel.addEventListener('mouseleave', () => {
-      timer = setInterval(goNext, 3500);
+      timer = setInterval(goNext, 5850);
     });
   });
 }
