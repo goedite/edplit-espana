@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schmidt Gandía — Condiciones Especiales para Profesionales</title>
+  <meta name="description" content="Descarga las condiciones especiales de Schmidt Gandía para promotores y arquitectos. Hasta 45% de descuento en proyectos de volumen." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #CC0000;
+      --red-hover: #E60000;
+      --bg: #0D0D0D;
+      --surface: #171717;
+      --border: rgba(255,255,255,0.08);
+      --text: #FFFFFF;
+      --muted: #888;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    /* LOGO */
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .logo .red { color: var(--red); }
+
+    .logo-sub {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 56px 48px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(204,0,0,0.1);
+      border: 1px solid rgba(204,0,0,0.25);
+      color: #FF6666;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    .desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    /* HIGHLIGHTS */
+    .highlights {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .highlight {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    /* CTA BUTTON */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--red);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 18px 36px;
+      border-radius: 100px;
+      text-decoration: none;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--red-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(204,0,0,0.35);
+    }
+
+    .btn svg {
+      width: 18px; height: 18px; flex-shrink: 0;
+    }
+
+    .btn-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* CONTACT */
+    .contact {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .contact strong { color: var(--text); }
+
+    .contact a {
+      color: #FF6666;
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    @media (max-width: 560px) {
+      .card { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <div class="logo">SCHM<span class="red">I</span>DT</div>
+    <div class="logo-sub">Cocinas y muebles a medida</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+    <div class="badge">📐 Documento exclusivo para profesionales</div>
+
+    <h1>Hasta <em>45% de descuento</em><br />en proyectos de volumen</h1>
+
+    <p class="desc">
+      Condiciones especiales para promotores, arquitectos y desarrolladores.
+      Fabricación íntegramente en Francia con garantía de hasta 25 años.
+    </p>
+
+    <div class="highlights">
+      <span class="highlight">6–10 cocinas → 43% dto.</span>
+      <span class="highlight">11–20 cocinas → 44% dto.</span>
+      <span class="highlight">21+ cocinas → 45% dto.</span>
+    </div>
+
+    <a id="btn-descarga"
+       href="https://drive.google.com/uc?export=download&id=1U6m-kICggHAhn86b52uHOwLkgmNMx2tr"
+       target="_blank"
+       rel="noopener"
+       class="btn"
+       onclick="trackDescarga()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+      </svg>
+      Descargar condiciones especiales
+    </a>
+
+    <p class="btn-note">PDF gratuito · Descarga inmediata · Sin registro</p>
+
+    <hr class="divider" />
+
+    <div class="contact">
+      <strong>Nicolás · Schmidt Gandía</strong><br />
+      <a href="mailto:nico.zaderei@schmidt-gandia.com">nico.zaderei@schmidt-gandia.com</a><br />
+      <a href="tel:+34642001244">+34 642 001 244</a>
+    </div>
+  </div>
+
+  <footer>Schmidt Gandía · Carrer de l'Exportació, 37 · 46702 Gandía, Valencia</footer>
+
+  <script>
+    function trackDescarga() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'pdf_download', {
+          event_category: 'Schmidt Promotores',
+          event_label: 'Condiciones Especiales 2026'
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
