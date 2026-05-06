@@ -110,45 +110,54 @@
 </head>
 
 <body>
-    <!-- NAV -->
-    <nav class="navbar" id="navbar">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-item"><span class="tb-icon">✦</span> Envío gratis desde 490 €</div>
+            <div class="top-bar-item"><span class="tb-icon">✦</span> 10 años de garantía</div>
+            <div class="top-bar-item"><span class="tb-icon">✦</span> Distribuidor oficial en España</div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
         <div class="container nav-content">
             <div class="logo">
                 <a href="index.html">
-                    <img src="images/logo/logo.webp" alt="EDPLIT España" class="logo-image" style="max-width: 120px;"
+                    <img src="images/logo/logo.webp" alt="EDPLIT España" class="logo-image"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                    <span style="display:none;"><span class="logo-text">edplit</span><span class="logo-domain">.es</span></span>
+                    <span style="display:none;"><span class="logo-text">edplit</span><span
+                            class="logo-domain">.es</span></span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="Abrir menú">
-                <span></span><span></span><span></span>
+            <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
+            <!-- ===  MENÚ ESCRITORIO  === -->
             <ul class="nav-links nav-desktop">
-                <li class="nav-dropdown">
-                    <a href="#" class="nav-dropdown-toggle">Productos <span class="nav-arrow">↓</span></a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="https://tienda.edplit.es/collections/pulsador-invisible-m1" target="_blank">Pulsadores <span class="nav-arrow">→</span></a></li>
-                        <li><a href="https://tienda.edplit.es/collections/mecanismos-de-enchufe" target="_blank">Enchufes <span class="nav-arrow">→</span></a></li>
-                        <li><a href="https://tienda.edplit.es/collections/interruptor-invisible" target="_blank">Interruptores <span class="nav-arrow">→</span></a></li>
-                        <li><a href="https://tienda.edplit.es/collections/sistema-oculto-de-extracion-y-ventilaodores-silencios" target="_blank">Sistemas de extracción <span class="nav-arrow">→</span></a></li>
-                        <li><a href="https://tienda.edplit.es/collections/tapas-de-registro" target="_blank">Tapas de registro <span class="nav-arrow">→</span></a></li>
-                        <li><a href="https://tienda.edplit.es/collections/juego-de-soportes-ocultos-para-toallas" target="_blank">Toalleros <span class="nav-arrow">→</span></a></li>
-                        <li><a href="distar-herramientas.html" class="active">Herramientas DiStar <span class="nav-arrow">→</span></a></li>
-                    </ul>
-                </li>
+                <li><a href="index.html#productos">Productos</a></li>
+                <li><a href="index.html#como-funciona">Cómo funciona</a></li>
+                <li><a href="index.html#profesionales">Profesionales</a></li>
                 <li><a href="index.html#contacto">Contacto</a></li>
                 <li><a href="https://tienda.edplit.es" class="external-link">Tienda online ↗</a></li>
             </ul>
+
+            <!-- ===  MENÚ MÓVIL (hamburguesa)  === -->
             <ul class="nav-links nav-mobile">
+                <!-- Categorías de producto -->
                 <li class="nav-category-label">Productos</li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/pulsador-invisible-m1" target="_blank">Pulsadores <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/mecanismos-de-enchufe" target="_blank">Enchufes <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/interruptor-invisible" target="_blank">Interruptores <span class="nav-arrow">→</span></a></li>
-                <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/sistema-oculto-de-extracion-y-ventilaodores-silencios" target="_blank">Sistemas de extracción <span class="nav-arrow">→</span></a></li>
+                <li class="nav-product-item"><a href="sistemas-de-extraccion.html">Sistemas de extracción <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/tapas-de-registro" target="_blank">Tapas de registro <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/juego-de-soportes-ocultos-para-toallas" target="_blank">Toalleros <span class="nav-arrow">→</span></a></li>
-                <li class="nav-product-item"><a href="distar-herramientas.html">Herramientas DiStar <span class="nav-arrow">→</span></a></li>
+                <li class="nav-product-item"><a href="distar-herramientas.html" class="active">Herramientas DiStar <span class="nav-arrow">→</span></a></li>
+                <!-- Separador -->
                 <li class="nav-divider"></li>
+                <!-- Links secundarios -->
                 <li class="nav-secondary-item"><a href="index.html#contacto">Contacto</a></li>
                 <li class="nav-secondary-item"><a href="https://tienda.edplit.es" class="external-link">Tienda online ↗</a></li>
             </ul>
