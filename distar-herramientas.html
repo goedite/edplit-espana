@@ -112,12 +112,14 @@
 <body>
     <!-- NAV -->
     <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="images/logo/logo.webp" alt="EDPLIT España" class="logo-image" style="max-width: 120px;"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                <span style="display:none;"><span class="logo-text">edplit</span><span class="logo-domain">.es</span></span>
-            </a>
+        <div class="container nav-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo/logo.webp" alt="EDPLIT España" class="logo-image" style="max-width: 120px;"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span style="display:none;"><span class="logo-text">edplit</span><span class="logo-domain">.es</span></span>
+                </a>
+            </div>
             <button class="hamburger" id="hamburger" aria-label="Abrir menú">
                 <span></span><span></span><span></span>
             </button>
@@ -169,31 +171,6 @@
             </p>
         </div>
     </header>
-
-    <!-- INTRO -->
-    <section style="padding: 3rem 0 0; background: var(--bg-body);">
-        <div class="container">
-            <div class="distar-intro">
-                <h2 class="section-title" style="margin-bottom: 1.5rem;">Precisión, fiabilidad y tecnología punta</h2>
-                <p>
-                    <strong>DISTAR</strong> es un fabricante europeo de herramientas de diamante con más de 30 años de experiencia, que combina la capacidad de producción ucraniana con tecnologías avanzadas. Desde su fábrica en Poltava, producen discos, brocas y fresas profesionales que se exportan a más de 55 países, incluidos Alemania, Polonia, EE. UU. y Australia.
-                </p>
-                <p style="margin-top: 1rem;">
-                    Al elegir DISTAR, obtienes una solución integral para el trabajo eficiente con cualquier material de construcción. Como distribuidor directo, garantizamos calidad europea, logística rápida y soporte técnico con el respaldo de <strong>DISTAR Polska</strong> en Europa.
-                </p>
-                
-                <div style="text-align: left; margin-top: 2.5rem; background: var(--bg-lighter); padding: 2rem; border-radius: 8px;">
-                    <h3 style="font-size: 1.2rem; color: var(--accent); margin-bottom: 1rem;">Ventajas de DISTAR</h3>
-                    <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 1.5rem;">
-                        <li><strong>Tres clases de profesionalidad:</strong> 3D (Bestseller) para uso doméstico, 5D (Extra) para trabajo intensivo, y 7D (Industrial) para aplicaciones industriales.</li>
-                        <li><strong>Diamantes sintéticos alemanes</strong> de alta calidad en los segmentos de corte, asegurando un rendimiento excelente.</li>
-                        <li><strong>Soldadura láser</strong> que garantiza la máxima resistencia de la unión y evita pérdidas durante el uso intensivo.</li>
-                        <li><strong>Certificación ISO 9001-2015</strong> y certificado europeo EN 13236-2019 CE, confirmando el cumplimiento de los estándares internacionales de calidad y seguridad.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- CATALOG SECTION -->
     <section class="products-section" style="background: var(--bg-body);">
@@ -256,7 +233,33 @@
                 </div>
             </div>
 
-            <!-- FAQ & CTA -->
+        </div>
+    </section>
+
+    <!-- INTRO -->
+    <section style="padding: 3rem 0; background: var(--bg-body);">
+        <div class="container">
+            <div class="distar-intro">
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">Precisión, fiabilidad y tecnología punta</h2>
+                <p>
+                    <strong>DISTAR</strong> es un fabricante europeo de herramientas de diamante con más de 30 años de experiencia, que combina la capacidad de producción ucraniana con tecnologías avanzadas. Desde su fábrica en Poltava, producen discos, brocas y fresas profesionales que se exportan a más de 55 países, incluidos Alemania, Polonia, EE. UU. y Australia.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Al elegir DISTAR, obtienes una solución integral para el trabajo eficiente con cualquier material de construcción. Como distribuidor directo, garantizamos calidad europea, logística rápida y soporte técnico con el respaldo de <strong>DISTAR Polska</strong> en Europa.
+                </p>
+                
+                <div style="text-align: left; margin-top: 2.5rem; background: var(--bg-lighter); padding: 2rem; border-radius: 8px;">
+                    <h3 style="font-size: 1.2rem; color: var(--accent); margin-bottom: 1rem;">Ventajas de DISTAR</h3>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 1.5rem;">
+                        <li><strong>Tres clases de profesionalidad:</strong> 3D (Bestseller) para uso doméstico, 5D (Extra) para trabajo intensivo, y 7D (Industrial) para aplicaciones industriales.</li>
+                        <li><strong>Diamantes sintéticos alemanes</strong> de alta calidad en los segmentos de corte, asegurando un rendimiento excelente.</li>
+                        <li><strong>Soldadura láser</strong> que garantiza la máxima resistencia de la unión y evita pérdidas durante el uso intensivo.</li>
+                        <li><strong>Certificación ISO 9001-2015</strong> y certificado europeo EN 13236-2019 CE, confirmando el cumplimiento de los estándares internacionales de calidad y seguridad.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- FAQ -->
             <div style="text-align: left; margin-top: 4rem; padding: 3rem; background: var(--bg-lighter); border-radius: 1rem;">
                 <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;">Preguntas Frecuentes</h2>
                 
@@ -279,7 +282,6 @@
                     <a href="index.html#contacto" class="btn btn-primary">Solicitar asesoramiento o realizar un pedido →</a>
                 </div>
             </div>
-
         </div>
     </section>
 
