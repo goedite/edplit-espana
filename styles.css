@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   /* Colors - Warm Cream/Beige Premium Palette */
   --primary: #3a3632;
   /* Charcoal Brown */
@@ -2171,20 +2171,32 @@ body {
 }
 
 /* ==========================================
-   FEATURED PRODUCT CARD (Sistema Electrico)
+   TARJETA ELÉCTRICA — responsive móvil
    ========================================== */
 @media (max-width: 768px) {
-  .featured-product-card {
+
+  /* La tarjeta pasa a columna vertical */
+  .card-electrico {
     flex-direction: column !important;
   }
-  .featured-product-card > div:first-child {
+
+  #carousel-electrico-home {
     flex: 0 0 100% !important;
     max-width: 100% !important;
+    width: 100% !important;
   }
-  .featured-product-card > div:first-child img {
-    height: 240px !important;
+
+  /* El carousel ocupa todo el ancho y baja la altura */
+  #carousel-electrico-home .carousel-track,
+  #carousel-electrico-home .carousel-slide,
+  #carousel-electrico-home .carousel-slide img,
+  #carousel-electrico-home .product-image {
+    height: 300px !important;
   }
-  .featured-product-card > div:last-child {
+
+  /* La tarjeta apila vertical */
+  #carousel-electrico-home ~ div {
+    width: 100% !important;
     padding: 1.5rem !important;
   }
 }
