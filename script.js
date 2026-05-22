@@ -435,7 +435,15 @@ function initCarousels() {
       if (isTransitioning) return;
       isTransitioning = true;
       current++;
-      track.style.transition = 'transform 2.0s cubic-bezier(0.33, 1, 0.68, 1)';
+      track.style.transition = 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)';
+      track.style.transform   = `translateX(-${current * 100}%)`;
+    }
+
+    function goPrev() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      current--;
+      track.style.transition = 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)';
       track.style.transform   = `translateX(-${current * 100}%)`;
     }
 
@@ -456,14 +464,28 @@ function initCarousels() {
       isTransitioning = false;
     });
 
-    // Auto-advance every 3 500 ms (slow, continuous, one direction)
-    let timer = setInterval(goNext, 10600);
+    // Auto-advance every 4.5s
+    let timer = setInterval(goNext, 4500);
 
     // Pause on hover — resume on leave
     carousel.addEventListener('mouseenter', () => clearInterval(timer));
     carousel.addEventListener('mouseleave', () => {
-      timer = setInterval(goNext, 10600);
+      timer = setInterval(goNext, 4500);
     });
+
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      clearInterval(timer);
+    }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        diff > 0 ? goNext() : goPrev();
+      }
+      timer = setInterval(goNext, 4500);
+    }, { passive: true });
   });
 }
 
