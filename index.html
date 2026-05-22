@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 
 
 
@@ -3781,61 +3781,78 @@
             <a href="https://tienda.edplit.es/products/pack-enchufe-interruptor-modular-con-marco-incluido" class="btn btn-outline" target="_blank">Ver la colecci&oacute;n completa &rarr;</a>
           </div>
 
-          <!-- TARJETA DESTACADA ÚNICA -->
-          <div class="featured-product-card" style="
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            background: var(--bg-lighter);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-top: 2rem;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-          ">
-            <!-- Imagen izquierda -->
-            <div style="flex: 0 0 48%; max-width: 48%; position: relative; overflow: hidden;">
-              <img
-                src="images/products/colores-enchufes.webp"
-                alt="Sistema Eléctrico Oculto a Medida EDPLIT - Enchufes e Interruptores en múltiples colores"
-                style="width:100%; height:380px; object-fit:cover; display:block; transition: transform 0.4s ease;"
-                onmouseover="this.style.transform='scale(1.04)'"
-                onmouseout="this.style.transform='scale(1)'"
-                onerror="this.src='images/products/marco-simple.webp'"
-              >
-              <span style="
-                position: absolute; top: 1.2rem; left: 1.2rem;
-                background: var(--accent); color: #fff;
-                font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-                padding: 0.3rem 0.8rem; border-radius: 20px; text-transform: uppercase;
-              ">Configurable a medida</span>
-            </div>
-            <!-- Contenido derecha -->
-            <div style="flex: 1; padding: 2.5rem 2.5rem 2.5rem 0;">
-              <p style="font-size:0.8rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem;">
-                Sistema modular · Elige tu combinación
-              </p>
-              <h3 style="font-size:1.8rem; font-weight:700; line-height:1.2; margin-bottom:1rem; color:var(--primary);">
-                Sistema Eléctrico<br>Oculto a Medida
-              </h3>
-              <p style="color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem; font-size:0.95rem;">
-                Configura tu panel con la combinación que necesites: enchufes simples o dobles, interruptores de uno o dos mandos, en negro, blanco o beige. Todo integrado a ras del azulejo, sin marcos visibles.
-              </p>
-              <!-- Chips de características -->
-              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem;">
-                <span style="background:var(--bg-body); border:1px solid var(--border); border-radius:20px; padding:0.3rem 0.85rem; font-size:0.78rem; font-weight:500; color:var(--text-secondary);">✦ Enchufes Schuko Tipo F</span>
-                <span style="background:var(--bg-body); border:1px solid var(--border); border-radius:20px; padding:0.3rem 0.85rem; font-size:0.78rem; font-weight:500; color:var(--text-secondary);">✦ Interruptores simple y doble</span>
-                <span style="background:var(--bg-body); border:1px solid var(--border); border-radius:20px; padding:0.3rem 0.85rem; font-size:0.78rem; font-weight:500; color:var(--text-secondary);">✦ Negro · Blanco · Beige</span>
-                <span style="background:var(--bg-body); border:1px solid var(--border); border-radius:20px; padding:0.3rem 0.85rem; font-size:0.78rem; font-weight:500; color:var(--text-secondary);">✦ Certificación UE</span>
+          <!-- TARJETA ÚNICA ANCHO COMPLETO — estilo pulsadores -->
+          <div class="products-grid" style="grid-template-columns: 1fr; margin-top: 1.5rem;">
+            <div class="product-card" style="display:flex; flex-direction:row; gap:0; padding:0; overflow:hidden; border-radius:16px;">
+
+              <!-- CAROUSEL izquierda (ancho ~55%) -->
+              <div class="product-carousel" id="carousel-electrico-home" style="flex: 0 0 55%; max-width: 55%; border-radius:0; min-height: 420px;">
+                <div class="carousel-track">
+                  <div class="carousel-slide">
+                    <img
+                      src="images/enchufes/ELIGE COLORES 3.jpg"
+                      alt="Sistema Eléctrico EDPLIT - Elige colores enchufe e interruptor"
+                      class="product-image"
+                      style="height:420px; object-fit:cover;"
+                      onerror="this.src='images/products/colores-enchufes.webp'"
+                    >
+                  </div>
+                  <div class="carousel-slide">
+                    <img
+                      src="images/interruptores/interuptores e enchufe conjuntoedplit 3.jpg"
+                      alt="Enchufes e interruptores EDPLIT instalados juntos en baño"
+                      class="product-image"
+                      style="height:420px; object-fit:cover;"
+                    >
+                  </div>
+                  <div class="carousel-slide">
+                    <img
+                      src="images/enchufes/enchufe doble.jpg"
+                      alt="Enchufe doble invisible EDPLIT integrado en azulejo"
+                      class="product-image"
+                      style="height:420px; object-fit:cover;"
+                      onerror="this.src='images/products/enchufes-dobles.webp'"
+                    >
+                  </div>
+                  <div class="carousel-slide">
+                    <img
+                      src="images/interruptores/interuptores invisibles edplit.jpg"
+                      alt="Interruptores invisibles EDPLIT en pared de baño de diseño"
+                      class="product-image"
+                      style="height:420px; object-fit:cover;"
+                    >
+                  </div>
+                </div>
               </div>
-              <a
-                href="https://tienda.edplit.es/products/pack-enchufe-interruptor-modular-con-marco-incluido"
-                target="_blank"
-                class="btn btn-primary"
-                style="font-size:1rem; padding:0.9rem 2.2rem; display:inline-flex; align-items:center; gap:0.6rem; border-radius:8px;"
-              >
-                Configurar y comprar &rarr;
-              </a>
+
+              <!-- CONTENIDO derecha -->
+              <div style="flex:1; padding: 2.5rem 2.5rem; display:flex; flex-direction:column; justify-content:center;">
+                <p style="font-size:0.78rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem;">
+                  Sistema modular &middot; Elige tu combinaci&oacute;n
+                </p>
+                <h4 style="font-size:1.6rem; font-weight:700; line-height:1.2; margin-bottom:1rem; color:var(--primary);">
+                  Sistema El&eacute;ctrico<br>Oculto a Medida
+                </h4>
+                <p style="color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem; font-size:0.95rem;">
+                  Configura tu panel con la combinaci&oacute;n que necesites: enchufes simples o dobles, interruptores de uno o dos mandos, en negro, blanco o beige. Todo integrado a ras del azulejo, sin marcos visibles.
+                </p>
+                <!-- Chips -->
+                <div style="display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:2rem;">
+                  <span class="product-compat" style="border-radius:20px; padding:0.3rem 0.85rem; border:1px solid var(--border); font-size:0.78rem; white-space:nowrap;">✦ Enchufes Schuko Tipo F</span>
+                  <span class="product-compat" style="border-radius:20px; padding:0.3rem 0.85rem; border:1px solid var(--border); font-size:0.78rem; white-space:nowrap;">✦ Interruptores simple y doble</span>
+                  <span class="product-compat" style="border-radius:20px; padding:0.3rem 0.85rem; border:1px solid var(--border); font-size:0.78rem; white-space:nowrap;">✦ Negro &middot; Blanco &middot; Beige</span>
+                  <span class="product-compat" style="border-radius:20px; padding:0.3rem 0.85rem; border:1px solid var(--border); font-size:0.78rem; white-space:nowrap;">✦ Certificaci&oacute;n UE</span>
+                </div>
+                <a
+                  href="https://tienda.edplit.es/products/pack-enchufe-interruptor-modular-con-marco-incluido"
+                  target="_blank"
+                  class="btn btn-primary"
+                  style="font-size:1rem; padding:0.9rem 2rem; display:inline-flex; align-items:center; gap:0.6rem; width:fit-content;"
+                >
+                  Configurar y comprar &rarr;
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
