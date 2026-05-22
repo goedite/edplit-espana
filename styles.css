@@ -2190,25 +2190,24 @@ body {
 }
 
 /* ================================================
-   CAROUSEL ELÉCTRICO — cuadrado 1:1, cover total
+   CAROUSEL ELÉCTRICO — llena altura completa tarjeta
    ================================================ */
 #carousel-electrico-home {
-  aspect-ratio: 1 / 1 !important;
-  height: auto !important;
-  min-height: unset !important;
+  height: 100% !important;
+  min-height: 380px;
+  aspect-ratio: unset !important;
+  align-self: stretch !important;
   background: transparent !important;
   margin-bottom: 0 !important;
+  position: relative !important;
 }
 
 #carousel-electrico-home .carousel-track {
   height: 100% !important;
   position: absolute !important;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100% !important;
-}
-
-#carousel-electrico-home {
-  position: relative !important;
 }
 
 #carousel-electrico-home .carousel-slide {
