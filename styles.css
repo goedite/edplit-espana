@@ -2169,3 +2169,22 @@ body {
     height: 38px;
   }
 }
+
+/* ==========================================
+   FEATURED PRODUCT CARD (Sistema Electrico)
+   ========================================== */
+@media (max-width: 768px) {
+  .featured-product-card {
+    flex-direction: column !important;
+  }
+  .featured-product-card > div:first-child {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .featured-product-card > div:first-child img {
+    height: 240px !important;
+  }
+  .featured-product-card > div:last-child {
+    padding: 1.5rem !important;
+  }
+}
