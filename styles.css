@@ -2193,39 +2193,39 @@ body {
    CAROUSEL ELÉCTRICO — llena altura completa tarjeta
    ================================================ */
 #carousel-electrico-home {
+  min-height: 420px !important;
   height: 100% !important;
-  min-height: 380px;
   aspect-ratio: unset !important;
-  align-self: stretch !important;
   background: transparent !important;
   margin-bottom: 0 !important;
   position: relative !important;
+  overflow: hidden !important;
 }
 
 #carousel-electrico-home .carousel-track {
   height: 100% !important;
-  position: absolute !important;
-  top: 0;
-  left: 0;
+  min-height: 420px !important;
   width: 100% !important;
+  position: relative !important;
 }
 
 #carousel-electrico-home .carousel-slide {
-  height: 100% !important;
-  min-height: unset !important;
+  height: 420px !important;
+  min-height: 420px !important;
   padding: 0 !important;
   background: transparent !important;
+  overflow: hidden !important;
 }
 
 #carousel-electrico-home .carousel-slide img,
 #carousel-electrico-home .product-image {
   width: 100% !important;
-  height: 100% !important;
+  height: 420px !important;
   object-fit: cover !important;
+  object-position: center !important;
   padding: 0 !important;
   border-radius: 0 !important;
   margin-bottom: 0 !important;
   background: transparent !important;
   display: block !important;
 }
-
