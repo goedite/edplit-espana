@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   /* Colors - Warm Cream/Beige Premium Palette */
   --primary: #3a3632;
   /* Charcoal Brown */
@@ -515,7 +515,7 @@ body {
 .hero-slider {
   position: relative;
   width: 100%;
-  min-height: 560px;         /* fits 4:5 portrait at ~420px wide */
+  min-height: 560px;         /* fits 4:5 portrait at ~650px wide */
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -1698,14 +1698,14 @@ body {
     border-radius: 12px;       /* Slightly rounded corners */
     overflow: hidden;
     min-height: 56vw;          /* Proportional to screen width */
-    max-height: 420px;
+    max-height: 650px;
   }
 
   .hero-slider-track,
   .hero-slide,
   .hero-slide img {
     min-height: 56vw;
-    max-height: 420px;
+    max-height: 650px;
   }
 
   /* Bigger, finger-friendly arrow buttons */
@@ -2193,7 +2193,7 @@ body {
    CAROUSEL ELÉCTRICO — llena altura completa tarjeta
    ================================================ */
 #carousel-electrico-home {
-  min-height: 420px !important;
+  min-height: 650px !important;
   height: 100% !important;
   aspect-ratio: unset !important;
   background: transparent !important;
@@ -2204,14 +2204,14 @@ body {
 
 #carousel-electrico-home .carousel-track {
   height: 100% !important;
-  min-height: 420px !important;
+  min-height: 650px !important;
   width: 100% !important;
   position: relative !important;
 }
 
 #carousel-electrico-home .carousel-slide {
-  height: 420px !important;
-  min-height: 420px !important;
+  height: 650px !important;
+  min-height: 650px !important;
   padding: 0 !important;
   background: transparent !important;
   overflow: hidden !important;
@@ -2220,7 +2220,7 @@ body {
 #carousel-electrico-home .carousel-slide img,
 #carousel-electrico-home .product-image {
   width: 100% !important;
-  height: 420px !important;
+  height: 650px !important;
   object-fit: cover !important;
   object-position: center !important;
   padding: 0 !important;
