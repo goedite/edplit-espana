@@ -2320,6 +2320,10 @@
 
 
 
+    <!-- Leaflet CSS (mapa instaladores) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   </head>
 
 
@@ -7653,7 +7657,7 @@
 
           <!-- Map -->
           <div class="installers-map-wrap">
-            <div id="installersMap" class="installers-map"></div>
+            <div id="installersMap" class="installers-map" style="height:540px;width:100%;z-index:1;"></div>
             <div class="map-legend">
               <span class="legend-item"><span class="legend-dot legend-instalador"></span>Instalador</span>
               <span class="legend-item"><span class="legend-dot legend-arquitecto"></span>Arquitecto</span>
@@ -10061,9 +10065,7 @@
 
     <script src="script.js" defer></script>
 
-    <!-- Leaflet.js (OpenStreetMap) + Lógica Instaladores -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet lógica Instaladores -->
     <script>
       // ============================================================
       //  DATOS DE INSTALADORES — Añade o edita aquí fácilmente
