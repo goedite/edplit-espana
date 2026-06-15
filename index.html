@@ -2621,6 +2621,7 @@
 
 
           <li><a href="#productos">Productos</a></li>
+          <li><a href="#instaladores">Instaladores</a></li>
 
 
 
@@ -7616,12 +7617,53 @@
 
 
 
+    <!-- INSTALADORES OFICIALES MAP SECTION -->
+    <section id="instaladores" class="installers-section">
+      <div class="container">
+        <div class="section-header reveal-on-scroll">
+          <div class="badge">Red Oficial</div>
+          <h2>Instaladores Oficiales en España</h2>
+          <p class="section-subtitle">Encuentra el instalador certificado EDPLIT más cercano a ti. Todos nuestros partners están formados y avalados oficialmente.</p>
+        </div>
 
+        <!-- Filter bar -->
+        <div class="installers-filter reveal-on-scroll">
+          <div class="filter-search">
+            <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="installerSearch" placeholder="Buscar por ciudad o provincia…" oninput="filterInstallers(this.value)" />
+          </div>
+          <div class="filter-tags">
+            <button class="filter-tag active" onclick="filterByType('all', this)">Todos</button>
+            <button class="filter-tag" onclick="filterByType('instalador', this)">Instaladores</button>
+            <button class="filter-tag" onclick="filterByType('arquitecto', this)">Arquitectos</button>
+            <button class="filter-tag" onclick="filterByType('distribuidor', this)">Distribuidores</button>
+          </div>
+        </div>
 
+        <div class="installers-layout">
 
+          <!-- Sidebar: installer list -->
+          <div class="installers-sidebar">
+            <div id="installersList" class="installers-list"></div>
+            <div id="installersEmpty" class="installers-empty" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              <p>No se encontraron instaladores</p>
+            </div>
+          </div>
 
+          <!-- Map -->
+          <div class="installers-map-wrap">
+            <div id="installersMap" class="installers-map"></div>
+            <div class="map-legend">
+              <span class="legend-item"><span class="legend-dot legend-instalador"></span>Instalador</span>
+              <span class="legend-item"><span class="legend-dot legend-arquitecto"></span>Arquitecto</span>
+              <span class="legend-item"><span class="legend-dot legend-distribuidor"></span>Distribuidor</span>
+            </div>
+          </div>
 
-
+        </div>
+      </div>
+    </section>
 
     <!-- CONTACT SECTION -->
 
@@ -10018,6 +10060,250 @@
 
 
     <script src="script.js" defer></script>
+
+    <!-- Google Maps + Instaladores -->
+    <script>
+      // ============================================================
+      //  DATOS DE INSTALADORES — Añade o edita aquí fácilmente
+      // ============================================================
+      const INSTALADORES = [
+        {
+          id: 1,
+          nombre: "Reformas Baño Madrid",
+          tipo: "instalador",
+          ciudad: "Madrid",
+          provincia: "Madrid",
+          telefono: "+34 910 000 001",
+          web: "#",
+          lat: 40.4168,
+          lng: -3.7038
+        },
+        {
+          id: 2,
+          nombre: "Studio Baños Barcelona",
+          tipo: "instalador",
+          ciudad: "Barcelona",
+          provincia: "Barcelona",
+          telefono: "+34 932 000 002",
+          web: "#",
+          lat: 41.3851,
+          lng: 2.1734
+        },
+        {
+          id: 3,
+          nombre: "Interiorismo Luxury Valencia",
+          tipo: "arquitecto",
+          ciudad: "Valencia",
+          provincia: "Valencia",
+          telefono: "+34 960 000 003",
+          web: "#",
+          lat: 39.4699,
+          lng: -0.3763
+        },
+        {
+          id: 4,
+          nombre: "BathPro Sevilla",
+          tipo: "instalador",
+          ciudad: "Sevilla",
+          provincia: "Sevilla",
+          telefono: "+34 954 000 004",
+          web: "#",
+          lat: 37.3891,
+          lng: -5.9845
+        },
+        {
+          id: 5,
+          nombre: "Distribuidora Norte Bilbao",
+          tipo: "distribuidor",
+          ciudad: "Bilbao",
+          provincia: "Vizcaya",
+          telefono: "+34 944 000 005",
+          web: "#",
+          lat: 43.2630,
+          lng: -2.9350
+        },
+        {
+          id: 6,
+          nombre: "Instalaciones Premium Málaga",
+          tipo: "instalador",
+          ciudad: "Málaga",
+          provincia: "Málaga",
+          telefono: "+34 951 000 006",
+          web: "#",
+          lat: 36.7213,
+          lng: -4.4214
+        }
+      ];
+
+      // Estado
+      let activeType = 'all';
+      let activeSearch = '';
+      let mapInstance = null;
+      let markersMap = {};
+      let infoWindowOpen = null;
+
+      // Colores por tipo
+      const TYPE_COLOR = {
+        instalador:   '#e8b97a',
+        arquitecto:   '#7ab8e8',
+        distribuidor: '#a8e87a'
+      };
+
+      // ---- Inicializa Google Maps ----
+      function initInstallersMap() {
+        mapInstance = new google.maps.Map(document.getElementById('installersMap'), {
+          center: { lat: 40.2, lng: -3.7 },
+          zoom: 6,
+          mapTypeId: 'roadmap',
+          styles: [
+            { elementType: 'geometry',        stylers: [{ color: '#1e1e2e' }] },
+            { elementType: 'labels.text.fill',stylers: [{ color: '#a0a0c0' }] },
+            { elementType: 'labels.text.stroke',stylers:[{ color: '#1e1e2e' }] },
+            { featureType: 'road',            elementType: 'geometry', stylers: [{ color: '#2a2a3e' }] },
+            { featureType: 'road',            elementType: 'geometry.stroke', stylers: [{ color: '#212135' }] },
+            { featureType: 'water',           elementType: 'geometry', stylers: [{ color: '#14142e' }] },
+            { featureType: 'administrative',  elementType: 'geometry.stroke', stylers: [{ color: '#3a3a5e' }] },
+            { featureType: 'poi',             stylers: [{ visibility: 'off' }] },
+            { featureType: 'transit',         stylers: [{ visibility: 'off' }] }
+          ],
+          disableDefaultUI: false,
+          zoomControl: true,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: true
+        });
+
+        // Crear marcadores
+        INSTALADORES.forEach(inst => {
+          const marker = new google.maps.Marker({
+            position: { lat: inst.lat, lng: inst.lng },
+            map: mapInstance,
+            title: inst.nombre,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+              fillColor: TYPE_COLOR[inst.tipo] || '#ffffff',
+              fillOpacity: 1,
+              strokeColor: '#ffffff',
+              strokeWeight: 2
+            }
+          });
+
+          const infoContent = `
+            <div style="font-family:'Instrument Sans',sans-serif;padding:8px;min-width:180px;">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#e8b97a;margin-bottom:4px;">${inst.tipo}</div>
+              <strong style="font-size:14px;display:block;margin-bottom:4px;">${inst.nombre}</strong>
+              <div style="font-size:12px;color:#555;margin-bottom:2px;">📍 ${inst.ciudad}, ${inst.provincia}</div>
+              <div style="font-size:12px;color:#555;margin-bottom:6px;">📞 ${inst.telefono}</div>
+              ${inst.web !== '#' ? `<a href="${inst.web}" target="_blank" style="font-size:12px;color:#e8b97a;">Ver más →</a>` : ''}
+            </div>`;
+
+          const infoWindow = new google.maps.InfoWindow({ content: infoContent });
+
+          marker.addListener('click', () => {
+            if (infoWindowOpen) infoWindowOpen.close();
+            infoWindow.open(mapInstance, marker);
+            infoWindowOpen = infoWindow;
+            highlightCard(inst.id);
+          });
+
+          markersMap[inst.id] = { marker, infoWindow };
+        });
+
+        renderInstallersList(INSTALADORES);
+      }
+
+      // ---- Renderiza las tarjetas del sidebar ----
+      function renderInstallersList(list) {
+        const container = document.getElementById('installersList');
+        const empty     = document.getElementById('installersEmpty');
+        container.innerHTML = '';
+
+        if (!list.length) {
+          empty.style.display = 'flex';
+          return;
+        }
+        empty.style.display = 'none';
+
+        list.forEach(inst => {
+          const card = document.createElement('div');
+          card.className = 'installer-card';
+          card.id = `card-${inst.id}`;
+          card.dataset.tipo = inst.tipo;
+          card.innerHTML = `
+            <div class="inst-dot" style="background:${TYPE_COLOR[inst.tipo]};"></div>
+            <div class="inst-info">
+              <strong>${inst.nombre}</strong>
+              <span>📍 ${inst.ciudad}, ${inst.provincia}</span>
+              <span>📞 ${inst.telefono}</span>
+            </div>
+            <button class="inst-map-btn" onclick="focusInstaller(${inst.id})" title="Ver en mapa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </button>`;
+          card.addEventListener('click', () => focusInstaller(inst.id));
+          container.appendChild(card);
+        });
+      }
+
+      // ---- Filtra por texto ----
+      function filterInstallers(text) {
+        activeSearch = text.toLowerCase();
+        applyFilters();
+      }
+
+      // ---- Filtra por tipo ----
+      function filterByType(type, btn) {
+        activeType = type;
+        document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      }
+
+      // ---- Aplica ambos filtros ----
+      function applyFilters() {
+        const filtered = INSTALADORES.filter(inst => {
+          const matchType   = activeType === 'all' || inst.tipo === activeType;
+          const matchSearch = !activeSearch ||
+            inst.nombre.toLowerCase().includes(activeSearch) ||
+            inst.ciudad.toLowerCase().includes(activeSearch) ||
+            inst.provincia.toLowerCase().includes(activeSearch);
+          return matchType && matchSearch;
+        });
+
+        // Mostrar/ocultar marcadores
+        const visibleIds = new Set(filtered.map(i => i.id));
+        Object.entries(markersMap).forEach(([id, { marker }]) => {
+          marker.setVisible(visibleIds.has(Number(id)));
+        });
+
+        renderInstallersList(filtered);
+      }
+
+      // ---- Centra el mapa en un instalador ----
+      function focusInstaller(id) {
+        const { marker, infoWindow } = markersMap[id];
+        if (infoWindowOpen) infoWindowOpen.close();
+        mapInstance.panTo(marker.getPosition());
+        mapInstance.setZoom(13);
+        infoWindow.open(mapInstance, marker);
+        infoWindowOpen = infoWindow;
+        highlightCard(id);
+      }
+
+      // ---- Resalta la tarjeta en el sidebar ----
+      function highlightCard(id) {
+        document.querySelectorAll('.installer-card').forEach(c => c.classList.remove('active'));
+        const card = document.getElementById(`card-${id}`);
+        if (card) {
+          card.classList.add('active');
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&callback=initInstallersMap"
+      async defer
+    ></script>
 
 
 

@@ -2243,3 +2243,326 @@ body {
   background: transparent !important;
   display: block !important;
 }
+
+/* ==========================================
+   INSTALADORES OFICIALES — MAP SECTION
+   ========================================== */
+.installers-section {
+  padding: 5rem 0 4rem;
+  background: var(--bg-section, #f9f7f5);
+}
+
+/* Dark mode */
+[data-theme="dark"] .installers-section,
+.dark .installers-section {
+  background: var(--bg-card, #1a1a1a);
+}
+
+/* Filter bar */
+.installers-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.filter-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 220px;
+  background: var(--bg-card, #fff);
+  border: 1.5px solid var(--border, #e5e5e5);
+  border-radius: 50px;
+  padding: 0.6rem 1.2rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.filter-search:focus-within {
+  border-color: var(--accent, #b8956e);
+  box-shadow: 0 0 0 3px rgba(184,149,110,0.15);
+}
+
+.filter-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary, #888);
+  flex-shrink: 0;
+}
+
+.filter-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text-primary, #1a1a1a);
+  width: 100%;
+}
+
+.filter-search input::placeholder {
+  color: var(--text-secondary, #aaa);
+}
+
+.filter-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  border: 1.5px solid var(--border, #e5e5e5);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary, #888);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.03em;
+}
+
+.filter-tag:hover {
+  border-color: var(--accent, #b8956e);
+  color: var(--accent, #b8956e);
+}
+
+.filter-tag.active {
+  background: var(--accent, #b8956e);
+  border-color: var(--accent, #b8956e);
+  color: #fff;
+}
+
+/* Main layout: sidebar + map */
+.installers-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Sidebar */
+.installers-sidebar {
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #e5e5e5);
+  border-radius: var(--radius, 16px);
+  overflow: hidden;
+  max-height: 540px;
+  display: flex;
+  flex-direction: column;
+}
+
+.installers-list {
+  overflow-y: auto;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+.installers-list::-webkit-scrollbar {
+  width: 5px;
+}
+.installers-list::-webkit-scrollbar-track { background: transparent; }
+.installers-list::-webkit-scrollbar-thumb {
+  background: var(--border, #ddd);
+  border-radius: 3px;
+}
+
+/* Installer card in sidebar */
+.installer-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border, #f0f0f0);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.installer-card:last-child { border-bottom: none; }
+
+.installer-card:hover {
+  background: rgba(184,149,110,0.07);
+}
+
+.installer-card.active {
+  background: rgba(184,149,110,0.14);
+  border-left: 3px solid var(--accent, #b8956e);
+}
+
+.inst-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.6);
+}
+
+.inst-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.inst-info strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary, #1a1a1a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inst-info span {
+  font-size: 0.77rem;
+  color: var(--text-secondary, #888);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inst-map-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-secondary, #aaa);
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.inst-map-btn:hover {
+  color: var(--accent, #b8956e);
+  background: rgba(184,149,110,0.12);
+}
+
+.inst-map-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Empty state */
+.installers-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  color: var(--text-secondary, #aaa);
+  text-align: center;
+}
+
+.installers-empty svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.4;
+}
+
+.installers-empty p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Map wrapper */
+.installers-map-wrap {
+  position: relative;
+  border-radius: var(--radius, 16px);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.installers-map {
+  width: 100%;
+  height: 540px;
+  display: block;
+}
+
+/* Map legend */
+.map-legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 0.75rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  padding: 0.45rem 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+}
+
+.legend-instalador   { background: #e8b97a; }
+.legend-arquitecto   { background: #7ab8e8; }
+.legend-distribuidor { background: #a8e87a; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .installers-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .installers-sidebar {
+    max-height: 280px;
+    order: 2;
+  }
+
+  .installers-map-wrap {
+    order: 1;
+  }
+
+  .installers-map {
+    height: 380px;
+  }
+}
+
+@media (max-width: 600px) {
+  .installers-section {
+    padding: 2.5rem 0;
+  }
+
+  .installers-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-tags {
+    justify-content: flex-start;
+  }
+
+  .installers-map {
+    height: 300px;
+  }
+
+  .map-legend {
+    bottom: 10px;
+    left: 10px;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+  }
+}
