@@ -7629,7 +7629,7 @@
         <!-- Filter bar -->
         <div class="installers-filter reveal-on-scroll">
           <div class="filter-search">
-            <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span class="filter-icon-char">&#128269;</span>
             <input type="text" id="installerSearch" placeholder="Buscar por ciudad o provincia…" oninput="filterInstallers(this.value)" />
           </div>
           <div class="filter-tags">
@@ -10061,249 +10061,133 @@
 
     <script src="script.js" defer></script>
 
-    <!-- Google Maps + Instaladores -->
+    <!-- Leaflet.js (OpenStreetMap) + Lógica Instaladores -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
       // ============================================================
       //  DATOS DE INSTALADORES — Añade o edita aquí fácilmente
       // ============================================================
       const INSTALADORES = [
-        {
-          id: 1,
-          nombre: "Reformas Baño Madrid",
-          tipo: "instalador",
-          ciudad: "Madrid",
-          provincia: "Madrid",
-          telefono: "+34 910 000 001",
-          web: "#",
-          lat: 40.4168,
-          lng: -3.7038
-        },
-        {
-          id: 2,
-          nombre: "Studio Baños Barcelona",
-          tipo: "instalador",
-          ciudad: "Barcelona",
-          provincia: "Barcelona",
-          telefono: "+34 932 000 002",
-          web: "#",
-          lat: 41.3851,
-          lng: 2.1734
-        },
-        {
-          id: 3,
-          nombre: "Interiorismo Luxury Valencia",
-          tipo: "arquitecto",
-          ciudad: "Valencia",
-          provincia: "Valencia",
-          telefono: "+34 960 000 003",
-          web: "#",
-          lat: 39.4699,
-          lng: -0.3763
-        },
-        {
-          id: 4,
-          nombre: "BathPro Sevilla",
-          tipo: "instalador",
-          ciudad: "Sevilla",
-          provincia: "Sevilla",
-          telefono: "+34 954 000 004",
-          web: "#",
-          lat: 37.3891,
-          lng: -5.9845
-        },
-        {
-          id: 5,
-          nombre: "Distribuidora Norte Bilbao",
-          tipo: "distribuidor",
-          ciudad: "Bilbao",
-          provincia: "Vizcaya",
-          telefono: "+34 944 000 005",
-          web: "#",
-          lat: 43.2630,
-          lng: -2.9350
-        },
-        {
-          id: 6,
-          nombre: "Instalaciones Premium Málaga",
-          tipo: "instalador",
-          ciudad: "Málaga",
-          provincia: "Málaga",
-          telefono: "+34 951 000 006",
-          web: "#",
-          lat: 36.7213,
-          lng: -4.4214
-        }
+        { id:1, nombre:"Reformas Baño Madrid",        tipo:"instalador",   ciudad:"Madrid",    provincia:"Madrid",    telefono:"+34 910 000 001", web:"#", lat:40.4168,  lng:-3.7038 },
+        { id:2, nombre:"Studio Baños Barcelona",       tipo:"instalador",   ciudad:"Barcelona", provincia:"Barcelona", telefono:"+34 932 000 002", web:"#", lat:41.3851,  lng:2.1734  },
+        { id:3, nombre:"Interiorismo Luxury Valencia", tipo:"arquitecto",   ciudad:"Valencia",  provincia:"Valencia",  telefono:"+34 960 000 003", web:"#", lat:39.4699,  lng:-0.3763 },
+        { id:4, nombre:"BathPro Sevilla",              tipo:"instalador",   ciudad:"Sevilla",   provincia:"Sevilla",   telefono:"+34 954 000 004", web:"#", lat:37.3891,  lng:-5.9845 },
+        { id:5, nombre:"Distribuidora Norte Bilbao",   tipo:"distribuidor", ciudad:"Bilbao",    provincia:"Vizcaya",   telefono:"+34 944 000 005", web:"#", lat:43.2630,  lng:-2.9350 },
+        { id:6, nombre:"Instalaciones Premium Málaga", tipo:"instalador",   ciudad:"Málaga",    provincia:"Málaga",    telefono:"+34 951 000 006", web:"#", lat:36.7213,  lng:-4.4214 }
       ];
 
-      // Estado
-      let activeType = 'all';
-      let activeSearch = '';
-      let mapInstance = null;
-      let markersMap = {};
-      let infoWindowOpen = null;
+      const TYPE_COLOR = { instalador:'#e8b97a', arquitecto:'#7ab8e8', distribuidor:'#a8e87a' };
 
-      // Colores por tipo
-      const TYPE_COLOR = {
-        instalador:   '#e8b97a',
-        arquitecto:   '#7ab8e8',
-        distribuidor: '#a8e87a'
-      };
+      let leafMap, markersMap = {}, activeType = 'all', activeSearch = '';
 
-      // ---- Inicializa Google Maps ----
-      function initInstallersMap() {
-        mapInstance = new google.maps.Map(document.getElementById('installersMap'), {
-          center: { lat: 40.2, lng: -3.7 },
-          zoom: 6,
-          mapTypeId: 'roadmap',
-          styles: [
-            { elementType: 'geometry',        stylers: [{ color: '#1e1e2e' }] },
-            { elementType: 'labels.text.fill',stylers: [{ color: '#a0a0c0' }] },
-            { elementType: 'labels.text.stroke',stylers:[{ color: '#1e1e2e' }] },
-            { featureType: 'road',            elementType: 'geometry', stylers: [{ color: '#2a2a3e' }] },
-            { featureType: 'road',            elementType: 'geometry.stroke', stylers: [{ color: '#212135' }] },
-            { featureType: 'water',           elementType: 'geometry', stylers: [{ color: '#14142e' }] },
-            { featureType: 'administrative',  elementType: 'geometry.stroke', stylers: [{ color: '#3a3a5e' }] },
-            { featureType: 'poi',             stylers: [{ visibility: 'off' }] },
-            { featureType: 'transit',         stylers: [{ visibility: 'off' }] }
-          ],
-          disableDefaultUI: false,
-          zoomControl: true,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: true
-        });
+      // Inicializa Leaflet
+      document.addEventListener('DOMContentLoaded', function() {
+        leafMap = L.map('installersMap', { zoomControl: true, scrollWheelZoom: false })
+          .setView([40.2, -3.7], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 18
+        }).addTo(leafMap);
 
         // Crear marcadores
-        INSTALADORES.forEach(inst => {
-          const marker = new google.maps.Marker({
-            position: { lat: inst.lat, lng: inst.lng },
-            map: mapInstance,
-            title: inst.nombre,
-            icon: {
-              path: google.maps.SymbolPath.CIRCLE,
-              scale: 10,
-              fillColor: TYPE_COLOR[inst.tipo] || '#ffffff',
-              fillOpacity: 1,
-              strokeColor: '#ffffff',
-              strokeWeight: 2
-            }
+        INSTALADORES.forEach(function(inst) {
+          var icon = L.divIcon({
+            className: '',
+            html: '<div style="width:18px;height:18px;border-radius:50%;background:' + TYPE_COLOR[inst.tipo] + ';border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
+            popupAnchor: [0, -12]
           });
 
-          const infoContent = `
-            <div style="font-family:'Instrument Sans',sans-serif;padding:8px;min-width:180px;">
-              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#e8b97a;margin-bottom:4px;">${inst.tipo}</div>
-              <strong style="font-size:14px;display:block;margin-bottom:4px;">${inst.nombre}</strong>
-              <div style="font-size:12px;color:#555;margin-bottom:2px;">📍 ${inst.ciudad}, ${inst.provincia}</div>
-              <div style="font-size:12px;color:#555;margin-bottom:6px;">📞 ${inst.telefono}</div>
-              ${inst.web !== '#' ? `<a href="${inst.web}" target="_blank" style="font-size:12px;color:#e8b97a;">Ver más →</a>` : ''}
-            </div>`;
+          var marker = L.marker([inst.lat, inst.lng], { icon: icon }).addTo(leafMap);
 
-          const infoWindow = new google.maps.InfoWindow({ content: infoContent });
+          var popupHtml = '<div style="font-family:inherit;min-width:170px;padding:4px 0;">'
+            + '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#b8956e;margin-bottom:4px;font-weight:700;">'
+            + inst.tipo + '</div>'
+            + '<strong style="font-size:14px;display:block;margin-bottom:5px;color:#1a1a1a;">'
+            + inst.nombre + '</strong>'
+            + '<div style="font-size:12px;color:#666;margin-bottom:2px;">📍 ' + inst.ciudad + ', ' + inst.provincia + '</div>'
+            + '<div style="font-size:12px;color:#666;">📞 ' + inst.telefono + '</div>'
+            + (inst.web !== '#' ? '<br><a href="' + inst.web + '" target="_blank" style="font-size:12px;color:#b8956e;font-weight:600;">Ver más →</a>' : '')
+            + '</div>';
 
-          marker.addListener('click', () => {
-            if (infoWindowOpen) infoWindowOpen.close();
-            infoWindow.open(mapInstance, marker);
-            infoWindowOpen = infoWindow;
-            highlightCard(inst.id);
-          });
-
-          markersMap[inst.id] = { marker, infoWindow };
+          marker.bindPopup(popupHtml, { maxWidth: 240 });
+          marker.on('click', function() { highlightCard(inst.id); });
+          markersMap[inst.id] = marker;
         });
 
         renderInstallersList(INSTALADORES);
-      }
+      });
 
-      // ---- Renderiza las tarjetas del sidebar ----
+      // Renderiza la lista sidebar
       function renderInstallersList(list) {
-        const container = document.getElementById('installersList');
-        const empty     = document.getElementById('installersEmpty');
+        var container = document.getElementById('installersList');
+        var empty = document.getElementById('installersEmpty');
         container.innerHTML = '';
-
-        if (!list.length) {
-          empty.style.display = 'flex';
-          return;
-        }
+        if (!list.length) { empty.style.display = 'flex'; return; }
         empty.style.display = 'none';
-
-        list.forEach(inst => {
-          const card = document.createElement('div');
+        list.forEach(function(inst) {
+          var card = document.createElement('div');
           card.className = 'installer-card';
-          card.id = `card-${inst.id}`;
+          card.id = 'card-' + inst.id;
           card.dataset.tipo = inst.tipo;
-          card.innerHTML = `
-            <div class="inst-dot" style="background:${TYPE_COLOR[inst.tipo]};"></div>
-            <div class="inst-info">
-              <strong>${inst.nombre}</strong>
-              <span>📍 ${inst.ciudad}, ${inst.provincia}</span>
-              <span>📞 ${inst.telefono}</span>
-            </div>
-            <button class="inst-map-btn" onclick="focusInstaller(${inst.id})" title="Ver en mapa">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            </button>`;
-          card.addEventListener('click', () => focusInstaller(inst.id));
+          card.innerHTML = '<div class="inst-dot" style="background:' + TYPE_COLOR[inst.tipo] + ';"></div>'
+            + '<div class="inst-info">'
+            + '<strong>' + inst.nombre + '</strong>'
+            + '<span>📍 ' + inst.ciudad + ', ' + inst.provincia + '</span>'
+            + '<span>📞 ' + inst.telefono + '</span>'
+            + '</div>'
+            + '<button class="inst-map-btn" onclick="focusInstaller(' + inst.id + ')" title="Ver en mapa">🗺️</button>';
+          card.addEventListener('click', function() { focusInstaller(inst.id); });
           container.appendChild(card);
         });
       }
 
-      // ---- Filtra por texto ----
-      function filterInstallers(text) {
-        activeSearch = text.toLowerCase();
-        applyFilters();
-      }
+      function filterInstallers(text) { activeSearch = text.toLowerCase(); applyFilters(); }
 
-      // ---- Filtra por tipo ----
       function filterByType(type, btn) {
         activeType = type;
-        document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-tag').forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         applyFilters();
       }
 
-      // ---- Aplica ambos filtros ----
       function applyFilters() {
-        const filtered = INSTALADORES.filter(inst => {
-          const matchType   = activeType === 'all' || inst.tipo === activeType;
-          const matchSearch = !activeSearch ||
-            inst.nombre.toLowerCase().includes(activeSearch) ||
-            inst.ciudad.toLowerCase().includes(activeSearch) ||
-            inst.provincia.toLowerCase().includes(activeSearch);
+        var filtered = INSTALADORES.filter(function(inst) {
+          var matchType   = activeType === 'all' || inst.tipo === activeType;
+          var matchSearch = !activeSearch
+            || inst.nombre.toLowerCase().includes(activeSearch)
+            || inst.ciudad.toLowerCase().includes(activeSearch)
+            || inst.provincia.toLowerCase().includes(activeSearch);
           return matchType && matchSearch;
         });
-
-        // Mostrar/ocultar marcadores
-        const visibleIds = new Set(filtered.map(i => i.id));
-        Object.entries(markersMap).forEach(([id, { marker }]) => {
-          marker.setVisible(visibleIds.has(Number(id)));
+        var visibleIds = new Set(filtered.map(function(i) { return i.id; }));
+        Object.entries(markersMap).forEach(function(entry) {
+          var id = Number(entry[0]), marker = entry[1];
+          if (visibleIds.has(id)) { marker.addTo(leafMap); }
+          else { marker.remove(); }
         });
-
         renderInstallersList(filtered);
       }
 
-      // ---- Centra el mapa en un instalador ----
       function focusInstaller(id) {
-        const { marker, infoWindow } = markersMap[id];
-        if (infoWindowOpen) infoWindowOpen.close();
-        mapInstance.panTo(marker.getPosition());
-        mapInstance.setZoom(13);
-        infoWindow.open(mapInstance, marker);
-        infoWindowOpen = infoWindow;
+        var marker = markersMap[id];
+        if (!marker) return;
+        // Ensure marker is on map
+        marker.addTo(leafMap);
+        leafMap.setView(marker.getLatLng(), 13, { animate: true });
+        marker.openPopup();
         highlightCard(id);
       }
 
-      // ---- Resalta la tarjeta en el sidebar ----
       function highlightCard(id) {
-        document.querySelectorAll('.installer-card').forEach(c => c.classList.remove('active'));
-        const card = document.getElementById(`card-${id}`);
-        if (card) {
-          card.classList.add('active');
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        document.querySelectorAll('.installer-card').forEach(function(c) { c.classList.remove('active'); });
+        var card = document.getElementById('card-' + id);
+        if (card) { card.classList.add('active'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
       }
     </script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&callback=initInstallersMap"
-      async defer
-    ></script>
 
 
 
