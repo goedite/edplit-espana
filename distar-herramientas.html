@@ -1,110 +1,822 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Herramientas de diamante DiStar disponibles en EDPLIT España. Discos, brocas y coronas para la instalación de productos EDPLIT en porcelánico, piedra natural y gres de gran formato.">
-    <title>Herramientas DiStar - EDPLIT España</title>
-    <meta name="robots" content="noindex, nofollow">
+        content="Herramientas de diamante DISTAR — Distribuidor oficial en España. Discos de corte, brocas corona y fresas profesionales para porcelánico, piedra natural y gres de gran formato. EDPLIT España.">
+    <title>Herramientas DISTAR · Distribuidor Oficial — EDPLIT España</title>
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://edplit.es/distar-herramientas.html">
-    <meta property="og:title" content="Herramientas DiStar - EDPLIT España">
-    <meta property="og:description" content="Herramientas de diamante DiStar para instalación profesional de accesorios invisibles en porcelánico y piedra.">
+    <meta property="og:title" content="Herramientas DISTAR · Distribuidor Oficial — EDPLIT España">
+    <meta property="og:description" content="Distribuidor oficial DISTAR en España. Discos, brocas y fresas de diamante profesionales para porcelánico, mármol y piedra.">
     <meta property="og:url" content="https://edplit.es/distar-herramientas.html">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://edplit.es/images/distar/distar-edplit-blanco-negro.jpg">
     <link rel="icon" type="image/png" href="images/logo/favicon.png">
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.css?v=7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <style>
-        .page-header {
-            padding: 1rem 0 0.5rem;
-            background: var(--bg-lighter);
-            text-align: center;
+        /* ─── DISTAR PAGE ─────────────────────────────────── */
+        :root {
+            --distar-red: #c0392b;
+            --distar-red-dark: #96281b;
+            --distar-red-glow: rgba(192,57,43,0.25);
+            --distar-charcoal: #1a1816;
+            --distar-steel: #2c2b29;
         }
 
-        .distar-hero-badge {
-            display: inline-block;
-            background: var(--accent);
-            color: #fff;
-            font-size: 0.75rem;
+        /* HERO */
+        .distar-hero {
+            position: relative;
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: var(--distar-charcoal);
+        }
+        .distar-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/distar/disco-distar-4.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            opacity: 0.28;
+            transform: scale(1.05);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes heroZoom {
+            from { transform: scale(1.05); }
+            to   { transform: scale(1.12); }
+        }
+        .distar-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,24,22,0.92) 0%, rgba(26,24,22,0.65) 50%, rgba(192,57,43,0.15) 100%);
+        }
+        .distar-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 6rem 0 4rem;
+        }
+        .distar-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(192,57,43,0.15);
+            border: 1px solid rgba(192,57,43,0.4);
+            color: #ff6b58;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
-            padding: 0.3rem 0.9rem;
-            border-radius: 20px;
+            letter-spacing: 0.15em;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
             text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+        .distar-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: #ff6b58;
+            border-radius: 50%;
+            animation: dotpulse 2s ease-in-out infinite;
+        }
+        @keyframes dotpulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        .distar-hero h1 {
+            font-size: clamp(2.8rem, 6vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        .distar-hero h1 em {
+            font-style: normal;
+            color: var(--distar-red);
+        }
+        .distar-hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255,255,255,0.65);
+            max-width: 560px;
+            line-height: 1.7;
+            margin: 1.5rem 0 2.5rem;
+        }
+        .distar-hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .btn-distar-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--distar-red);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.85rem 2rem;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px var(--distar-red-glow);
+        }
+        .btn-distar-primary:hover {
+            background: var(--distar-red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--distar-red-glow);
+        }
+        .btn-distar-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.85rem 2rem;
+            border-radius: 999px;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: all 0.3s ease;
+        }
+        .btn-distar-ghost:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.5);
+            color: #fff;
+        }
+        .distar-stats-bar {
+            display: flex;
+            gap: 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+        }
+        .distar-stat {
+            flex: 1;
+            padding-right: 2rem;
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+        .distar-stat:last-child { border-right: none; }
+        .distar-stat-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        .distar-stat-num span { color: var(--distar-red); }
+        .distar-stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* PARTNER STRIP */
+        .partner-strip {
+            background: #111;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .partner-strip-inner {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .partner-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+        .partner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.35rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.05em;
+        }
+        .partner-badge .dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #4caf7d;
+        }
+
+        /* SECTION COMMONS */
+        .section-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--distar-red);
+            margin-bottom: 0.75rem;
+        }
+        .section-heading {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
             margin-bottom: 1rem;
         }
+        .section-heading-light { color: #fff; }
+        .section-lead {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 600px;
+        }
 
-        .catalog-grid {
-            padding: 0.5rem 0;
+        /* WHY SECTION */
+        .why-section {
+            padding: 6rem 0;
+            background: #fff;
+        }
+        .why-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-md);
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
         }
-
-        @media (max-width: 1024px) {
-            .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+        .why-image-wrap {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
         }
-
-        @media (max-width: 768px) {
-            .catalog-grid { grid-template-columns: 1fr; }
+        .why-image-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
         }
-
-        .distar-logo-section {
+        .why-image-wrap:hover img { transform: scale(1.04); }
+        .why-image-badge {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: rgba(26,24,22,0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .why-image-badge-icon {
+            width: 36px; height: 36px;
+            background: var(--distar-red);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
+        }
+        .why-image-badge-text strong {
+            display: block;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .why-image-badge-text span {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+        }
+        .why-features { display: grid; gap: 1.5rem; }
+        .why-feature {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1.25rem;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .why-feature:hover {
+            background: #faf8f5;
+            border-color: rgba(184,149,110,0.2);
+            box-shadow: 0 4px 20px rgba(58,54,50,0.06);
+        }
+        .why-feature-icon {
+            width: 44px; height: 44px;
+            min-width: 44px;
+            background: linear-gradient(135deg, rgba(192,57,43,0.1), rgba(192,57,43,0.05));
+            border: 1px solid rgba(192,57,43,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .why-feature-body strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        .why-feature-body p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* PRODUCT CATALOG */
+        .catalog-section { padding: 6rem 0; background: var(--bg-body); }
+        .catalog-header { text-align: center; margin-bottom: 3.5rem; }
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
         }
-
-        .distar-logo-section img {
-            height: 48px;
-            width: auto;
+        .product-tile {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(229,221,208,0.6);
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
         }
-
-        .distar-divider {
-            width: 1px;
-            height: 40px;
-            background: var(--border-color, #ddd);
+        .product-tile:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(58,54,50,0.12);
+            border-color: rgba(184,149,110,0.3);
         }
-
-        .distar-intro {
-            max-width: 680px;
-            margin: 0 auto 3rem;
-            text-align: center;
+        .product-tile-image {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: #f0ede9;
         }
-
-        .distar-intro p {
-            color: var(--text-secondary, #666);
-            font-size: 1.05rem;
-            line-height: 1.7;
+        .product-tile-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
         }
-
-        .category-label {
-            font-size: 0.72rem;
+        .product-tile:hover .product-tile-image img { transform: scale(1.06); }
+        .product-tile-tag {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: rgba(26,24,22,0.85);
+            color: rgba(255,255,255,0.9);
+            font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            backdrop-filter: blur(6px);
         }
-
-        .section-title {
-            font-size: 1.6rem;
+        .product-tile-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-tile-category {
+            font-size: 0.68rem;
             font-weight: 700;
-            color: var(--text-primary, #1a1a1a);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--distar-red);
             margin-bottom: 0.5rem;
         }
+        .product-tile h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.35;
+            margin-bottom: 0.5rem;
+        }
+        .product-tile-sub {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        .product-tile p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex: 1;
+        }
+        .product-tile-footer {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(229,221,208,0.5);
+        }
+        .product-tile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .product-tile-link:hover { color: var(--distar-red); }
+        .product-tile-link .arrow {
+            width: 32px; height: 32px;
+            background: var(--distar-charcoal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .product-tile:hover .arrow {
+            background: var(--distar-red);
+            transform: translateX(2px);
+        }
 
-        .section-subtitle {
-            color: var(--text-secondary, #666);
+        /* CLASSES SECTION */
+        .classes-section {
+            padding: 6rem 0;
+            background: var(--distar-charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+        .classes-section::before {
+            content: 'DISTAR';
+            position: absolute;
+            font-size: 18vw;
+            font-weight: 900;
+            color: rgba(255,255,255,0.02);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            letter-spacing: -0.05em;
+            white-space: nowrap;
+        }
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+        .class-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .class-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 0 0 20px 20px;
+        }
+        .class-card.class-3d::after { background: #6b9e72; }
+        .class-card.class-5d::after { background: #4a80c4; }
+        .class-card.class-7d::after { background: var(--distar-red); }
+        .class-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+        }
+        .class-tier {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+        .class-card.class-3d .class-tier { color: #6b9e72; }
+        .class-card.class-5d .class-tier { color: #4a80c4; }
+        .class-card.class-7d .class-tier { color: var(--distar-red); }
+        .class-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 1rem;
+        }
+        .class-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+        .class-card p {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.65;
+        }
+        .class-performance {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .class-perf-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 0.5rem;
+        }
+        .class-perf-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .class-perf-fill { height: 100%; border-radius: 99px; }
+        .class-3d .class-perf-fill { width: 40%; background: #6b9e72; }
+        .class-5d .class-perf-fill { width: 70%; background: #4a80c4; }
+        .class-7d .class-perf-fill { width: 100%; background: var(--distar-red); }
+        .class-perf-value {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.3rem;
+        }
+
+        /* TECH SECTION */
+        .tech-section { padding: 6rem 0; background: #fff; }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+        .tech-list { display: flex; flex-direction: column; gap: 2rem; }
+        .tech-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+        .tech-num {
+            width: 40px; height: 40px; min-width: 40px;
+            border-radius: 10px;
+            background: var(--distar-charcoal);
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .tech-item strong {
+            display: block;
             font-size: 0.95rem;
-            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .tech-item p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .tech-image-mosaic {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .tech-mosaic-item {
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+        .tech-mosaic-item:first-child {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+        }
+        .tech-mosaic-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .tech-mosaic-item:hover img { transform: scale(1.05); }
+
+        /* APPLICATIONS */
+        .applications-section { padding: 6rem 0; background: var(--bg-body); }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        .app-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(229,221,208,0.6);
+            transition: all 0.3s ease;
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(58,54,50,0.08);
+            border-color: rgba(184,149,110,0.3);
+        }
+        .app-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, var(--distar-charcoal), var(--distar-steel));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        .app-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .app-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        /* CERTIFICATIONS */
+        .cert-section {
+            padding: 4rem 0;
+            background: #fff;
+            border-top: 1px solid rgba(229,221,208,0.5);
+            border-bottom: 1px solid rgba(229,221,208,0.5);
+        }
+        .cert-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .cert-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .cert-item-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: rgba(192,57,43,0.08);
+            border: 1px solid rgba(192,57,43,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* FAQ */
+        .faq-section { padding: 6rem 0; background: var(--bg-body); }
+        .faq-header { text-align: center; margin-bottom: 3rem; }
+        .faq-list {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .faq-item {
+            background: #fff;
+            border: 1px solid rgba(229,221,208,0.7);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            gap: 1rem;
+        }
+        .faq-question:hover { background: #faf8f5; }
+        .faq-question h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .faq-toggle {
+            width: 28px; height: 28px; min-width: 28px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            border: 1px solid rgba(229,221,208,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        .faq-item.open .faq-toggle {
+            background: var(--distar-red);
+            color: #fff;
+            border-color: var(--distar-red);
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .faq-item.open .faq-answer { max-height: 300px; }
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.25rem;
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            border-top: 1px solid rgba(229,221,208,0.5);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 0;
+            background: var(--distar-charcoal);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(192,57,43,0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.55);
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+        .cta-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .catalog-grid { grid-template-columns: repeat(2, 1fr); }
+            .classes-grid { grid-template-columns: 1fr 1fr; }
+            .apps-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .why-grid, .tech-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .catalog-grid { grid-template-columns: 1fr; }
+            .classes-grid { grid-template-columns: 1fr; }
+            .apps-grid { grid-template-columns: repeat(2, 1fr); }
+            .distar-stats-bar { flex-wrap: wrap; gap: 1.5rem; }
+            .distar-stat { border-right: none; padding-right: 0; min-width: 40%; }
+            .tech-image-mosaic { grid-template-columns: 1fr; }
+            .tech-mosaic-item:first-child { grid-column: auto; aspect-ratio: 16/9; }
+            .distar-hero { min-height: auto; }
+            .distar-hero-content { padding: 5rem 0 3rem; }
+        }
+        @media (max-width: 480px) {
+            .apps-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -126,8 +838,7 @@
                 <a href="index.html">
                     <img src="images/logo/logo.webp" alt="EDPLIT España" class="logo-image"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                    <span style="display:none;"><span class="logo-text">edplit</span><span
-                            class="logo-domain">.es</span></span>
+                    <span style="display:none;"><span class="logo-text">edplit</span><span class="logo-domain">.es</span></span>
                 </a>
             </div>
             <button class="mobile-menu-btn" aria-label="Abrir menú">
@@ -135,7 +846,6 @@
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
-            <!-- ===  MENÚ ESCRITORIO  === -->
             <ul class="nav-links nav-desktop">
                 <li><a href="index.html#productos">Productos</a></li>
                 <li><a href="index.html#como-funciona">Cómo funciona</a></li>
@@ -143,10 +853,7 @@
                 <li><a href="index.html#contacto">Contacto</a></li>
                 <li><a href="https://tienda.edplit.es" class="external-link">Tienda online ↗</a></li>
             </ul>
-
-            <!-- ===  MENÚ MÓVIL (hamburguesa)  === -->
             <ul class="nav-links nav-mobile">
-                <!-- Categorías de producto -->
                 <li class="nav-category-label">Productos</li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/pulsador-invisible-m1" target="_blank">Pulsadores <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/mecanismos-de-enchufe" target="_blank">Enchufes <span class="nav-arrow">→</span></a></li>
@@ -154,141 +861,471 @@
                 <li class="nav-product-item"><a href="sistemas-de-extraccion.html">Sistemas de extracción <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/tapas-de-registro" target="_blank">Tapas de registro <span class="nav-arrow">→</span></a></li>
                 <li class="nav-product-item"><a href="https://tienda.edplit.es/collections/juego-de-soportes-ocultos-para-toallas" target="_blank">Toalleros <span class="nav-arrow">→</span></a></li>
-                <li class="nav-product-item"><a href="distar-herramientas.html" class="active">Herramientas DiStar <span class="nav-arrow">→</span></a></li>
-                <!-- Separador -->
+                <li class="nav-product-item"><a href="distar-herramientas.html" class="active">Herramientas DISTAR <span class="nav-arrow">→</span></a></li>
                 <li class="nav-divider"></li>
-                <!-- Links secundarios -->
                 <li class="nav-secondary-item"><a href="index.html#contacto">Contacto</a></li>
                 <li class="nav-secondary-item"><a href="https://tienda.edplit.es" class="external-link">Tienda online ↗</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- PAGE HEADER -->
-    <header class="page-header">
-        <div class="container">
-            <div class="distar-logo-section">
-                <img src="images/logo/logo.webp" alt="EDPLIT España"
-                    onerror="this.style.display='none'">
-                <div class="distar-divider"></div>
-                <span style="font-size:1.6rem; font-weight:800; letter-spacing:0.05em; color: var(--text-primary, #1a1a1a);">DiStar</span>
-            </div>
-            <span class="distar-hero-badge">Herramientas Profesionales</span>
-            <h1 class="hero-title" style="font-size: 2.5rem; margin-top: 0.5rem;">Herramientas DiStar</h1>
-            <p class="hero-subtitle" style="margin: 0 auto;">
-                Herramientas de diamante de alta precisión para la instalación de accesorios invisibles en porcelánicos, gres de gran formato y piedra natural.
-            </p>
-        </div>
-    </header>
-
-    <!-- CATALOG SECTION -->
-    <section class="products-section" style="background: var(--bg-body); padding-top: 0.5rem;">
-        <div class="container">
-
-            <div style="margin-bottom: 2rem;">
-                <p class="category-label" style="margin-bottom: 0.2rem;">Herramientas Profesionales DISTAR</p>
-                <h2 class="section-title">Catálogo Oficial</h2>
-                <div class="catalog-grid">
-
-                    <!-- 1. Discos de corte 115-125 -->
-                    <div class="product-card">
-                        <img src="images/distar/disco-distar-1.jpg" alt="Discos de corte 115-125 mm" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Discos de Corte <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(Ø 115-125 mm)</span></h4>
-                        <p class="product-desc">Discos de diamante de alto rendimiento para el corte preciso y rápido de porcelánico, cerámica y piedra natural.</p>
-                        <a href="https://tienda.edplit.es/collections/discos-de-corte-o-115-125-mm" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="distar-hero" id="inicio">
+        <div class="distar-hero-bg"></div>
+        <div class="distar-hero-overlay"></div>
+        <div class="distar-hero-content">
+            <div class="container">
+                <div class="distar-badge">Distribuidor Oficial España</div>
+                <h1>Herramientas<br><em>DISTAR</em></h1>
+                <p class="distar-hero-subtitle">
+                    La referencia europea en herramientas de diamante profesionales.
+                    Discos, brocas corona y fresas de precisión para porcelánico,
+                    piedra natural y gres de gran formato.
+                </p>
+                <div class="distar-hero-ctas">
+                    <a href="#catalogo" class="btn-distar-primary">Ver catálogo completo ↓</a>
+                    <a href="index.html#contacto" class="btn-distar-ghost">Solicitar asesoramiento →</a>
+                </div>
+                <div class="distar-stats-bar">
+                    <div class="distar-stat">
+                        <div class="distar-stat-num">30<span>+</span></div>
+                        <div class="distar-stat-label">Años de experiencia</div>
                     </div>
-
-                    <!-- 2. Discos de corte mini amoladora -->
-                    <div class="product-card">
-                        <img src="images/distar/disco-distar-2.jpg" alt="Discos corte mini amoladora" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Discos de Corte <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(Mini Amoladora)</span></h4>
-                        <p class="product-desc">Herramientas compactas y ultrafinas diseñadas para cortes extremadamente limpios en espacios reducidos y bordes delicados.</p>
-                        <a href="https://tienda.edplit.es/collections/discos-de-corte-mini-amoladora" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
+                    <div class="distar-stat">
+                        <div class="distar-stat-num">55<span>+</span></div>
+                        <div class="distar-stat-label">Países de exportación</div>
                     </div>
-
-                    <!-- 3. Discos de rectificado mini amoladora -->
-                    <div class="product-card">
-                        <img src="images/distar/corte marmol 3.jpg" alt="Discos rectificado mini amoladora" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Discos de Rectificado <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(Mini Amoladora)</span></h4>
-                        <p class="product-desc">Fresas y discos de desbaste avanzados (DGS, Contour) para procesar bordes, perfilar y rectificar cerámica o piedra.</p>
-                        <a href="https://tienda.edplit.es/collections/discos-de-rectificado-mini-amoladora" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
+                    <div class="distar-stat">
+                        <div class="distar-stat-num">3.000<span>+</span></div>
+                        <div class="distar-stat-label">Referencias en catálogo</div>
                     </div>
-
-                    <!-- 4. Discos de pulido mini amoladora -->
-                    <div class="product-card">
-                        <img src="images/distar/corte marmol 2.jpg" alt="Discos pulido mini amoladora" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Discos de Pulido <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(Mini Amoladora)</span></h4>
-                        <p class="product-desc">Consigue un acabado suave y perfecto en cantos, bordes y superficies expuestas después del corte o rectificado.</p>
-                        <a href="https://tienda.edplit.es/collections/discos-de-pulido-mini-amoladora" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
+                    <div class="distar-stat">
+                        <div class="distar-stat-num"><span>CE</span></div>
+                        <div class="distar-stat-label">Certificación ISO 9001 · EN 13236</div>
                     </div>
-
-                    <!-- 5. Almohadillas CoolPAD -->
-                    <div class="product-card">
-                        <img src="images/distar/pulir marmol.jpg" alt="Almohadillas CoolPAD" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Almohadillas de Pulido <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(CoolPAD)</span></h4>
-                        <p class="product-desc">Almohadillas profesionales que proporcionan un brillo final impecable (High-gloss) en mármol, granito y porcelánico de alta dureza.</p>
-                        <a href="https://tienda.edplit.es/collections/almohadillas-de-pulido-coolpad" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
-                    </div>
-
-                    <!-- 6. Adaptadores y soportes -->
-                    <div class="product-card">
-                        <img src="images/distar/radial.jpg" alt="Adaptadores y soportes" class="product-image" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
-                        <h4>Adaptadores y Soportes <span style="color: #b69776; font-size: 0.85em; font-weight: 500;">(Accesorios)</span></h4>
-                        <p class="product-desc">Accesorios indispensables y seguros para acoplar brocas, coronas y discos a tus amoladoras y herramientas de trabajo.</p>
-                        <a href="https://tienda.edplit.es/collections/distar-adaptadores-y-soportes" target="_blank" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.9rem;">Ver catálogo →</a>
-                    </div>
-
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- INTRO -->
-    <section style="padding: 3rem 0; background: var(--bg-body);">
+    <!-- PARTNER STRIP -->
+    <div class="partner-strip">
+        <div class="container partner-strip-inner">
+            <span class="partner-tag">Distribuidor oficial en España de</span>
+            <span class="partner-badge"><span class="dot"></span> DISTAR Polska</span>
+            <span class="partner-badge"><span class="dot"></span> DISTAR Global</span>
+            <span class="partner-badge"><span class="dot"></span> ISO 9001-2015</span>
+            <span class="partner-badge"><span class="dot"></span> CE EN 13236-2019</span>
+        </div>
+    </div>
+
+    <!-- ═══════════ POR QUÉ DISTAR ═══════════ -->
+    <section class="why-section">
         <div class="container">
-            <div class="distar-intro">
-                <h2 class="section-title" style="margin-bottom: 1.5rem;">Precisión, fiabilidad y tecnología punta</h2>
-                <p>
-                    <strong>DISTAR</strong> es un fabricante europeo de herramientas de diamante con más de 30 años de experiencia, que combina la capacidad de producción ucraniana con tecnologías avanzadas. Desde su fábrica en Poltava, producen discos, brocas y fresas profesionales que se exportan a más de 55 países, incluidos Alemania, Polonia, EE. UU. y Australia.
+            <div style="max-width: 540px;">
+                <p class="section-eyebrow">Por qué elegir DISTAR</p>
+                <h2 class="section-heading">Precisión, fiabilidad<br>y tecnología punta</h2>
+                <p class="section-lead">
+                    DISTAR es el fabricante europeo de herramientas de diamante con más de 30 años de trayectoria, combinando capacidad productiva con las más avanzadas tecnologías. Su fábrica en Poltava produce discos, brocas y fresas exportadas a más de 55 países.
                 </p>
-                <p style="margin-top: 1rem;">
-                    Al elegir DISTAR, obtienes una solución integral para el trabajo eficiente con cualquier material de construcción. Como distribuidor directo, garantizamos calidad europea, logística rápida y soporte técnico con el respaldo de <strong>DISTAR Polska</strong> en Europa.
-                </p>
-                
-                <div style="text-align: left; margin-top: 2.5rem; background: var(--bg-lighter); padding: 2rem; border-radius: 8px;">
-                    <h3 style="font-size: 1.2rem; color: var(--accent); margin-bottom: 1rem;">Ventajas de DISTAR</h3>
-                    <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 1.5rem;">
-                        <li><strong>Tres clases de profesionalidad:</strong> 3D (Bestseller) para uso doméstico, 5D (Extra) para trabajo intensivo, y 7D (Industrial) para aplicaciones industriales.</li>
-                        <li><strong>Diamantes sintéticos alemanes</strong> de alta calidad en los segmentos de corte, asegurando un rendimiento excelente.</li>
-                        <li><strong>Soldadura láser</strong> que garantiza la máxima resistencia de la unión y evita pérdidas durante el uso intensivo.</li>
-                        <li><strong>Certificación ISO 9001-2015</strong> y certificado europeo EN 13236-2019 CE, confirmando el cumplimiento de los estándares internacionales de calidad y seguridad.</li>
-                    </ul>
+            </div>
+            <div class="why-grid">
+                <div class="why-image-wrap">
+                    <img src="images/distar/distar-edplit-blanco-negro.jpg" alt="DISTAR herramientas de diamante profesionales" loading="lazy">
+                    <div class="why-image-badge">
+                        <div class="why-image-badge-icon">💎</div>
+                        <div class="why-image-badge-text">
+                            <strong>Diamante alemán</strong>
+                            <span>Segmentos de alta pureza</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="why-features">
+                    <div class="why-feature">
+                        <div class="why-feature-icon">🏭</div>
+                        <div class="why-feature-body">
+                            <strong>Producción propia en Europa</strong>
+                            <p>Fábrica propia en Poltava con líneas automatizadas, laboratorio de I+D y centro de pruebas en condiciones reales de trabajo.</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon">🔬</div>
+                        <div class="why-feature-body">
+                            <strong>Diamantes sintéticos alemanes</strong>
+                            <p>Solo diamantes sintéticos de alta calidad procedentes de Alemania en los segmentos de corte, garantizando un rendimiento excepcional.</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon">⚡</div>
+                        <div class="why-feature-body">
+                            <strong>Soldadura láser de precisión</strong>
+                            <p>Unión por láser que garantiza la máxima resistencia y evita pérdidas de segmento durante el uso intensivo profesional.</p>
+                        </div>
+                    </div>
+                    <div class="why-feature">
+                        <div class="why-feature-icon">🛡️</div>
+                        <div class="why-feature-body">
+                            <strong>Garantía total de gama</strong>
+                            <p>Certificación ISO 9001-2015 y marcado CE europeo EN 13236-2019. Respaldo técnico completo desde EDPLIT España.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- FAQ -->
-            <div style="text-align: left; margin-top: 4rem; padding: 3rem; background: var(--bg-lighter); border-radius: 1rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;">Preguntas Frecuentes</h2>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">¿Cuál es la vida útil de las herramientas de diamante profesionales?</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem;">La durabilidad depende de la clase de herramienta y del material. Los discos profesionales de la serie 3D proporcionan 15-25 m² de corte de hormigón, la serie 5D 30-50 m², y la serie 7D hasta 100 m² o más. Con un uso adecuado, un disco reemplaza a docenas de abrasivos convencionales.</p>
-                </div>
-                
-                <div style="margin-bottom: 2.5rem;">
-                    <h4 style="color: var(--accent); margin-bottom: 0.5rem;">¿Dónde se utilizan con mayor frecuencia?</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Principales áreas de aplicación: construcción, procesamiento de piedra (encimeras, monumentos), trabajos de alicatado, construcción de carreteras e industria. Son indispensables donde se requiere un procesamiento rápido y preciso de materiales duros.</p>
-                </div>
+        </div>
+    </section>
 
-                <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 2rem;">
-                    <p class="category-label">Soporte Técnico de Calidad</p>
-                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Elige DISTAR para tus proyectos</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                        Nuestros especialistas cualificados te ayudarán a seleccionar la herramienta óptima para tu tarea, te asesorarán sobre los parámetros de funcionamiento y te proporcionarán el servicio de garantía.
-                    </p>
-                    <a href="index.html#contacto" class="btn btn-primary">Solicitar asesoramiento o realizar un pedido →</a>
+    <!-- ═══════════ CATÁLOGO ═══════════ -->
+    <section class="catalog-section" id="catalogo">
+        <div class="container">
+            <div class="catalog-header">
+                <p class="section-eyebrow">Herramientas Profesionales</p>
+                <h2 class="section-heading">Catálogo Oficial DISTAR</h2>
+                <p class="section-lead" style="margin: 0 auto; text-align: center;">
+                    Más de 3.000 referencias para todo tipo de materiales y aplicaciones. Accede a la tienda online con precios actualizados.
+                </p>
+            </div>
+            <div class="catalog-grid">
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/disco-distar-1.jpg" alt="Discos de corte 115-125 mm DISTAR" loading="lazy">
+                        <span class="product-tile-tag">Más vendido</span>
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Discos de diamante</p>
+                        <h3>Discos de Corte</h3>
+                        <p class="product-tile-sub">Ø 115 – 125 mm</p>
+                        <p>Alto rendimiento para corte preciso en porcelánico, cerámica y piedra. Línea Esthete (1,1 mm) sin astillado de esmalte.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/discos-de-corte-o-115-125-mm" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/disco-distar-2.jpg" alt="Discos de corte mini amoladora DISTAR" loading="lazy">
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Discos de diamante</p>
+                        <h3>Discos de Corte</h3>
+                        <p class="product-tile-sub">Mini Amoladora</p>
+                        <p>Compactos y ultrafinos para cortes limpios en espacios reducidos y bordes delicados en grandes formatos cerámicos.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/discos-de-corte-mini-amoladora" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/corte marmol 3.jpg" alt="Discos de rectificado DISTAR" loading="lazy">
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Rectificado y desbaste</p>
+                        <h3>Discos de Rectificado</h3>
+                        <p class="product-tile-sub">Mini Amoladora</p>
+                        <p>Fresas DGS y Contour para procesar bordes, perfilar y rectificar cerámica o piedra. Perfectos para encuentros complejos.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/discos-de-rectificado-mini-amoladora" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/corte marmol 2.jpg" alt="Discos de pulido DISTAR" loading="lazy">
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Acabado y pulido</p>
+                        <h3>Discos de Pulido</h3>
+                        <p class="product-tile-sub">Mini Amoladora</p>
+                        <p>Acabado suave y perfecto en cantos, bordes y superficies expuestas. Resultados profesionales en mármol y granito.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/discos-de-pulido-mini-amoladora" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/pulir marmol.jpg" alt="Almohadillas CoolPAD DISTAR" loading="lazy">
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Pulido High-Gloss</p>
+                        <h3>Almohadillas CoolPAD</h3>
+                        <p class="product-tile-sub">Brillo final impecable</p>
+                        <p>CleanPad y CoolPAD para brillo final tipo espejo en mármol, granito y porcelánico de alta dureza.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/almohadillas-de-pulido-coolpad" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tile">
+                    <div class="product-tile-image">
+                        <img src="images/distar/radial.jpg" alt="Adaptadores y soportes DISTAR" loading="lazy">
+                    </div>
+                    <div class="product-tile-body">
+                        <p class="product-tile-category">Accesorios</p>
+                        <h3>Adaptadores y Soportes</h3>
+                        <p class="product-tile-sub">Compatibilidad total</p>
+                        <p>Acoplan brocas corona, discos y fresas a todo tipo de amoladoras angulares y máquinas estacionarias con total seguridad.</p>
+                        <div class="product-tile-footer">
+                            <a href="https://tienda.edplit.es/collections/distar-adaptadores-y-soportes" target="_blank" rel="noopener" class="product-tile-link">
+                                <span>Ver catálogo</span><span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ CLASES ═══════════ -->
+    <section class="classes-section">
+        <div class="container">
+            <div style="text-align: center; position: relative; z-index: 1;">
+                <p class="section-eyebrow">Sistema de gamas</p>
+                <h2 class="section-heading section-heading-light">Tres clases de profesionalidad</h2>
+                <p style="color: rgba(255,255,255,0.5); max-width: 580px; margin: 0 auto; font-size: 0.95rem; line-height: 1.7;">
+                    DISTAR estructura su gama en tres niveles de exigencia para cada tipo de usuario y aplicación.
+                </p>
+            </div>
+            <div class="classes-grid">
+                <div class="class-card class-3d">
+                    <div class="class-tier">3D</div>
+                    <div class="class-name">Bestseller</div>
+                    <h3>Uso doméstico y reformas</h3>
+                    <p>La gama de entrada al mundo DISTAR. Precio-rendimiento óptimo para el usuario doméstico o profesional con uso ocasional.</p>
+                    <div class="class-performance">
+                        <div class="class-perf-label">Rendimiento</div>
+                        <div class="class-perf-bar"><div class="class-perf-fill"></div></div>
+                        <div class="class-perf-value">15–25 m² de corte en hormigón por disco</div>
+                    </div>
+                </div>
+                <div class="class-card class-5d">
+                    <div class="class-tier">5D</div>
+                    <div class="class-name">Extra</div>
+                    <h3>Trabajo intensivo profesional</h3>
+                    <p>La más vendida entre instaladores y alicatadores. Mayor duración, velocidad de corte mejorada y resistencia al desgaste para uso diario.</p>
+                    <div class="class-performance">
+                        <div class="class-perf-label">Rendimiento</div>
+                        <div class="class-perf-bar"><div class="class-perf-fill"></div></div>
+                        <div class="class-perf-value">30–50 m² de corte en hormigón por disco</div>
+                    </div>
+                </div>
+                <div class="class-card class-7d">
+                    <div class="class-tier">7D</div>
+                    <div class="class-name">Industrial</div>
+                    <h3>Aplicaciones industriales</h3>
+                    <p>Gama premium para entornos de alta exigencia. Máxima durabilidad, velocidad y precisión incluso en los materiales más duros.</p>
+                    <div class="class-performance">
+                        <div class="class-perf-label">Rendimiento</div>
+                        <div class="class-perf-bar"><div class="class-perf-fill"></div></div>
+                        <div class="class-perf-value">100 m² o más de corte en hormigón por disco</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ TECNOLOGÍA ═══════════ -->
+    <section class="tech-section">
+        <div class="container">
+            <div style="max-width: 520px;">
+                <p class="section-eyebrow">Tecnología y producción</p>
+                <h2 class="section-heading">Innovación en cada<br>herramienta</h2>
+                <p class="section-lead">DISTAR invierte continuamente en desarrollo productivo e implementación de innovaciones que marcan la diferencia.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-list">
+                    <div class="tech-item">
+                        <div class="tech-num">01</div>
+                        <div>
+                            <strong>Líneas de soldadura láser automatizadas</strong>
+                            <p>Control de calidad asistido por láser en cada segmento, garantizando resistencia y consistencia en toda la producción.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-num">02</div>
+                        <div>
+                            <strong>Laboratorio de I+D propio</strong>
+                            <p>Equipo dedicado al desarrollo de nuevas composiciones de capa de diamante, colaborando con alicatadores para pruebas reales.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-num">03</div>
+                        <div>
+                            <strong>Centro de pruebas certificado</strong>
+                            <p>Cada serie pasa por pruebas en condiciones de trabajo real. Solo las referencias que superan el estándar interno llegan al mercado.</p>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-num">04</div>
+                        <div>
+                            <strong>Control de calidad total</strong>
+                            <p>Desde la inspección de materias primas hasta la verificación del producto acabado. Solo diamantes alemanes y materia prima de fabricantes líderes.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tech-image-mosaic">
+                    <div class="tech-mosaic-item">
+                        <img src="images/distar/disco-distar-3.jpg" alt="DISTAR disco de diamante profesional" loading="lazy">
+                    </div>
+                    <div class="tech-mosaic-item">
+                        <img src="images/distar/corte marmol.jpg" alt="DISTAR corte de marmol profesional" loading="lazy">
+                    </div>
+                    <div class="tech-mosaic-item">
+                        <img src="images/distar/Diamond cutting blade Distar of Butterfly.jpg" alt="DISTAR disco Butterfly" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ APLICACIONES ═══════════ -->
+    <section class="applications-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <p class="section-eyebrow">Ambitos de aplicacion</p>
+                <h2 class="section-heading">Para cada profesion,<br>la herramienta exacta</h2>
+            </div>
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">🏗️</div>
+                    <h4>Construcción y reforma</h4>
+                    <p>Corte de paredes, rozas, taladrado de instalaciones y demolición de estructuras.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🪨</div>
+                    <h4>Mármol y granito</h4>
+                    <p>Encimeras, alféizares, monumentos y elementos arquitectónicos en piedra natural.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🔲</div>
+                    <h4>Alicatado profesional</h4>
+                    <p>Corte de porcelánico, gres de gran formato, mosaicos y patrones complejos.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🛣️</div>
+                    <h4>Obra civil y vial</h4>
+                    <p>Juntas de dilatación en asfalto y hormigón, reparación de firmes y superficies.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🏭</div>
+                    <h4>Industria</h4>
+                    <p>Proceso de prefabricados de hormigón, cerámica industrial y producción en serie.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🏠</div>
+                    <h4>Uso doméstico</h4>
+                    <p>Reformas del hogar con la serie 3D Bestseller, asequible y de alta calidad garantizada.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">💎</div>
+                    <h4>Instalación EDPLIT</h4>
+                    <p>Perforaciones y ranurados precisos para pulsadores, enchufes y tapas en porcelánico.</p>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">✨</div>
+                    <h4>Acabado y pulido</h4>
+                    <p>Alto brillo en mármol, granito y porcelánico con almohadillas CoolPAD.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ CERTIFICACIONES ═══════════ -->
+    <section class="cert-section">
+        <div class="container cert-inner">
+            <div class="cert-item"><div class="cert-item-icon">🏅</div><span>ISO 9001-2015</span></div>
+            <div class="cert-item"><div class="cert-item-icon">🇪🇺</div><span>CE · EN 13236-2019</span></div>
+            <div class="cert-item"><div class="cert-item-icon">💎</div><span>Diamante Alemán Certificado</span></div>
+            <div class="cert-item"><div class="cert-item-icon">🌍</div><span>Exportación a 55+ países</span></div>
+            <div class="cert-item"><div class="cert-item-icon">🛡️</div><span>Garantía de gama completa</span></div>
+        </div>
+    </section>
+
+    <!-- ═══════════ FAQ ═══════════ -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header">
+                <p class="section-eyebrow">Preguntas frecuentes</p>
+                <h2 class="section-heading">Todo lo que necesitas saber</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Qué son las herramientas de diamante?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Son herramientas de corte, perforación o desbaste con recubrimiento o segmentos de diamante sintético. El diamante permite procesar de forma eficiente hormigón, piedra, cerámica y otros materiales resistentes sin desgaste prematuro.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Cuál es la vida útil de las herramientas de diamante DISTAR?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Depende de la gama y el material. La serie 3D proporciona 15–25 m² de corte en hormigón, la 5D entre 30–50 m², y la 7D Industrial más de 100 m². Con uso correcto, un disco DISTAR reemplaza a docenas de discos abrasivos convencionales.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Son aptas para uso doméstico o solo profesional?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Las herramientas DISTAR son universales. Para usuarios domésticos, la serie 3D Bestseller ofrece la mejor relación calidad-precio. Los profesionales optarán por la serie 5D Extra o 7D Industrial según la exigencia de su trabajo diario.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Qué disco DISTAR elijo para porcelánico o gres de gran formato?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Para porcelánico sin astillado recomendamos la línea <strong>Esthete</strong> de 1,1 mm de grosor. Proporciona cortes perfectamente limpios sin dañar el esmalte. Contacta con EDPLIT España para asesoramiento sobre el modelo exacto para tu proyecto.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Dónde se utilizan con mayor frecuencia las herramientas DISTAR?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Principalmente en construcción, procesado de piedra, trabajos de alicatado profesional, obra civil y producción industrial. Son imprescindibles en cualquier aplicación que requiera procesado rápido y preciso de materiales duros.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>¿Cómo puedo solicitar asesoramiento técnico o hacer un pedido?</h4>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">A través del formulario de contacto de EDPLIT España o directamente en nuestra tienda online. Nuestros especialistas te ayudarán a seleccionar la herramienta óptima y te asesorarán sobre parámetros de uso y mantenimiento.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ CTA FINAL ═══════════ -->
+    <section class="cta-section">
+        <div class="container" style="position: relative; z-index: 1;">
+            <p class="section-eyebrow" style="color: rgba(192,57,43,0.8);">Distribuidor oficial DISTAR en España</p>
+            <h2>Elige DISTAR para<br>tus proyectos</h2>
+            <p>Nuestros especialistas te ayudarán a seleccionar la herramienta óptima, asesorarte sobre parámetros de uso y ofrecerte el servicio de garantía completo.</p>
+            <div class="cta-btns">
+                <a href="https://tienda.edplit.es" target="_blank" rel="noopener" class="btn-distar-primary">Ir a la tienda online ↗</a>
+                <a href="index.html#contacto" class="btn-distar-ghost">Solicitar asesoramiento →</a>
             </div>
         </div>
     </section>
@@ -314,7 +1351,7 @@
                         <li><a href="sistemas-de-extraccion.html">Sistemas de extracción</a></li>
                         <li><a href="tapas.html">Tapas</a></li>
                         <li><a href="https://tienda.edplit.es/collections/juego-de-soportes-ocultos-para-toallas" target="_blank">Toalleros</a></li>
-                        <li><a href="distar-herramientas.html">Herramientas DiStar</a></li>
+                        <li><a href="distar-herramientas.html">Herramientas DISTAR</a></li>
                     </ul>
                 </div>
 
@@ -349,8 +1386,9 @@
             <div class="footer-bottom">
                 <p>© 2026 Edplit España · Distribuidor oficial</p>
                 <div class="footer-legal">
-                    <a href="#">Privacidad</a>
-                    <a href="#">Términos</a>
+                    <a href="privacidad.html">Privacidad</a>
+                    <a href="aviso-legal.html">Términos</a>
+                    <a href="cookies.html">Cookies</a>
                 </div>
             </div>
         </div>
@@ -361,10 +1399,7 @@
         <div class="cookie-consent-content">
             <div class="cookie-consent-text">
                 <h3>🍪 Usamos cookies</h3>
-                <p>
-                    Utilizamos cookies técnicas necesarias para el funcionamiento de la web.
-                    Consulta nuestra <a href="cookies.html">Política de Cookies</a> para más información.
-                </p>
+                <p>Utilizamos cookies técnicas necesarias para el funcionamiento de la web. Consulta nuestra <a href="cookies.html">Política de Cookies</a> para más información.</p>
             </div>
             <div class="cookie-consent-buttons">
                 <button id="cookie-reject" class="cookie-btn cookie-btn-reject">Rechazar</button>
@@ -375,6 +1410,17 @@
 
     <script src="script.js"></script>
     <script src="/popup.js"></script>
+    <script>
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var item = btn.closest('.faq-item');
+                var isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
 </body>
 
 </html>
