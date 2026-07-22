@@ -10063,157 +10063,156 @@
 
 
 
-    <script src="script.js" defer></script>
+   <script>
+  // ============================================================
+  // DATOS DE INSTALADORES — Añade o edita aquí fácilmente
+  // ============================================================
+  const INSTALADORES = [
+    { id:1, nombre:"SCHMIDT Gandía", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
+    { id:2, nombre:"Invest Build Multiply Company SL.", tipo:"instalador", ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
+    { id:3, nombre:"Ciagan Gamma", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
+    { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:"instalador", ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
+    { id:5, nombre:"Aurum", tipo:"instalador", ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
+    { id:6, nombre:"bsn", tipo: ["instalador", "distribuidor"], ciudad:"Crevillent", provincia:"Alicante", telefono:"647630177", web:"https://www.bsnproyectos.es/", lat:38.2475647, lng:-0.8097227 }
+  ];
 
-    <!-- Leaflet lógica Instaladores -->
-    <script>
-      // ============================================================
-      //  DATOS DE INSTALADORES — Añade o edita aquí fácilmente
-      // ============================================================
-      const INSTALADORES = [
-        { id:1, nombre:"SCHMIDT Gandía", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
-        { id:2, nombre:"Invest Build Multiply Company SL.", tipo:["instalador", "distribuidor", "arquitecto"], ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
-        { id:3, nombre:"Ciagan Gamma", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
-        { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:["instalador"], ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
-        { id:5, nombre:"Aurum", tipo:["instalador","distribuidor"], ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
-        // Пример с несколькими ролями в одном контакте:
-        { id:6, nombre:"bsn", tipo: ["instalador"], ciudad:"Crevillent", provincia:"Alicante", telefono:"647630177", web:"https://www.bsnproyectos.es/", lat:38.2475647, lng:-0.8097227 }
-      ];
+  const TYPE_COLOR = { 
+    instalador: '#E8B97A',   // Золотой
+    distribuidor: '#C88A58', // Бронза / Медь
+    arquitecto: '#6B8E85'    // Шалфей / Графит
+  };
 
-      const TYPE_COLOR = { instalador:'#e8b97a', arquitecto:'#c88a58', distribuidor:'#6b8e85' };
+  let leafMap, markersMap = {}, activeType = 'all', activeSearch = '';
 
-      let leafMap, markersMap = {}, activeType = 'all', activeSearch = '';
+  // Вспомогательные функции
+  function getTypesList(tipo) {
+    if (Array.isArray(tipo)) return tipo;
+    if (typeof tipo === 'string') return [tipo];
+    return ['instalador'];
+  }
 
-      // Вспомогательная функция: приводит tipo к массиву (работает и со строкой, и с массивом)
-      function getTypesList(tipo) {
-        return Array.isArray(tipo) ? tipo : [tipo];
-      }
+  function getTypeColor(tipoName) {
+    var key = String(tipoName || '').toLowerCase().trim();
+    return TYPE_COLOR[key] || '#E8B97A'; // Запасной цвет если тип не найден
+  }
 
-      // Inicializa Leaflet
-      document.addEventListener('DOMContentLoaded', function() {
-        leafMap = L.map('installersMap', { zoomControl: true, scrollWheelZoom: false })
-          .setView([40.2, -3.7], 6);
+  // Inicializa Leaflet
+  document.addEventListener('DOMContentLoaded', function() {
+    leafMap = L.map('installersMap', { zoomControl: true, scrollWheelZoom: false })
+      .setView([40.2, -3.7], 6);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          maxZoom: 18
-        }).addTo(leafMap);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(leafMap);
 
-        // Crear marcadores
-        INSTALADORES.forEach(function(inst) {
-          var types = getTypesList(inst.tipo);
-          var primaryType = types[0];
-          var dotColor = TYPE_COLOR[primaryType] || '#e8b97a';
+    // Crear marcadores
+    INSTALADORES.forEach(function(inst) {
+      var types = getTypesList(inst.tipo);
+      var primaryType = types[0];
+      var dotColor = getTypeColor(primaryType);
 
-          var icon = L.divIcon({
-            className: '',
-            html: '<div style="width:18px;height:18px;border-radius:50%;background:' + dotColor + ';border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
-            iconSize: [18, 18],
-            iconAnchor: [9, 9],
-            popupAnchor: [0, -12]
-          });
-
-          var marker = L.marker([inst.lat, inst.lng], { icon: icon }).addTo(leafMap);
-
-          // Красивый вывод ролей через слэш (например: INSTALADOR / DISTRIBUIDOR)
-          var tipoText = types.join(' / ').toUpperCase();
-
-          var popupHtml = '<div style="font-family:inherit;min-width:170px;padding:4px 0;">'
-            + '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#b8956e;margin-bottom:4px;font-weight:700;">'
-            + tipoText + '</div>'
-            + '<strong style="font-size:14px;display:block;margin-bottom:5px;color:#1a1a1a;">'
-            + inst.nombre + '</strong>'
-            + '<div style="font-size:12px;color:#666;margin-bottom:2px;">📍 ' + inst.ciudad + ', ' + inst.provincia + '</div>'
-            + '<div style="font-size:12px;color:#666;">📞 ' + inst.telefono + '</div>'
-            + (inst.web !== '#' ? '<br><a href="' + inst.web + '" target="_blank" style="font-size:12px;color:#b8956e;font-weight:600;">Ver más →</a>' : '')
-            + '</div>';
-
-          marker.bindPopup(popupHtml, { maxWidth: 240 });
-          marker.on('click', function() { highlightCard(inst.id); });
-          markersMap[inst.id] = marker;
-        });
-
-        renderInstallersList(INSTALADORES);
+      var icon = L.divIcon({
+        className: '',
+        html: '<div style="width:18px;height:18px;border-radius:50%;background:' + dotColor + ';border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+        popupAnchor: [0, -12]
       });
 
-      // Renderiza la lista sidebar
-      function renderInstallersList(list) {
-        var container = document.getElementById('installersList');
-        var empty = document.getElementById('installersEmpty');
-        container.innerHTML = '';
-        if (!list.length) { empty.style.display = 'flex'; return; }
-        empty.style.display = 'none';
-        list.forEach(function(inst) {
-          var types = getTypesList(inst.tipo);
-          var primaryType = types[0];
-          var dotColor = TYPE_COLOR[primaryType] || '#e8b97a';
+      var marker = L.marker([inst.lat, inst.lng], { icon: icon }).addTo(leafMap);
 
-          var card = document.createElement('div');
-          card.className = 'installer-card';
-          card.id = 'card-' + inst.id;
-          card.dataset.tipo = primaryType;
-          card.innerHTML = '<div class="inst-dot" style="background:' + dotColor + ';"></div>'
-            + '<div class="inst-info">'
-            + '<strong>' + inst.nombre + '</strong>'
-            + '<span>📍 ' + inst.ciudad + ', ' + inst.provincia + '</span>'
-            + '<span>📞 ' + inst.telefono + '</span>'
-            + '</div>'
-            + '<button class="inst-map-btn" onclick="focusInstaller(' + inst.id + ')" title="Ver en mapa">🗺️</button>';
-          card.addEventListener('click', function() { focusInstaller(inst.id); });
-          container.appendChild(card);
-        });
-      }
+      var tipoText = types.join(' / ').toUpperCase();
 
-      function filterInstallers(text) { activeSearch = text.toLowerCase(); applyFilters(); }
+      var popupHtml = '<div style="font-family:inherit;min-width:170px;padding:4px 0;">'
+        + '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#b8956e;margin-bottom:4px;font-weight:700;">'
+        + tipoText + '</div>'
+        + '<strong style="font-size:14px;display:block;margin-bottom:5px;color:#1a1a1a;">'
+        + inst.nombre + '</strong>'
+        + '<div style="font-size:12px;color:#666;margin-bottom:2px;">📍 ' + inst.ciudad + ', ' + inst.provincia + '</div>'
+        + '<div style="font-size:12px;color:#666;">📞 ' + inst.telefono + '</div>'
+        + (inst.web !== '#' ? '<br><a href="' + inst.web + '" target="_blank" style="font-size:12px;color:#b8956e;font-weight:600;">Ver más →</a>' : '')
+        + '</div>';
 
-      function filterByType(type, btn) {
-        activeType = type;
-        document.querySelectorAll('.filter-tag').forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        applyFilters();
-      }
+      marker.bindPopup(popupHtml, { maxWidth: 240 });
+      marker.on('click', function() { highlightCard(inst.id); });
+      markersMap[inst.id] = marker;
+    });
 
-      function applyFilters() {
-        var filtered = INSTALADORES.filter(function(inst) {
-          var types = getTypesList(inst.tipo);
-          // Проверяет, входит ли выбранный фильтр в список ролей контакта
-          var matchType   = activeType === 'all' || types.includes(activeType);
-          var matchSearch = !activeSearch
-            || inst.nombre.toLowerCase().includes(activeSearch)
-            || inst.ciudad.toLowerCase().includes(activeSearch)
-            || inst.provincia.toLowerCase().includes(activeSearch);
-          return matchType && matchSearch;
-        });
-        var visibleIds = new Set(filtered.map(function(i) { return i.id; }));
-        Object.entries(markersMap).forEach(function(entry) {
-          var id = Number(entry[0]), marker = entry[1];
-          if (visibleIds.has(id)) { marker.addTo(leafMap); }
-          else { marker.remove(); }
-        });
-        renderInstallersList(filtered);
-      }
+    renderInstallersList(INSTALADORES);
+  });
 
-      function focusInstaller(id) {
+  // Renderiza la lista sidebar
+  function renderInstallersList(list) {
+    var container = document.getElementById('installersList');
+    var empty = document.getElementById('installersEmpty');
+    container.innerHTML = '';
+    if (!list.length) { empty.style.display = 'flex'; return; }
+    empty.style.display = 'none';
+    list.forEach(function(inst) {
+      var types = getTypesList(inst.tipo);
+      var primaryType = types[0];
+      var dotColor = getTypeColor(primaryType);
+
+      var card = document.createElement('div');
+      card.className = 'installer-card';
+      card.id = 'card-' + inst.id;
+      card.dataset.tipo = primaryType;
+      card.innerHTML = '<div class="inst-dot" style="background:' + dotColor + ' !important;"></div>'
+        + '<div class="inst-info">'
+        + '<strong>' + inst.nombre + '</strong>'
+        + '<span>📍 ' + inst.ciudad + ', ' + inst.provincia + '</span>'
+        + '<span>📞 ' + inst.telefono + '</span>'
+        + '</div>'
+        + '<button class="inst-map-btn" onclick="focusInstaller(' + inst.id + ')" title="Ver en mapa">🗺️</button>';
+      card.addEventListener('click', function() { focusInstaller(inst.id); });
+      container.appendChild(card);
+    });
+  }
+
+  function filterInstallers(text) { activeSearch = text.toLowerCase(); applyFilters(); }
+
+  function filterByType(type, btn) {
+    activeType = type;
+    document.querySelectorAll('.filter-tag').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    var filtered = INSTALADORES.filter(function(inst) {
+      var types = getTypesList(inst.tipo).map(function(t) { return String(t).toLowerCase().trim(); });
+      var matchType = activeType === 'all' || types.includes(activeType.toLowerCase().trim());
+      var matchSearch = !activeSearch
+        || inst.nombre.toLowerCase().includes(activeSearch)
+        || inst.ciudad.toLowerCase().includes(activeSearch)
+        || inst.provincia.toLowerCase().includes(activeSearch);
+      return matchType && matchSearch;
+    });
+    var visibleIds = new Set(filtered.map(function(i) { return i.id; }));
+    Object.entries(markersMap).forEach(function(entry) {
+      var id = Number(entry[0]), marker = entry[1];
+      if (visibleIds.has(id)) { marker.addTo(leafMap); }
+      else { marker.remove(); }
+    });
+    renderInstallersList(filtered);
+  }
+
+  function focusInstaller(id) {
         var marker = markersMap[id];
         if (!marker) return;
         marker.addTo(leafMap);
         leafMap.setView(marker.getLatLng(), 13, { animate: true });
         marker.openPopup();
         highlightCard(id);
-      }
+  }
 
-      function highlightCard(id) {
-        document.querySelectorAll('.installer-card').forEach(function(c) { c.classList.remove('active'); });
-        var card = document.getElementById('card-' + id);
-        if (card) { card.classList.add('active'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
-      }
-    </script>
-
-
-
-
-
-    <script src="/popup.js" defer></script>
+  function highlightCard(id) {
+    document.querySelectorAll('.installer-card').forEach(function(c) { c.classList.remove('active'); });
+    var card = document.getElementById('card-' + id);
+    if (card) { card.classList.add('active'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+  }
+</script>
 
 
 
