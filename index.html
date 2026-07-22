@@ -10071,19 +10071,23 @@
       //  DATOS DE INSTALADORES — Añade o edita aquí fácilmente
       // ============================================================
       const INSTALADORES = [
-        { id:1, nombre:"SCHMIDT Gandía", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
-        { id:2, nombre:"Invest Build Multiply Company SL.", tipo:"instalador", ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
-        { id:3, nombre:"Ciagan Gamma", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
-        { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:"instalador", ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
-        { id:5, nombre:"Aurum", tipo:"instalador", ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
-        { id:6, nombre:"bsn", tipo:"instalador", ciudad:"Crevillent", provincia:"Alicante", telefono:"647630177", web:"https://www.bsnproyectos.es/", lat:38.2475647, lng:-0.8097227 }
+        { id:1, nombre:"SCHMIDT Gandía", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
+        { id:2, nombre:"Invest Build Multiply Company SL.", tipo:["instalador", "distribuidor", "arquitecto"], ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
+        { id:3, nombre:"Ciagan Gamma", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
+        { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:["instalador"], ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
+        { id:5, nombre:"Aurum", tipo:["instalador","distribuidor"], ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
+        // Пример с несколькими ролями в одном контакте:
+        { id:6, nombre:"bsn", tipo: ["instalador"], ciudad:"Crevillent", provincia:"Alicante", telefono:"647630177", web:"https://www.bsnproyectos.es/", lat:38.2475647, lng:-0.8097227 }
       ];
-
-
 
       const TYPE_COLOR = { instalador:'#e8b97a', arquitecto:'#7ab8e8', distribuidor:'#a8e87a' };
 
       let leafMap, markersMap = {}, activeType = 'all', activeSearch = '';
+
+      // Вспомогательная функция: приводит tipo к массиву (работает и со строкой, и с массивом)
+      function getTypesList(tipo) {
+        return Array.isArray(tipo) ? tipo : [tipo];
+      }
 
       // Inicializa Leaflet
       document.addEventListener('DOMContentLoaded', function() {
@@ -10097,9 +10101,13 @@
 
         // Crear marcadores
         INSTALADORES.forEach(function(inst) {
+          var types = getTypesList(inst.tipo);
+          var primaryType = types[0];
+          var dotColor = TYPE_COLOR[primaryType] || '#e8b97a';
+
           var icon = L.divIcon({
             className: '',
-            html: '<div style="width:18px;height:18px;border-radius:50%;background:' + TYPE_COLOR[inst.tipo] + ';border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+            html: '<div style="width:18px;height:18px;border-radius:50%;background:' + dotColor + ';border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
             iconSize: [18, 18],
             iconAnchor: [9, 9],
             popupAnchor: [0, -12]
@@ -10107,9 +10115,12 @@
 
           var marker = L.marker([inst.lat, inst.lng], { icon: icon }).addTo(leafMap);
 
+          // Красивый вывод ролей через слэш (например: INSTALADOR / DISTRIBUIDOR)
+          var tipoText = types.join(' / ').toUpperCase();
+
           var popupHtml = '<div style="font-family:inherit;min-width:170px;padding:4px 0;">'
             + '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#b8956e;margin-bottom:4px;font-weight:700;">'
-            + inst.tipo + '</div>'
+            + tipoText + '</div>'
             + '<strong style="font-size:14px;display:block;margin-bottom:5px;color:#1a1a1a;">'
             + inst.nombre + '</strong>'
             + '<div style="font-size:12px;color:#666;margin-bottom:2px;">📍 ' + inst.ciudad + ', ' + inst.provincia + '</div>'
@@ -10133,11 +10144,15 @@
         if (!list.length) { empty.style.display = 'flex'; return; }
         empty.style.display = 'none';
         list.forEach(function(inst) {
+          var types = getTypesList(inst.tipo);
+          var primaryType = types[0];
+          var dotColor = TYPE_COLOR[primaryType] || '#e8b97a';
+
           var card = document.createElement('div');
           card.className = 'installer-card';
           card.id = 'card-' + inst.id;
-          card.dataset.tipo = inst.tipo;
-          card.innerHTML = '<div class="inst-dot" style="background:' + TYPE_COLOR[inst.tipo] + ';"></div>'
+          card.dataset.tipo = primaryType;
+          card.innerHTML = '<div class="inst-dot" style="background:' + dotColor + ';"></div>'
             + '<div class="inst-info">'
             + '<strong>' + inst.nombre + '</strong>'
             + '<span>📍 ' + inst.ciudad + ', ' + inst.provincia + '</span>'
@@ -10160,7 +10175,9 @@
 
       function applyFilters() {
         var filtered = INSTALADORES.filter(function(inst) {
-          var matchType   = activeType === 'all' || inst.tipo === activeType;
+          var types = getTypesList(inst.tipo);
+          // Проверяет, входит ли выбранный фильтр в список ролей контакта
+          var matchType   = activeType === 'all' || types.includes(activeType);
           var matchSearch = !activeSearch
             || inst.nombre.toLowerCase().includes(activeSearch)
             || inst.ciudad.toLowerCase().includes(activeSearch)
@@ -10179,7 +10196,6 @@
       function focusInstaller(id) {
         var marker = markersMap[id];
         if (!marker) return;
-        // Ensure marker is on map
         marker.addTo(leafMap);
         leafMap.setView(marker.getLatLng(), 13, { animate: true });
         marker.openPopup();
