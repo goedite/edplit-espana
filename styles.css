@@ -26,6 +26,8 @@
 
   /* Backgrounds */
   --bg-body: #faf8f5;
+  --bg-light: #faf8f5;
+  --bg-lighter: #ffffff;
   --bg-surface: rgba(255, 255, 255, 0.6);
   --bg-glass: rgba(255, 255, 255, 0.7);
 
@@ -494,8 +496,7 @@ body {
 .price-badge {
   bottom: 10%;
   right: -2%; /* Was -5%, causing horizontal overflow on mobile */
-  background: var(--accent);
-  color: white;
+  color: var(--accent-dark);
 }
 
 @keyframes float {
@@ -2518,9 +2519,9 @@ body {
   box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
 }
 
-.legend-instalador   { background: #e8b97a; }
-.legend-arquitecto   { background: #7ab8e8; }
-.legend-distribuidor { background: #a8e87a; }
+.legend-instalador   { background: #E8B97A; }
+.legend-arquitecto   { background: #6B8E85; }
+.legend-distribuidor { background: #C88A58; }
 
 /* Responsive */
 @media (max-width: 900px) {
