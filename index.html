@@ -7466,13 +7466,13 @@
 
 
 
-              <a href="#" class="btn btn-primary">Programa Partners</a>
+              <a href="#contacto" class="btn btn-primary" onclick="goToPartnerForm()">Programa Partners</a>
 
 
 
 
 
-              <a href="#" class="btn btn-secondary">Fichas técnicas</a>
+              <a href="#productos" class="btn btn-secondary">Fichas técnicas</a>
 
 
 
@@ -9265,7 +9265,7 @@
 
 
 
-              <li><a href="#">Fichas técnicas</a></li>
+              <li><a href="#productos">Fichas técnicas</a></li>
 
 
 
@@ -10070,11 +10070,11 @@
   // DATOS DE INSTALADORES — Añade o edita aquí fácilmente
   // ============================================================
   const INSTALADORES = [
-    { id:1, nombre:"SCHMIDT Gandía", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
-    { id:2, nombre:"Invest Build Multiply Company SL.", tipo:"instalador", ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
-    { id:3, nombre:"Ciagan Gamma", tipo:"instalador", ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
-    { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:"instalador", ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
-    { id:5, nombre:"Aurum", tipo:"instalador", ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
+    { id:1, nombre:"SCHMIDT Gandía", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"673834494", web:"https://www.home-design.schmidt/es-es/tiendas/valencia/gandia", lat:38.957123, lng:-0.173594 },
+    { id:2, nombre:"Invest Build Multiply Company SL.", tipo:["instalador", "distribuidor", "arquitecto"], ciudad:"El Real de Gandía", provincia:"Valencia", telefono:"666152226", web:"https://ibm-company.es/", lat:38.948236, lng:-0.191557 },
+    { id:3, nombre:"Ciagan Gamma", tipo:["distribuidor"], ciudad:"Gandía", provincia:"Valencia", telefono:"962877833", web:"http://www.ciagan.com/", lat:38.980701, lng:-0.182361 },
+    { id:4, nombre:"Luisan – Construcciones e interiorismo", tipo:["instalador"], ciudad:"Alicante", provincia:"Alicante", telefono:"607717991", web:"https://luisaninteriorismo.com/", lat:38.366347, lng:-0.429138 },
+    { id:5, nombre:"Aurum", tipo:["instalador","distribuidor"], ciudad:"Barcelona", provincia:"Barcelona", telefono:"654594590", web:"#", lat:41.403585, lng:2.137385 },
     { id:6, nombre:"bsn", tipo: ["instalador", "distribuidor"], ciudad:"Crevillent", provincia:"Alicante", telefono:"647630177", web:"https://www.bsnproyectos.es/", lat:38.2475647, lng:-0.8097227 }
   ];
 
@@ -10214,6 +10214,52 @@
     var card = document.getElementById('card-' + id);
     if (card) { card.classList.add('active'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
   }
+
+  // ============================================================
+  //  "Para profesionales" — CTAs de la sección
+  // ============================================================
+  // Texto visible de la tarjeta (plural, ES) → clave de categoría
+  var PRO_TYPE_CARD_KEYS = {
+    'arquitectos': 'arquitecto',
+    'interioristas': 'interiorista',
+    'constructores': 'constructor',
+    'instaladores': 'instalador'
+  };
+
+  // Lleva al formulario de contacto, preselecciona "Colaboración profesional"
+  // y, si se indica una categoría, añade una nota en el mensaje.
+  function goToPartnerForm(categoria) {
+    var tipoSelect = document.getElementById('tipo');
+    if (tipoSelect) tipoSelect.value = 'profesional';
+
+    if (categoria) {
+      var mensaje = document.getElementById('mensaje');
+      if (mensaje && !mensaje.value) {
+        mensaje.value = 'Soy ' + categoria + ' y me interesa unirme al programa de partners de EDPLIT.';
+      }
+    }
+
+    var contacto = document.getElementById('contacto');
+    if (contacto) contacto.scrollIntoView({ behavior: 'smooth' });
+
+    var nombre = document.getElementById('nombre');
+    if (nombre) setTimeout(function() { nombre.focus(); }, 400);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.pro-type').forEach(function(card) {
+      var label = card.querySelector('p');
+      var labelText = label ? label.textContent.trim().toLowerCase() : '';
+      var categoria = PRO_TYPE_CARD_KEYS[labelText] || '';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() { goToPartnerForm(categoria); });
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToPartnerForm(categoria); }
+      });
+    });
+  });
 </script>
 
 <script src="/popup.js" defer></script>
