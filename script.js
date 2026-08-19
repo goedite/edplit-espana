@@ -23,9 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Hide all categories
       productCategories.forEach((cat) => cat.classList.remove("active"));
 
-      // Show selected category
+      // Show selected category (data-category may hold multiple space-separated tokens,
+      // e.g. one shared block for both "enchufes" and "interruptores")
       const targetCategory = document.querySelector(
-        `.product-category[data-category="${category}"]`,
+        `.product-category[data-category~="${category}"]`,
       );
       if (targetCategory) {
         targetCategory.classList.add("active");
