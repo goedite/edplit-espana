@@ -491,7 +491,7 @@ body {
 .compat-badge {
   top: 10%;
   left: -4%; /* Was -10%, causing horizontal overflow on mobile */
-  background: var(--bg-card, #ffffff);
+  background: var(--bg-card, #b8956e);
   color: var(--primary);
   border: 1px solid var(--border);
   padding: 0.4rem 0.8rem;
