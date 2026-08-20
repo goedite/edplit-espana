@@ -427,10 +427,34 @@ function initCarousels() {
     const TOTAL = slides.length;
     let current = 1;           // start at real slide 1
     let isTransitioning = false;
+    let snapTimer = null;      // fallback for hidden carousels (see finishTransition)
 
     // Jump to start position without animation
     track.style.transition = 'none';
     track.style.transform   = `translateX(-${current * 100}%)`;
+
+    // Jump silently back to a real slide when hitting a clone, and clear the
+    // transitioning lock. Normally triggered by 'transitionend', but that
+    // event never fires while the carousel is inside a display:none tab
+    // (CSS transitions don't run on unrendered elements), which would
+    // otherwise leave isTransitioning stuck at true forever. snapTimer is a
+    // fallback that self-heals that case; transitionend cancels it when it
+    // fires first, so visible carousels are unaffected.
+    function finishTransition() {
+      if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
+      if (current === TOTAL + 1) {
+        // Was clone-first → jump to real first
+        current = 1;
+        track.style.transition = 'none';
+        track.style.transform   = `translateX(-${current * 100}%)`;
+      } else if (current === 0) {
+        // Was clone-last → jump to real last
+        current = TOTAL;
+        track.style.transition = 'none';
+        track.style.transform   = `translateX(-${current * 100}%)`;
+      }
+      isTransitioning = false;
+    }
 
     function goNext() {
       if (isTransitioning) return;
@@ -438,6 +462,7 @@ function initCarousels() {
       current++;
       track.style.transition = 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)';
       track.style.transform   = `translateX(-${current * 100}%)`;
+      snapTimer = setTimeout(finishTransition, 700);
     }
 
     function goPrev() {
@@ -446,24 +471,10 @@ function initCarousels() {
       current--;
       track.style.transition = 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)';
       track.style.transform   = `translateX(-${current * 100}%)`;
+      snapTimer = setTimeout(finishTransition, 700);
     }
 
-    // After each transition: jump silently back to real slide when hitting a clone
-    track.addEventListener('transitionend', () => {
-      if (current === TOTAL + 1) {
-        // Was clone-first → jump to real first
-        current = 1;
-        track.style.transition = 'none';
-        track.style.transform   = `translateX(-${current * 100}%)`;
-      }
-      if (current === 0) {
-        // Was clone-last → jump to real last
-        current = TOTAL;
-        track.style.transition = 'none';
-        track.style.transform   = `translateX(-${current * 100}%)`;
-      }
-      isTransitioning = false;
-    });
+    track.addEventListener('transitionend', finishTransition);
 
     // Auto-advance every 4.5s
     let timer = setInterval(goNext, 4500);
