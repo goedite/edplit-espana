@@ -10,7 +10,9 @@
     "dependencies": {
         "resend": "^3.0.0"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "vercel": "^59.1.4"
+    },
     "keywords": [
         "edplit",
         "bathroom",

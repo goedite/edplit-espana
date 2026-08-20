@@ -689,13 +689,16 @@ body {
 }
 
 .brands-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--spacing-md);
+  row-gap: 1rem;
   align-items: center;
 }
 
 .brand-item {
+  flex: 0 0 calc((100% - 5 * var(--spacing-md)) / 6);
   text-align: center;
   color: var(--text-light);
   font-weight: 700;
@@ -1439,8 +1442,8 @@ body {
   }
 
   /* Brands */
-  .brands-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .brand-item {
+    flex-basis: calc((100% - 3 * var(--spacing-md)) / 4);
   }
 }
 
@@ -1756,9 +1759,12 @@ body {
   }
 
   .brands-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
     /* Tighter */
+  }
+
+  .brand-item {
+    flex-basis: calc((100% - 2 * 0.75rem) / 3);
   }
 
   /* ALL SECTIONS - MUCH LESS PADDING */
@@ -1892,6 +1898,15 @@ body {
     grid-column: 1 / -1;
   }
 
+  /* La fila secundaria (DISTAR/Proxxon) tiene 2 botones exactos: sin spanning */
+  .product-tabs-secondary .tab-btn:last-child {
+    grid-column: auto;
+  }
+
+  .product-tabs-secondary {
+    margin-top: -0.25rem;
+  }
+
   .tab-btn {
     padding: 0.6rem 0.5rem;
     font-size: 0.8rem;
@@ -1943,8 +1958,8 @@ body {
       font-size: 1.75rem;
     }
 
-    .brands-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .brand-item {
+      flex-basis: calc((100% - 0.75rem) / 2);
     }
 
     .professionals-types {
@@ -2176,78 +2191,6 @@ body {
     width: 38px;
     height: 38px;
   }
-}
-
-/* ==========================================
-   TARJETA ELÉCTRICA — responsive móvil
-   ========================================== */
-@media (max-width: 768px) {
-
-  /* La tarjeta pasa a columna vertical */
-  .card-electrico {
-    flex-direction: column !important;
-  }
-
-  #carousel-electrico-home {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  /* El carousel ocupa todo el ancho y baja la altura */
-  #carousel-electrico-home .carousel-track,
-  #carousel-electrico-home .carousel-slide,
-  #carousel-electrico-home .carousel-slide img,
-  #carousel-electrico-home .product-image {
-    height: 300px !important;
-  }
-
-  /* La tarjeta apila vertical */
-  #carousel-electrico-home ~ div {
-    width: 100% !important;
-    padding: 1.5rem !important;
-  }
-}
-
-/* ================================================
-   CAROUSEL ELÉCTRICO — llena altura completa tarjeta
-   ================================================ */
-#carousel-electrico-home {
-  min-height: 650px !important;
-  height: 100% !important;
-  aspect-ratio: unset !important;
-  background: transparent !important;
-  margin-bottom: 0 !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-#carousel-electrico-home .carousel-track {
-  height: 100% !important;
-  min-height: 650px !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-#carousel-electrico-home .carousel-slide {
-  height: 650px !important;
-  min-height: 650px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  overflow: hidden !important;
-}
-
-#carousel-electrico-home .carousel-slide img,
-#carousel-electrico-home .product-image {
-  width: 100% !important;
-  height: 650px !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  margin-bottom: 0 !important;
-  background: transparent !important;
-  display: block !important;
 }
 
 /* ==========================================
