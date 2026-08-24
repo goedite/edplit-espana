@@ -279,6 +279,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize Hero Slider
   initHeroSlider();
 
+  // Initialize FAQ accordion + category tabs
+  initFaq();
+
   // Initialize Lightbox — use idle time to not block the main thread (FID fix)
   if (typeof requestIdleCallback === 'function') {
     requestIdleCallback(initLightbox, { timeout: 2000 });
@@ -286,6 +289,39 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(initLightbox, 500);
   }
 });
+
+// ==========================================
+// FAQ — category tabs + accordion
+// ==========================================
+function initFaq() {
+  const tabs = document.querySelectorAll(".faq-tab");
+  const panels = document.querySelectorAll(".faq-panel");
+  if (tabs.length === 0) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const category = tab.getAttribute("data-faq-category");
+
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      panels.forEach((panel) => {
+        panel.classList.toggle(
+          "active",
+          panel.getAttribute("data-faq-panel") === category,
+        );
+      });
+    });
+  });
+
+  document.querySelectorAll(".faq-question").forEach((question) => {
+    question.addEventListener("click", () => {
+      const item = question.closest(".faq-item");
+      const isOpen = item.classList.toggle("open");
+      question.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  });
+}
 
 // ==========================================
 // HERO SLIDER — infinite loop + smooth transition
