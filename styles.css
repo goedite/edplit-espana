@@ -348,7 +348,7 @@ body {
 
 .hero-title {
   font-size: 4.5rem;
-  line-height: 1.05;
+  line-height: 1.25; /* Descenders (g, j, p, q, y) get clipped by background-clip:text below ~1.2 */
   font-weight: 600;
   letter-spacing: -0.03em;
   margin-bottom: var(--spacing-sm);
@@ -1652,7 +1652,7 @@ body {
 
   .hero-title {
     font-size: 2.15rem; /* Ajustadísimo para encaje óptimo */
-    line-height: 1.15;
+    line-height: 1.25; /* keeps descenders (g, j, p, q, y) from being clipped */
     letter-spacing: -0.01em;
     margin-bottom: 0.75rem;
     padding: 0 0.25rem;
