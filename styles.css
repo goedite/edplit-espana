@@ -77,6 +77,12 @@ html {
   text-size-adjust: 100%;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -1502,6 +1508,10 @@ body {
     -webkit-backdrop-filter: blur(15px);
   }
 
+  #instaladores {
+    scroll-margin-top: 60px; /* compact mobile .navbar is shorter */
+  }
+
   .logo-image {
     height: 28px;
     max-width: 130px;
@@ -2199,6 +2209,10 @@ body {
 .installers-section {
   padding: 5rem 0 4rem;
   background: var(--bg-section, #f9f7f5);
+}
+
+#instaladores {
+  scroll-margin-top: 90px; /* clears the sticky .navbar (~73px) so the heading isn't hidden */
 }
 
 /* Dark mode */
