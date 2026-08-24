@@ -38,11 +38,12 @@ export default async function handler(req, res) {
     };
     const tipoLabel = TIPO_LABELS[tipo] || tipo || 'No especificado';
     const isSupportRequest = tipo === 'soporte_tecnico';
+    const isPartnersRequest = tipo === 'profesional';
 
     // Prepare email content
     const emailContent = `
       Nueva solicitud de contacto - EDPLIT España
-      ${isSupportRequest ? '\n      [SOPORTE TÉCNICO]\n' : ''}
+      ${isSupportRequest ? '\n      [SOPORTE TÉCNICO]\n' : ''}${isPartnersRequest ? '\n      [PROGRAMA PARTNERS]\n' : ''}
       Nombre: ${nombre}
       ${empresa ? `Empresa: ${empresa}` : ''}
       Email: ${email}
@@ -71,12 +72,15 @@ export default async function handler(req, res) {
       replyTo: email,
       subject: isSupportRequest
         ? `[SOPORTE TÉCNICO] Nueva solicitud - ${nombre}`
+        : isPartnersRequest
+        ? `[PROGRAMA PARTNERS] Nueva solicitud - ${nombre}`
         : `Nueva solicitud: ${tipoLabel} - ${nombre}`,
       text: emailContent,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #B88657;">Nueva solicitud de contacto</h2>
           ${isSupportRequest ? '<p style="display:inline-block; background:#B88657; color:#fff; padding:4px 12px; border-radius:4px; font-weight:bold; font-size:12px; letter-spacing:0.5px;">SOPORTE TÉCNICO</p>' : ''}
+          ${isPartnersRequest ? '<p style="display:inline-block; background:#B88657; color:#fff; padding:4px 12px; border-radius:4px; font-weight:bold; font-size:12px; letter-spacing:0.5px;">PROGRAMA PARTNERS</p>' : ''}
           <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Nombre:</strong> ${nombre}</p>
             ${empresa ? `<p><strong>Empresa:</strong> ${empresa}</p>` : ''}

@@ -181,41 +181,60 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ==========================================
-  // SOPORTE TÉCNICO — prefill vía ?motivo=soporte
+  // PREFILL DEL FORMULARIO — vía ?motivo=soporte | ?motivo=partners
   // ==========================================
-  (function handleSupportPrefill() {
+  (function handleMotivoPrefill() {
+    const MOTIVO_CONFIG = {
+      soporte: {
+        tipoValue: "soporte_tecnico",
+        template:
+          "Hola.\n" +
+          "Necesito soporte técnico para un producto EDPLIT.\n\n" +
+          "Producto o modelo: ____\n\n" +
+          "Número de pedido, si corresponde: ____\n\n" +
+          "Descripción de la consulta: ____",
+        waText:
+          "Hola. Necesito soporte técnico para un producto EDPLIT. " +
+          "Producto o modelo: ____. Número de pedido, si corresponde: ____. " +
+          "Descripción de la consulta: ____.",
+      },
+      partners: {
+        tipoValue: "profesional",
+        template:
+          "Hola.\n" +
+          "Me gustaría recibir información sobre el Programa Partners de EDPLIT.\n\n" +
+          "Nombre de la empresa o profesional: ____\n\n" +
+          "Actividad: ____\n\n" +
+          "Ciudad o provincia: ____\n\n" +
+          "Tipo de colaboración que me interesa: ____",
+        waText:
+          "Hola. Me gustaría recibir información sobre el Programa Partners de EDPLIT. " +
+          "Soy: ____. Actividad: ____. Ciudad o provincia: ____. Tipo de colaboración: ____.",
+      },
+    };
+
     const params = new URLSearchParams(window.location.search);
-    if (params.get("motivo") !== "soporte") return;
+    const motivo = params.get("motivo");
+    const config = MOTIVO_CONFIG[motivo];
+    if (!config) return;
 
     const contactSection = document.getElementById("contacto");
     const tipoSelect = document.getElementById("tipo");
     const mensajeField = document.getElementById("mensaje");
     if (!contactSection || !contactForm) return;
 
-    const SUPPORT_TEMPLATE =
-      "Hola.\n" +
-      "Necesito soporte técnico para un producto EDPLIT.\n\n" +
-      "Producto o modelo: ____\n\n" +
-      "Número de pedido, si corresponde: ____\n\n" +
-      "Descripción de la consulta: ____";
-
     if (tipoSelect) {
-      tipoSelect.value = "soporte_tecnico";
+      tipoSelect.value = config.tipoValue;
     }
 
     if (mensajeField && !mensajeField.value.trim()) {
-      mensajeField.value = SUPPORT_TEMPLATE;
+      mensajeField.value = config.template;
     }
 
     // Pre-rellena el enlace de WhatsApp junto al formulario, si existe
     const whatsappLink = document.getElementById("whatsapp-contact-link");
     if (whatsappLink) {
-      const waText = encodeURIComponent(
-        "Hola. Necesito soporte técnico para un producto EDPLIT. " +
-          "Producto o modelo: ____. Número de pedido, si corresponde: ____. " +
-          "Descripción de la consulta: ____.",
-      );
-      whatsappLink.href = `https://wa.me/34614825778?text=${waText}`;
+      whatsappLink.href = `https://wa.me/34614825778?text=${encodeURIComponent(config.waText)}`;
     }
 
     contactSection.scrollIntoView({ behavior: "smooth" });

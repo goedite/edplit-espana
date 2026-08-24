@@ -1144,6 +1144,10 @@ body {
   background: var(--bg-body);
 }
 
+#contacto {
+  scroll-margin-top: 90px; /* clears the sticky .navbar so the form heading isn't hidden */
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -1508,7 +1512,8 @@ body {
     -webkit-backdrop-filter: blur(15px);
   }
 
-  #instaladores {
+  #instaladores,
+  #contacto {
     scroll-margin-top: 60px; /* compact mobile .navbar is shorter */
   }
 
