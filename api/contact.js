@@ -28,19 +28,30 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Email inválido' });
     }
 
+    // Map internal "tipo" values to human-readable labels for the email
+    const TIPO_LABELS = {
+      reforma: 'Reforma particular',
+      'obra-nueva': 'Obra nueva',
+      profesional: 'Colaboración profesional',
+      distribucion: 'Distribución / reventa',
+      soporte_tecnico: 'SOPORTE TÉCNICO',
+    };
+    const tipoLabel = TIPO_LABELS[tipo] || tipo || 'No especificado';
+    const isSupportRequest = tipo === 'soporte_tecnico';
+
     // Prepare email content
     const emailContent = `
       Nueva solicitud de contacto - EDPLIT España
-      
+      ${isSupportRequest ? '\n      [SOPORTE TÉCNICO]\n' : ''}
       Nombre: ${nombre}
       ${empresa ? `Empresa: ${empresa}` : ''}
       Email: ${email}
       ${telefono ? `Teléfono: ${telefono}` : ''}
-      Tipo de proyecto: ${tipo || 'No especificado'}
-      
+      Tipo de proyecto: ${tipoLabel}
+
       Mensaje:
       ${mensaje || 'Sin mensaje'}
-      
+
       ---
       Enviado desde: edplit.es
       Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}
@@ -58,17 +69,20 @@ export default async function handler(req, res) {
       from: 'EDPLIT España <contacto@edplit.es>',
       to: ['admin@edplit.es', 'contacto@edplit.es'],
       replyTo: email,
-      subject: `Nueva solicitud: ${tipo || 'Contacto'} - ${nombre}`,
+      subject: isSupportRequest
+        ? `[SOPORTE TÉCNICO] Nueva solicitud - ${nombre}`
+        : `Nueva solicitud: ${tipoLabel} - ${nombre}`,
       text: emailContent,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #B88657;">Nueva solicitud de contacto</h2>
+          ${isSupportRequest ? '<p style="display:inline-block; background:#B88657; color:#fff; padding:4px 12px; border-radius:4px; font-weight:bold; font-size:12px; letter-spacing:0.5px;">SOPORTE TÉCNICO</p>' : ''}
           <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Nombre:</strong> ${nombre}</p>
             ${empresa ? `<p><strong>Empresa:</strong> ${empresa}</p>` : ''}
             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
             ${telefono ? `<p><strong>Teléfono:</strong> <a href="tel:${telefono}">${telefono}</a></p>` : ''}
-            <p><strong>Tipo de proyecto:</strong> ${tipo || 'No especificado'}</p>
+            <p><strong>Tipo de proyecto:</strong> ${tipoLabel}</p>
           </div>
           ${mensaje ? `
             <div style="margin: 20px 0;">

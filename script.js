@@ -181,6 +181,57 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ==========================================
+  // SOPORTE TÉCNICO — prefill vía ?motivo=soporte
+  // ==========================================
+  (function handleSupportPrefill() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("motivo") !== "soporte") return;
+
+    const contactSection = document.getElementById("contacto");
+    const tipoSelect = document.getElementById("tipo");
+    const mensajeField = document.getElementById("mensaje");
+    if (!contactSection || !contactForm) return;
+
+    const SUPPORT_TEMPLATE =
+      "Hola.\n" +
+      "Necesito soporte técnico para un producto EDPLIT.\n\n" +
+      "Producto o modelo: ____\n\n" +
+      "Número de pedido, si corresponde: ____\n\n" +
+      "Descripción de la consulta: ____";
+
+    if (tipoSelect) {
+      tipoSelect.value = "soporte_tecnico";
+    }
+
+    if (mensajeField && !mensajeField.value.trim()) {
+      mensajeField.value = SUPPORT_TEMPLATE;
+    }
+
+    // Pre-rellena el enlace de WhatsApp junto al formulario, si existe
+    const whatsappLink = document.getElementById("whatsapp-contact-link");
+    if (whatsappLink) {
+      const waText = encodeURIComponent(
+        "Hola. Necesito soporte técnico para un producto EDPLIT. " +
+          "Producto o modelo: ____. Número de pedido, si corresponde: ____. " +
+          "Descripción de la consulta: ____.",
+      );
+      whatsappLink.href = `https://wa.me/34614825778?text=${waText}`;
+    }
+
+    contactSection.scrollIntoView({ behavior: "smooth" });
+
+    setTimeout(() => {
+      const requiredFields = contactForm.querySelectorAll("[required]");
+      for (const field of requiredFields) {
+        if (!field.value.trim()) {
+          field.focus();
+          break;
+        }
+      }
+    }, 500);
+  })();
+
+  // ==========================================
   // SCROLL ANIMATIONS
   // ==========================================
   const observerOptions = {
