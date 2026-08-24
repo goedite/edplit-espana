@@ -2518,6 +2518,14 @@ body {
 }
 
 /* ==========================================
+   PAGE HEADER (standalone pages, e.g. faq.html)
+   ========================================== */
+.page-header {
+  background: var(--bg-lighter);
+  text-align: center;
+}
+
+/* ==========================================
    FAQ SECTION
    ========================================== */
 .faq-section {
