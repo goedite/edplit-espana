@@ -605,6 +605,24 @@ function initCarousels() {
       }
       timer = setInterval(goNext, 4500);
     }, { passive: true });
+
+    // Optional manual arrows — only wired up if a carousel includes them
+    const prevBtn = carousel.querySelector('.carousel-arrow-prev');
+    const nextBtn = carousel.querySelector('.carousel-arrow-next');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        clearInterval(timer);
+        goPrev();
+        timer = setInterval(goNext, 4500);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        clearInterval(timer);
+        goNext();
+        timer = setInterval(goNext, 4500);
+      });
+    }
   });
 }
 
@@ -631,14 +649,14 @@ function initLightbox() {
   const closeBtn    = lightbox.querySelector('.close-btn');
 
   // Make product images visually indicate they are clickable
-  document.querySelectorAll('.product-carousel img, .gallery-img').forEach(img => {
+  document.querySelectorAll('.product-carousel img').forEach(img => {
     img.style.cursor = 'zoom-in';
   });
 
   // ── Event delegation: ONE listener on document, no DOM cloning ──
   // This avoids breaking the carousel's setInterval references
   document.addEventListener('click', function (e) {
-    const img = e.target.closest('.product-carousel img, .gallery-img');
+    const img = e.target.closest('.product-carousel img');
     if (!img) return;
 
     // Use data-src if lazyloaded, else src

@@ -125,51 +125,43 @@
             font-weight: 500;
         }
 
-        /* Photo gallery */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.85rem;
-            max-width: 1100px;
+        /* Process carousel (section 3.5) */
+        .process-carousel-wrap {
+            max-width: 460px;
             margin: var(--spacing-md) auto 0;
         }
 
-        .gallery-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .process-carousel-wrap .carousel-slide {
+            position: relative;
+            height: 560px;
         }
 
-        .gallery-item .gallery-img {
-            width: 100%;
-            aspect-ratio: 3 / 4;
+        .process-carousel-wrap .product-image {
+            height: 560px;
             object-fit: cover;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .gallery-item .gallery-img:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .gallery-caption {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
+        .carousel-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1.75rem 1.25rem 0.9rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
             text-align: center;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 1024px) {
-            .photo-gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
 
         @media (max-width: 600px) {
-            .photo-gallery {
-                grid-template-columns: repeat(2, 1fr);
+            .process-carousel-wrap {
+                max-width: 340px;
+            }
+
+            .process-carousel-wrap .carousel-slide,
+            .process-carousel-wrap .product-image {
+                height: 440px;
             }
         }
 
@@ -367,66 +359,76 @@
                 <p>Así preparamos la plantilla, cortamos la baldosa y montamos el mecanismo en una instalación real de nuestro equipo.</p>
             </div>
 
-            <div class="photo-gallery">
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5726.PNG" alt="Plantilla de corte colocada sobre la baldosa" loading="lazy">
-                    <span class="gallery-caption">Plantilla sobre la baldosa</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5727.PNG" alt="Kit EDPLIT con plantilla de instalación" loading="lazy">
-                    <span class="gallery-caption">Kit con plantilla de instalación</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5728.PNG" alt="Preparación de la baldosa antes del corte" loading="lazy">
-                    <span class="gallery-caption">Preparación antes del corte</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5729.PNG" alt="Inicio del corte siguiendo la plantilla" loading="lazy">
-                    <span class="gallery-caption">Corte siguiendo la plantilla</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5731.PNG" alt="Comprobación del ajuste de la plantilla tras el corte" loading="lazy">
-                    <span class="gallery-caption">Comprobación del ajuste</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5732.PNG" alt="Perforación de precisión en la baldosa" loading="lazy">
-                    <span class="gallery-caption">Perforación de precisión</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5733.PNG" alt="Preparación de herramientas y materiales" loading="lazy">
-                    <span class="gallery-caption">Herramientas y materiales</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5734.PNG" alt="Montaje del mecanismo en el hueco de la baldosa" loading="lazy">
-                    <span class="gallery-caption">Montaje del mecanismo</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5735.PNG" alt="Fijación de los componentes internos" loading="lazy">
-                    <span class="gallery-caption">Fijación de componentes</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5736.PNG" alt="Colocación de la placa modular en el marco" loading="lazy">
-                    <span class="gallery-caption">Colocación de la placa</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5737.PNG" alt="Sellado perimetral del marco instalado" loading="lazy">
-                    <span class="gallery-caption">Sellado perimetral</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5738.PNG" alt="Detalle del acabado del sellado" loading="lazy">
-                    <span class="gallery-caption">Detalle del acabado</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5739.PNG" alt="Resultado final, la placa enrasada con la pared" loading="lazy">
-                    <span class="gallery-caption">Resultado final enrasado</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5740.PNG" alt="Marcado del hueco directamente sobre la baldosa" loading="lazy">
-                    <span class="gallery-caption">Marcado sobre la pieza</span>
-                </div>
-                <div class="gallery-item">
-                    <img class="gallery-img" src="images/formacion/IMG_5741.PNG" alt="Trazado de precisión antes del corte" loading="lazy">
-                    <span class="gallery-caption">Trazado de precisión</span>
+            <div class="process-carousel-wrap">
+                <div class="product-carousel" id="carousel-proceso">
+                    <button class="carousel-arrow carousel-arrow-prev" aria-label="Foto anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="carousel-arrow carousel-arrow-next" aria-label="Foto siguiente">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5726.PNG" alt="Plantilla de corte colocada sobre la baldosa">
+                            <span class="carousel-caption">Plantilla sobre la baldosa</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5740.PNG" alt="Marcado del hueco directamente sobre la baldosa">
+                            <span class="carousel-caption">Marcado sobre la pieza</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5741.PNG" alt="Trazado de precisión antes del corte">
+                            <span class="carousel-caption">Trazado de precisión</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5728.PNG" alt="Preparación de la baldosa antes del corte">
+                            <span class="carousel-caption">Preparación antes del corte</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5729.PNG" alt="Inicio del corte siguiendo la plantilla">
+                            <span class="carousel-caption">Corte siguiendo la plantilla</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5731.PNG" alt="Comprobación del ajuste de la plantilla tras el corte">
+                            <span class="carousel-caption">Comprobación del ajuste</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5732.PNG" alt="Perforación de precisión en la baldosa">
+                            <span class="carousel-caption">Perforación de precisión</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5733.PNG" alt="Preparación de herramientas y materiales">
+                            <span class="carousel-caption">Herramientas y materiales</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5727.PNG" alt="Kit EDPLIT con plantilla de instalación">
+                            <span class="carousel-caption">Kit con plantilla de instalación</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5734.PNG" alt="Montaje del mecanismo en el hueco de la baldosa">
+                            <span class="carousel-caption">Montaje del mecanismo</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5735.PNG" alt="Fijación de los componentes internos">
+                            <span class="carousel-caption">Fijación de componentes</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5736.PNG" alt="Colocación de la placa modular en el marco">
+                            <span class="carousel-caption">Colocación de la placa</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5737.PNG" alt="Sellado perimetral del marco instalado">
+                            <span class="carousel-caption">Sellado perimetral</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5738.PNG" alt="Detalle del acabado del sellado">
+                            <span class="carousel-caption">Detalle del acabado</span>
+                        </div>
+                        <div class="carousel-slide">
+                            <img class="product-image" src="images/formacion/IMG_5739.PNG" alt="Resultado final, la placa enrasada con la pared">
+                            <span class="carousel-caption">Resultado final enrasado</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
