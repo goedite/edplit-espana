@@ -202,11 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
         tipoValue: "profesional",
         template:
           "Hola.\n" +
-          "Me gustaría recibir información sobre el Programa Partners de EDPLIT.\n\n" +
-          "Nombre de la empresa o profesional: ____\n\n" +
-          "Actividad: ____\n\n" +
-          "Ciudad o provincia: ____\n\n" +
-          "Tipo de colaboración que me interesa: ____",
+          "Me gustaría recibir información sobre el Programa Partners de EDPLIT.\n" +
+          "Un poco sobre nosotros:",
         waText:
           "Hola. Me gustaría recibir información sobre el Programa Partners de EDPLIT. " +
           "Soy: ____. Actividad: ____. Ciudad o provincia: ____. Tipo de colaboración: ____.",
