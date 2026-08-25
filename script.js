@@ -189,10 +189,8 @@ document.addEventListener("DOMContentLoaded", function () {
         tipoValue: "soporte_tecnico",
         template:
           "Hola.\n" +
-          "Necesito soporte técnico para un producto EDPLIT.\n\n" +
-          "Producto o modelo: ____\n\n" +
-          "Número de pedido, si corresponde: ____\n\n" +
-          "Descripción de la consulta: ____",
+          "Necesito soporte técnico para un producto EDPLIT.\n" +
+          "Descripción de la consulta: ",
         waText:
           "Hola. Necesito soporte técnico para un producto EDPLIT. " +
           "Producto o modelo: ____. Número de pedido, si corresponde: ____. " +
