@@ -181,10 +181,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ==========================================
-  // PREFILL DEL FORMULARIO — vía ?motivo=soporte | ?motivo=partners
+  // PREFILL DEL FORMULARIO — vía ?motivo=soporte | ?motivo=partners | ?motivo=formacion
   // ==========================================
   (function handleMotivoPrefill() {
     const MOTIVO_CONFIG = {
+      formacion: {
+        tipoValue: "formacion",
+        template: "Hola.\nNecesito formación sobre los productos EDPLIT.",
+        waText: "Hola. Necesito formación sobre los productos EDPLIT.",
+      },
       soporte: {
         tipoValue: "soporte_tecnico",
         template:
@@ -361,7 +366,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function initFaq() {
   const tabs = document.querySelectorAll(".faq-tab");
   const panels = document.querySelectorAll(".faq-panel");
-  if (tabs.length === 0) return;
+  const questions = document.querySelectorAll(".faq-question");
+  if (tabs.length === 0 && questions.length === 0) return;
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -379,7 +385,7 @@ function initFaq() {
     });
   });
 
-  document.querySelectorAll(".faq-question").forEach((question) => {
+  questions.forEach((question) => {
     question.addEventListener("click", () => {
       const item = question.closest(".faq-item");
       const isOpen = item.classList.toggle("open");
@@ -625,14 +631,14 @@ function initLightbox() {
   const closeBtn    = lightbox.querySelector('.close-btn');
 
   // Make product images visually indicate they are clickable
-  document.querySelectorAll('.product-carousel img').forEach(img => {
+  document.querySelectorAll('.product-carousel img, .gallery-img').forEach(img => {
     img.style.cursor = 'zoom-in';
   });
 
   // ── Event delegation: ONE listener on document, no DOM cloning ──
   // This avoids breaking the carousel's setInterval references
   document.addEventListener('click', function (e) {
-    const img = e.target.closest('.product-carousel img');
+    const img = e.target.closest('.product-carousel img, .gallery-img');
     if (!img) return;
 
     // Use data-src if lazyloaded, else src
